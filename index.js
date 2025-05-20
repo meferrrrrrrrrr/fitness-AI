@@ -8,10 +8,14 @@ const port = process.env.PORT || 3000;
 // Servim fișierele statice (ex. index.html)
 app.use(express.static(path.join(__dirname, '.')));
 
-// Adăugăm un endpoint de test pentru a verifica Firebase
+// Endpoint de test simplu, fără Firebase
+app.get('/api/test', (req, res) => {
+  res.status(200).json({ message: 'Serverul funcționează pe Vercel!' });
+});
+
+// Endpoint-ul existent pentru Firebase
 app.get('/api/test-firebase', (req, res) => {
   try {
-    // Verificăm dacă Firebase app e inițializat
     if (firebaseApp && firebaseApp.options.projectId === 'ai-fitness94') {
       res.status(200).json({ message: 'Firebase configurat corect!' });
     } else {
@@ -22,7 +26,6 @@ app.get('/api/test-firebase', (req, res) => {
   }
 });
 
-// Pornim serverul
 app.listen(port, () => {
   console.log(`Serverul rulează pe port ${port}`);
 });
