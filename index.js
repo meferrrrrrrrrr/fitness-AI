@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const { app: firebaseApp } = require('./auth');
-const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } = require('firebase/auth'); // Adăugăm signInWithEmailAndPassword
+const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } = require('firebase/auth'); // Adăugăm signOut
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -65,6 +65,17 @@ app.post('/api/auth/login', async (req, res) => {
     res.status(200).json({ message: 'Logare reușită!', userId: user.uid });
   } catch (error) {
     res.status(400).json({ error: 'Eroare la logare: ' + error.message });
+  }
+});
+
+// Endpoint pentru logout
+app.post('/api/auth/logout', async (req, res) => {
+  try {
+    const auth = getAuth(firebaseApp);
+    await signOut(auth);
+    res.status(200).json({ message: 'Deconectare reușită!' });
+  } catch (error) {
+    res.status(400).json({ error: 'Eroare la deconectare: ' + error.message });
   }
 });
 
