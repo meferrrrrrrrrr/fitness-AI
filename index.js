@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const { app: firebaseApp } = require('./auth');
-const { getAuth, createUserWithEmailAndPassword } = require('firebase/auth'); // Adăugăm funcții pentru autentificare
+const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } = require('firebase/auth'); // Adăugăm signInWithEmailAndPassword
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -46,6 +46,25 @@ app.post('/api/auth/signup', async (req, res) => {
     res.status(201).json({ message: 'Cont creat cu succes!', userId: user.uid });
   } catch (error) {
     res.status(400).json({ error: 'Eroare la crearea contului: ' + error.message });
+  }
+});
+
+// Endpoint pentru login
+app.post('/api/auth/login', async (req, res) => {
+  const { email, password } = req.body;
+  
+  // Verificăm dacă email și parolă sunt furnizate
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Email și parolă sunt obligatorii.' });
+  }
+
+  try {
+    const auth = getAuth(firebaseApp);
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    res.status(200).json({ message: 'Logare reușită!', userId: user.uid });
+  } catch (error) {
+    res.status(400).json({ error: 'Eroare la logare: ' + error.message });
   }
 });
 
