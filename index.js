@@ -1,10 +1,9 @@
 const express = require('express');
 const path = require('path');
 const { app: firebaseApp } = require('./auth');
-const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } = require('firebase/auth'); // Adăugăm sendPasswordResetEmail
+const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } = require('firebase/auth');
 
 const app = express();
-const port = process.env.PORT || 3000;
 
 // Parsăm body-ul cererilor JSON
 app.use(express.json());
@@ -33,8 +32,7 @@ app.get('/api/test-firebase', (req, res) => {
 // Endpoint pentru signup
 app.post('/api/auth/signup', async (req, res) => {
   const { email, password } = req.body;
-  
-  // Verificăm dacă email și parolă sunt furnizate
+
   if (!email || !password) {
     return res.status(400).json({ error: 'Email și parolă sunt obligatorii.' });
   }
@@ -52,8 +50,7 @@ app.post('/api/auth/signup', async (req, res) => {
 // Endpoint pentru login
 app.post('/api/auth/login', async (req, res) => {
   const { email, password } = req.body;
-  
-  // Verificăm dacă email și parolă sunt furnizate
+
   if (!email || !password) {
     return res.status(400).json({ error: 'Email și parolă sunt obligatorii.' });
   }
@@ -82,8 +79,7 @@ app.post('/api/auth/logout', async (req, res) => {
 // Endpoint pentru resetare parolă
 app.post('/api/auth/reset-password', async (req, res) => {
   const { email } = req.body;
-  
-  // Verificăm dacă email-ul este furnizat
+
   if (!email) {
     return res.status(400).json({ error: 'Email-ul este obligatoriu.' });
   }
@@ -97,6 +93,5 @@ app.post('/api/auth/reset-password', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Serverul rulează pe port ${port}`);
-});
+// Exportăm handler-ul pentru Vercel
+module.exports = app;
