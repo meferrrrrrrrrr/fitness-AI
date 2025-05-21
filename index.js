@@ -14,7 +14,7 @@ app.use((req, res, next) => {
 // Parsăm body-ul cererilor JSON
 app.use(express.json());
 
-// Servim fișierele statice (ex. index.html)
+// Servim fișierele statice (ex. index.html, script.js)
 app.use(express.static(path.join(__dirname, '.'), {
   index: false,
   extensions: ['html', 'js', 'css']
@@ -132,11 +132,6 @@ app.post('/api/auth/reset-password', async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: 'Eroare la trimiterea email-ului de resetare: ' + error.message });
   }
-});
-
-// Gestionăm cererile care nu se potrivesc cu fișiere statice sau API
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Exportăm handler-ul pentru Vercel
