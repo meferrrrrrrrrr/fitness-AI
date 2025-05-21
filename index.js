@@ -21,13 +21,10 @@ app.use(express.static(path.join(__dirname, '.'), {
 }));
 
 // Verificăm dacă Firebase este inițializat corect
-try {
-  if (!firebaseApp || !firebaseApp.options.projectId) {
-    throw new Error('Firebase app nu este inițializat corect.');
-  }
-  console.log('Firebase app inițializat:', firebaseApp.options.projectId);
-} catch (error) {
-  console.error('Eroare la inițializarea Firebase:', error.message);
+if (!firebaseApp) {
+  console.error('Eroare: firebaseApp este undefined');
+} else {
+  console.log('Firebase app inițializat:', firebaseApp.options ? firebaseApp.options.projectId : 'fără options');
 }
 
 // Middleware pentru gestionarea erorilor
@@ -43,8 +40,11 @@ app.get('/api/test', (req, res) => {
 
 // Endpoint-ul existent pentru Firebase
 app.get('/api/test-firebase', (req, res) => {
+  if (!firebaseApp) {
+    return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
+  }
   try {
-    if (firebaseApp && firebaseApp.options.projectId === 'ai-fitness94') {
+    if (firebaseApp.options.projectId === 'ai-fitness94') {
       res.status(200).json({ message: 'Firebase configurat corect!' });
     } else {
       res.status(500).json({ error: 'Firebase nu e configurat corect.' });
@@ -60,6 +60,10 @@ app.post('/api/auth/signup', async (req, res) => {
 
   if (!email || !password) {
     return res.status(400).json({ error: 'Email și parolă sunt obligatorii.' });
+  }
+
+  if (!firebaseApp) {
+    return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
   }
 
   try {
@@ -80,6 +84,10 @@ app.post('/api/auth/login', async (req, res) => {
     return res.status(400).json({ error: 'Email și parolă sunt obligatorii.' });
   }
 
+  if (!firebaseApp) {
+    return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
+  }
+
   try {
     const auth = getAuth(firebaseApp);
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -92,6 +100,10 @@ app.post('/api/auth/login', async (req, res) => {
 
 // Endpoint pentru logout
 app.post('/api/auth/logout', async (req, res) => {
+  if (!firebaseApp) {
+    return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
+  }
+
   try {
     const auth = getAuth(firebaseApp);
     await signOut(auth);
@@ -107,6 +119,10 @@ app.post('/api/auth/reset-password', async (req, res) => {
 
   if (!email) {
     return res.status(400).json({ error: 'Email-ul este obligatoriu.' });
+  }
+
+  if (!firebaseApp) {
+    return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
   }
 
   try {
