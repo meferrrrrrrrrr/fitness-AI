@@ -9,7 +9,11 @@ const app = express();
 app.use(express.json());
 
 // Servim fișierele statice (ex. index.html)
-app.use(express.static(path.join(__dirname, '.')));
+app.use(express.static(path.join(__dirname, '.'), {
+  // Asigurăm că fișierele statice sunt gestionate corect
+  index: false,
+  extensions: ['html', 'js', 'css']
+}));
 
 // Endpoint de test simplu, fără Firebase
 app.get('/api/test', (req, res) => {
@@ -91,6 +95,11 @@ app.post('/api/auth/reset-password', async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: 'Eroare la trimiterea email-ului de resetare: ' + error.message });
   }
+});
+
+// Gestionăm cererile care nu se potrivesc cu fișiere statice sau API
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Exportăm handler-ul pentru Vercel
