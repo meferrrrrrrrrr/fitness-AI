@@ -5,15 +5,36 @@ const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sig
 
 const app = express();
 
+// Middleware pentru depanare
+app.use((req, res, next) => {
+  console.log(`Request: ${req.method} ${req.url}`);
+  next();
+});
+
 // Parsăm body-ul cererilor JSON
 app.use(express.json());
 
 // Servim fișierele statice (ex. index.html)
 app.use(express.static(path.join(__dirname, '.'), {
-  // Asigurăm că fișierele statice sunt gestionate corect
   index: false,
   extensions: ['html', 'js', 'css']
 }));
+
+// Verificăm dacă Firebase este inițializat corect
+try {
+  if (!firebaseApp || !firebaseApp.options.projectId) {
+    throw new Error('Firebase app nu este inițializat corect.');
+  }
+  console.log('Firebase app inițializat:', firebaseApp.options.projectId);
+} catch (error) {
+  console.error('Eroare la inițializarea Firebase:', error.message);
+}
+
+// Middleware pentru gestionarea erorilor
+app.use((err, req, res, next) => {
+  console.error('Server Error:', err.stack);
+  res.status(500).json({ error: 'A apărut o eroare internă', details: err.message });
+});
 
 // Endpoint de test simplu, fără Firebase
 app.get('/api/test', (req, res) => {
