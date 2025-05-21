@@ -1,4 +1,5 @@
 // Importăm Firebase și dotenv
+
 require('dotenv').config();
 const { initializeApp } = require('firebase/app');
 
