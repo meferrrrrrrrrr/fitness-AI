@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const { app: firebaseApp } = require('./auth');
-const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } = require('firebase/auth'); // Adăugăm signOut
+const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } = require('firebase/auth'); // Adăugăm sendPasswordResetEmail
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -76,6 +76,24 @@ app.post('/api/auth/logout', async (req, res) => {
     res.status(200).json({ message: 'Deconectare reușită!' });
   } catch (error) {
     res.status(400).json({ error: 'Eroare la deconectare: ' + error.message });
+  }
+});
+
+// Endpoint pentru resetare parolă
+app.post('/api/auth/reset-password', async (req, res) => {
+  const { email } = req.body;
+  
+  // Verificăm dacă email-ul este furnizat
+  if (!email) {
+    return res.status(400).json({ error: 'Email-ul este obligatoriu.' });
+  }
+
+  try {
+    const auth = getAuth(firebaseApp);
+    await sendPasswordResetEmail(auth, email);
+    res.status(200).json({ message: 'Email pentru resetarea parolei a fost trimis!' });
+  } catch (error) {
+    res.status(400).json({ error: 'Eroare la trimiterea email-ului de resetare: ' + error.message });
   }
 });
 
