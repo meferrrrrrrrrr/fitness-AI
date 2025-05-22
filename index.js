@@ -1,138 +1,144 @@
 const express = require('express');
-const path = require('path');
-const { app: firebaseApp } = require('./auth');
-const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } = require('firebase/auth');
+  const path = require('path');
+  const { app: firebaseApp } = require('./auth');
+  const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } = require('firebase/auth');
 
-const app = express();
+  const app = express();
 
-// Middleware pentru depanare
-app.use((req, res, next) => {
-  console.log(`Request: ${req.method} ${req.url}`);
-  next();
-});
+  // Middleware pentru depanare
+  app.use((req, res, next) => {
+    console.log(`Request: ${req.method} ${req.url}`);
+    next();
+  });
 
-// Parsăm body-ul cererilor JSON
-app.use(express.json());
+  // Parsăm body-ul cererilor JSON
+  app.use(express.json());
 
-// Servim fișierele statice (ex. index.html, script.js)
-app.use(express.static(path.join(__dirname, '.'), {
-  index: 'index.html',
-  extensions: ['html', 'js', 'css']
-}));
+  // Servim fișierele statice (ex. index.html, script.js)
+  app.use(express.static(path.join(__dirname, '.'), {
+    index: 'index.html',
+    extensions: ['html', 'js', 'css']
+  }));
 
-// Verificăm dacă Firebase este inițializat corect
-if (!firebaseApp) {
-  console.error('Eroare: firebaseApp este undefined');
-} else {
-  console.log('Firebase app inițializat:', firebaseApp.options ? firebaseApp.options.projectId : 'fără options');
-}
-
-// Middleware pentru gestionarea erorilor
-app.use((err, req, res, next) => {
-  console.error('Server Error:', err.stack);
-  res.status(500).json({ error: 'A apărut o eroare internă', details: err.message });
-});
-
-// Endpoint de test simplu, fără Firebase
-app.get('/api/test', (req, res) => {
-  res.status(200).json({ message: 'Serverul funcționează pe Vercel!' });
-});
-
-// Endpoint-ul existent pentru Firebase
-app.get('/api/test-firebase', (req, res) => {
+  // Verificăm dacă Firebase este inițializat corect
   if (!firebaseApp) {
-    return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
+    console.error('Eroare: firebaseApp este undefined');
+  } else {
+    console.log('Firebase app inițializat:', firebaseApp.options ? firebaseApp.options.projectId : 'fără options');
   }
-  try {
-    if (firebaseApp.options.projectId === 'ai-fitness94') {
-      res.status(200).json({ message: 'Firebase configurat corect!' });
-    } else {
-      res.status(500).json({ error: 'Firebase nu e configurat corect.' });
+
+  // Middleware pentru gestionarea erorilor
+  app.use((err, req, res, next) => {
+    console.error('Server Error:', err.stack);
+    res.status(500).json({ error: 'A apărut o eroare internă', details: err.message });
+  });
+
+  // Endpoint de test simplu, fără Firebase
+  app.get('/api/test', (req, res) => {
+    res.status(200).json({ message: 'Serverul funcționează pe Vercel!' });
+  });
+
+  // Endpoint-ul existent pentru Firebase
+  app.get('/api/test-firebase', (req, res) => {
+    if (!firebaseApp) {
+      return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
     }
-  } catch (error) {
-    res.status(500).json({ error: 'Eroare la verificarea Firebase: ' + error.message });
-  }
-});
+    try {
+      if (firebaseApp.options.projectId === 'ai-fitness94') {
+        res.status(200).json({ message: 'Firebase configurat corect!' });
+      } else {
+        res.status(500).json({ error: 'Firebase nu e configurat corect.' });
+      }
+    } catch (error) {
+      res.status(500).json({ error: 'Eroare la verificarea Firebase: ' + error.message });
+    }
+  });
 
-// Endpoint pentru signup
-app.post('/api/auth/signup', async (req, res) => {
-  const { email, password } = req.body;
+  // Endpoint pentru signup
+  app.post('/api/auth/signup', async (req, res) => {
+    const { email, password } = req.body;
 
-  if (!email || !password) {
-    return res.status(400).json({ error: 'Email și parolă sunt obligatorii.' });
-  }
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email și parolă sunt obligatorii.' });
+    }
 
-  if (!firebaseApp) {
-    return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
-  }
+    if (!firebaseApp) {
+      return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
+    }
 
-  try {
-    const auth = getAuth(firebaseApp);
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-    res.status(201).json({ message: 'Cont creat cu succes!', userId: user.uid });
-  } catch (error) {
-    res.status(400).json({ error: 'Eroare la crearea contului: ' + error.message });
-  }
-});
+    try {
+      const auth = getAuth(firebaseApp);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      res.status(201).json({ message: 'Cont creat cu succes!', userId: user.uid });
+    } catch (error) {
+      res.status(400).json({ error: 'Eroare la crearea contului: ' + error.message });
+    }
+  });
 
-// Endpoint pentru login
-app.post('/api/auth/login', async (req, res) => {
-  const { email, password } = req.body;
+  // Endpoint pentru login
+  app.post('/api/auth/login', async (req, res) => {
+    const { email, password } = req.body;
 
-  if (!email || !password) {
-    return res.status(400).json({ error: 'Email și parolă sunt obligatorii.' });
-  }
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email și parolă sunt obligatorii.' });
+    }
 
-  if (!firebaseApp) {
-    return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
-  }
+    if (!firebaseApp) {
+      return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
+    }
 
-  try {
-    const auth = getAuth(firebaseApp);
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-    res.status(200).json({ message: 'Logare reușită!', userId: user.uid });
-  } catch (error) {
-    res.status(400).json({ error: 'Eroare la logare: ' + error.message });
-  }
-});
+    try {
+      const auth = getAuth(firebaseApp);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      res.status(200).json({ message: 'Logare reușită!', userId: user.uid });
+    } catch (error) {
+      res.status(400).json({ error: 'Eroare la logare: ' + error.message });
+    }
+  });
 
-// Endpoint pentru logout
-app.post('/api/auth/logout', async (req, res) => {
-  if (!firebaseApp) {
-    return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
-  }
+  // Endpoint pentru logout
+  app.post('/api/auth/logout', async (req, res) => {
+    if (!firebaseApp) {
+      return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
+    }
 
-  try {
-    const auth = getAuth(firebaseApp);
-    await signOut(auth);
-    res.status(200).json({ message: 'Deconectare reușită!' });
-  } catch (error) {
-    res.status(400).json({ error: 'Eroare la deconectare: ' + error.message });
-  }
-});
+    try {
+      const auth = getAuth(firebaseApp);
+      await signOut(auth);
+      res.status(200).json({ message: 'Deconectare reușită!' });
+    } catch (error) {
+      res.status(400).json({ error: 'Eroare la deconectare: ' + error.message });
+    }
+  });
 
-// Endpoint pentru resetare parolă
-app.post('/api/auth/reset-password', async (req, res) => {
-  const { email } = req.body;
+  // Endpoint pentru resetare parolă
+  app.post('/api/auth/reset-password', async (req, res) => {
+    const { email } = req.body;
 
-  if (!email) {
-    return res.status(400).json({ error: 'Email-ul este obligatoriu.' });
-  }
+    if (!email) {
+      return res.status(400).json({ error: 'Email-ul este obligatoriu.' });
+    }
 
-  if (!firebaseApp) {
-    return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
-  }
+    if (!firebaseApp) {
+      return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
+    }
 
-  try {
-    const auth = getAuth(firebaseApp);
-    await sendPasswordResetEmail(auth, email);
-    res.status(200).json({ message: 'Email pentru resetarea parolei a fost trimis!' });
-  } catch (error) {
-    res.status(400).json({ error: 'Eroare la trimiterea email-ului de resetare: ' + error.message });
-  }
-});
+    try {
+      const auth = getAuth(firebaseApp);
+      await sendPasswordResetEmail(auth, email);
+      res.status(200).json({ message: 'Email pentru resetarea parolei a fost trimis!' });
+    } catch (error) {
+      res.status(400).json({ error: 'Eroare la trimiterea email-ului de resetare: ' + error.message });
+    }
+  });
 
-// Exportăm handler-ul pentru Vercel
-module.exports = app;
+  // Pornim serverul local pe portul 3000
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+
+  // Exportăm handler-ul pentru Vercel
+  module.exports = app;
