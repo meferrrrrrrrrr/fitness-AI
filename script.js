@@ -8,10 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!email || !password) {
             messageDiv.textContent = 'Email-ul și parola sunt obligatorii.';
-            messageDiv.className = 'message error';
-            messageDiv.style.display = 'block';
+            messageDiv.className = 'message error visible';
             setTimeout(() => {
-                messageDiv.style.display = 'none';
+                messageDiv.className = 'message error hidden';
             }, 3000);
             return;
         }
@@ -26,27 +25,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok) {
                 messageDiv.textContent = data.message;
-                messageDiv.className = 'message success';
-                messageDiv.style.display = 'block';
-                if (signupForm) signupForm.style.display = 'none';
-                if (loginForm) loginForm.style.display = 'block';
+                messageDiv.className = 'message success visible';
+                if (signupForm) signupForm.className = 'form-container hidden';
+                if (loginForm) loginForm.className = 'form-container visible';
                 setTimeout(() => {
-                    messageDiv.style.display = 'none';
+                    messageDiv.className = 'message success hidden';
                 }, 3000);
             } else {
                 messageDiv.textContent = data.error;
-                messageDiv.className = 'message error';
-                messageDiv.style.display = 'block';
+                messageDiv.className = 'message error visible';
                 setTimeout(() => {
-                    messageDiv.style.display = 'none';
+                    messageDiv.className = 'message error hidden';
                 }, 3000);
             }
         } catch (error) {
             messageDiv.textContent = 'Eroare la conectare: ' + error.message;
-            messageDiv.className = 'message error';
-            messageDiv.style.display = 'block';
+            messageDiv.className = 'message error visible';
             setTimeout(() => {
-                messageDiv.style.display = 'none';
+                messageDiv.className = 'message error hidden';
             }, 3000);
         }
     }
@@ -58,10 +54,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!email || !password) {
             messageDiv.textContent = 'Email-ul și parola sunt obligatorii.';
-            messageDiv.className = 'message error';
-            messageDiv.style.display = 'block';
+            messageDiv.className = 'message error visible';
             setTimeout(() => {
-                messageDiv.style.display = 'none';
+                messageDiv.className = 'message error hidden';
             }, 3000);
             return;
         }
@@ -76,25 +71,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok) {
                 messageDiv.textContent = data.message;
-                messageDiv.className = 'message success';
-                messageDiv.style.display = 'block';
+                messageDiv.className = 'message success visible';
                 setTimeout(() => {
-                    messageDiv.style.display = 'none';
+                    messageDiv.className = 'message success hidden';
                 }, 3000);
             } else {
                 messageDiv.textContent = data.error;
-                messageDiv.className = 'message error';
-                messageDiv.style.display = 'block';
+                messageDiv.className = 'message error visible';
                 setTimeout(() => {
-                    messageDiv.style.display = 'none';
+                    messageDiv.className = 'message error hidden';
                 }, 3000);
             }
         } catch (error) {
             messageDiv.textContent = 'Eroare la conectare: ' + error.message;
-            messageDiv.className = 'message error';
-            messageDiv.style.display = 'block';
+            messageDiv.className = 'message error visible';
             setTimeout(() => {
-                messageDiv.style.display = 'none';
+                messageDiv.className = 'message error hidden';
             }, 3000);
         }
     }
