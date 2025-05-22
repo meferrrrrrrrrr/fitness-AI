@@ -16,7 +16,7 @@ app.use(express.json());
 
 // Servim fișierele statice (ex. index.html, script.js)
 app.use(express.static(path.join(__dirname, '.'), {
-  index: false,
+  index: 'index.html',
   extensions: ['html', 'js', 'css']
 }));
 
