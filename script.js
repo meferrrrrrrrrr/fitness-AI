@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
           messageDiv.className = 'message success hidden';
         }, 3000);
       } else {
-        messageDiv.textContent = data.error;
+        messageDiv.textContent = data.error || 'Eroare la crearea contului.';
         messageDiv.className = 'message error visible';
         setTimeout(() => {
           messageDiv.className = 'message error hidden';
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
           messageDiv.className = 'message success hidden';
         }, 3000);
       } else {
-        messageDiv.textContent = data.error;
+        messageDiv.textContent = data.error || 'Eroare la logare.';
         messageDiv.className = 'message error visible';
         setTimeout(() => {
           messageDiv.className = 'message error hidden';
@@ -94,20 +94,4 @@ document.addEventListener('DOMContentLoaded', () => {
   // Expunem funcțiile global pentru a fi apelate din HTML
   window.handleSignup = handleSignup;
   window.handleLogin = handleLogin;
-
-  // Adăugăm manual event listeneri pentru butoane
-  const signupButton = document.querySelector('#signupForm button');
-  const loginButton = document.querySelector('#loginForm button');
-
-  if (signupButton) {
-    signupButton.addEventListener('click', handleSignup);
-  } else {
-    console.error('Butonul de signup nu a fost găsit!');
-  }
-
-  if (loginButton) {
-    loginButton.addEventListener('click', handleLogin);
-  } else {
-    console.error('Butonul de login nu a fost găsit!');
-  }
 });
