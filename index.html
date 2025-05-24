@@ -1,30 +1,30 @@
 <!DOCTYPE html>
-       <html lang="en">
-       <head>
-           <meta charset="UTF-8">
-           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-           <title>Fitness AI</title>
-           <link rel="stylesheet" href="style.css">
-       </head>
-       <body>
-           <h1>Bine ai venit la Fitness AI!</h1>
-           <div class="form-toggle">
-               <button id="showSignup" class="toggle-button active">Sign Up</button>
-               <button id="showLogin" class="toggle-button">Login</button>
-           </div>
-           <div class="form-container" id="signupForm">
-               <input type="email" id="email" placeholder="Email" required>
-               <input type="password" id="password" placeholder="Parolă" required>
-               <button onclick="handleSignup()">Sign Up</button>
-           </div>
-           <div class="form-container hidden" id="loginForm">
-               <input type="email" id="loginEmail" placeholder="Email" required>
-               <input type="password" id="loginPassword" placeholder="Parolă" required>
-               <button onclick="handleLogin()">Login</button>
-               <button id="logoutButton" onclick="handleLogout()">Logout</button>
-           </div>
-           <div id="message" class="message"></div>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Fitness AI</title>
+      <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+      <h1>Bine ai venit la Fitness AI!</h1>
+      <div class="form-toggle">
+          <button id="showSignup" class="toggle-button active">Sign Up</button>
+          <button id="showLogin" class="toggle-button">Login</button>
+      </div>
+      <div class="form-container" id="signupForm">
+          <input type="email" id="email" placeholder="Email" required>
+          <input type="password" id="password" placeholder="Parolă" required>
+          <button id="signupButton">Sign Up</button>
+      </div>
+      <div class="form-container hidden" id="loginForm">
+          <input type="email" id="loginEmail" placeholder="Email" required>
+          <input type="password" id="loginPassword" placeholder="Parolă" required>
+          <button id="loginButton">Login</button>
+          <button id="logoutButton">Logout</button>
+      </div>
+      <div id="message" class="message"></div>
 
-           <script src="script.js"></script>
-       </body>
-       </html>
+      <script src="script.js"></script>
+  </body>
+  </html>

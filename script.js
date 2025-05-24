@@ -161,8 +161,8 @@ document.addEventListener('DOMContentLoaded', () => {
     window.showLoginForm = showLoginForm;
 
     // Adăugăm manual event listeneri pentru butoane
-    const signupButton = document.querySelector('#signupForm button');
-    const loginButton = document.querySelector('#loginForm button');
+    const signupButton = document.getElementById('signupButton');
+    const loginButton = document.getElementById('loginButton');
     const logoutButton = document.getElementById('logoutButton');
     const showSignupButton = document.getElementById('showSignup');
     const showLoginButton = document.getElementById('showLogin');
