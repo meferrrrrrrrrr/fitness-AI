@@ -16,7 +16,32 @@
     <div class="form-container">
         <p>Welcome to your Fitness AI profile! This is a placeholder page.</p>
         <p>Here you will soon manage your fitness and nutrition goals.</p>
+        <p id="userEmail">Loading email...</p> <!-- Adăugăm un loc pentru email -->
         <a href="index.html">Back to Home</a>
     </div>
+    <script>
+        // Funcție pentru a încărca email-ul utilizatorului
+        async function loadUserEmail() {
+            try {
+                const response = await fetch('/api/auth/user', {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await response.json();
+
+                const emailElement = document.getElementById('userEmail');
+                if (response.ok) {
+                    emailElement.textContent = `Email: ${data.email}`; // Afișăm email-ul
+                } else {
+                    emailElement.textContent = data.error || 'Eroare la încărcarea email-ului.'; // Afișăm eroarea
+                }
+            } catch (error) {
+                document.getElementById('userEmail').textContent = 'Eroare la conectare cu serverul.';
+            }
+        }
+
+        // Apelăm funcția când pagina se încarcă
+        window.onload = loadUserEmail;
+    </script>
 </body>
 </html>
