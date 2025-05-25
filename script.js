@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const loginForm = document.getElementById('loginForm');
       const showSignup = document.getElementById('showSignup');
       const showLogin = document.getElementById('showLogin');
+      const profileLink = document.getElementById('profileLink');
 
       if (!email || !password) {
         messageDiv.textContent = 'Email-ul și parola sunt obligatorii.';
@@ -80,6 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (response.ok) {
           messageDiv.textContent = data.message;
           messageDiv.className = 'message success visible';
+          if (profileLink) profileLink.style.display = 'block'; // Afișăm link-ul după login
           setTimeout(() => {
             messageDiv.className = 'message success hidden';
           }, 3000);
@@ -101,6 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function handleLogout() {
       const messageDiv = document.getElementById('message');
+      const profileLink = document.getElementById('profileLink');
 
       try {
         const response = await fetch('/api/auth/logout', {
@@ -112,6 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (response.ok) {
           messageDiv.textContent = data.message;
           messageDiv.className = 'message success visible';
+          if (profileLink) profileLink.style.display = 'none'; // Ascundem link-ul la logout
           setTimeout(() => {
             messageDiv.className = 'message success hidden';
           }, 3000);
@@ -136,10 +140,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const loginForm = document.getElementById('loginForm');
       const showSignup = document.getElementById('showSignup');
       const showLogin = document.getElementById('showLogin');
+      const profileLink = document.getElementById('profileLink');
       signupForm.className = 'form-container visible';
       loginForm.className = 'form-container hidden';
       showSignup.className = 'toggle-button active';
       showLogin.className = 'toggle-button';
+      if (profileLink) profileLink.style.display = 'none'; // Ascundem link-ul când trecem la signup
     }
 
     function showLoginForm() {
@@ -147,10 +153,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const loginForm = document.getElementById('loginForm');
       const showSignup = document.getElementById('showSignup');
       const showLogin = document.getElementById('showLogin');
+      const profileLink = document.getElementById('profileLink');
       signupForm.className = 'form-container hidden';
       loginForm.className = 'form-container visible';
       showSignup.className = 'toggle-button';
       showLogin.className = 'toggle-button active';
+      if (profileLink) profileLink.style.display = 'none'; // Ascundem link-ul când trecem la login (se va afișa doar după login reușit)
     }
 
     // Expunem funcțiile global pentru a fi apelate din HTML
