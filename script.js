@@ -81,7 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (response.ok) {
           messageDiv.textContent = data.message;
           messageDiv.className = 'message success visible';
-          if (profileLink) profileLink.style.display = 'block'; // Afișăm link-ul după login
+          if (profileLink) profileLink.style.display = 'block';
+          localStorage.setItem('authToken', data.token); // Salvăm token-ul din răspuns
           setTimeout(() => {
             messageDiv.className = 'message success hidden';
           }, 3000);
@@ -115,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (response.ok) {
           messageDiv.textContent = data.message;
           messageDiv.className = 'message success visible';
-          if (profileLink) profileLink.style.display = 'none'; // Ascundem link-ul la logout
+          if (profileLink) profileLink.style.display = 'none';
           setTimeout(() => {
             messageDiv.className = 'message success hidden';
           }, 3000);
@@ -145,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
       loginForm.className = 'form-container hidden';
       showSignup.className = 'toggle-button active';
       showLogin.className = 'toggle-button';
-      if (profileLink) profileLink.style.display = 'none'; // Ascundem link-ul când trecem la signup
+      if (profileLink) profileLink.style.display = 'none';
     }
 
     function showLoginForm() {
@@ -158,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
       loginForm.className = 'form-container visible';
       showSignup.className = 'toggle-button';
       showLogin.className = 'toggle-button active';
-      if (profileLink) profileLink.style.display = 'none'; // Ascundem link-ul când trecem la login (se va afișa doar după login reușit)
+      if (profileLink) profileLink.style.display = 'none';
     }
 
     // Expunem funcțiile global pentru a fi apelate din HTML

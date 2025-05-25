@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const { app: firebaseApp, database } = require('./auth'); // Importăm și database
+const { app: firebaseApp, database } = require('./auth');
 const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } = require('firebase/auth');
 
 const app = express();
@@ -76,7 +76,7 @@ app.post('/api/auth/signup', async (req, res) => {
   }
 });
 
-// Endpoint pentru login
+// Endpoint pentru login (modificat pentru a returna token-ul)
 app.post('/api/auth/login', async (req, res) => {
   const { email, password } = req.body;
 
@@ -92,7 +92,8 @@ app.post('/api/auth/login', async (req, res) => {
     const auth = getAuth(firebaseApp);
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-    res.status(200).json({ message: 'Logare reușită!', userId: user.uid });
+    const idToken = await user.getIdToken(); // Obținem token-ul
+    res.status(200).json({ message: 'Logare reușită!', userId: user.uid, token: idToken }); // Returnăm token-ul
   } catch (error) {
     res.status(400).json({ error: 'Eroare la logare: ' + error.message });
   }
@@ -142,13 +143,12 @@ app.get('/api/auth/user', async (req, res) => {
 
   try {
     const auth = getAuth(firebaseApp);
-    const user = auth.currentUser; // Încercăm să obținem utilizatorul curent
+    const user = auth.currentUser;
 
     if (!user) {
       return res.status(401).json({ error: 'Utilizatorul nu este autentificat.' });
     }
 
-    // Returnăm email-ul utilizatorului
     res.status(200).json({ email: user.email });
   } catch (error) {
     res.status(500).json({ error: 'Eroare la obținerea utilizatorului: ' + error.message });
