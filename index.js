@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const { app: firebaseApp, database } = require('./auth');
+const { app: firebaseApp, database, admin } = require('./auth'); // Adăugăm admin
 const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } = require('firebase/auth');
 
 const app = express();
@@ -135,23 +135,33 @@ app.post('/api/auth/reset-password', async (req, res) => {
   }
 });
 
-// Noul endpoint pentru a obține utilizatorul curent
+// Endpoint pentru a obține utilizatorul curent (modificat pentru a verifica token-ul)
 app.get('/api/auth/user', async (req, res) => {
-  if (!firebaseApp) {
-    return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
+  if (!firebaseApp || !admin) {
+    return res.status(500).json({ error: 'Firebase app sau admin nu este inițializat.' });
   }
 
   try {
-    const auth = getAuth(firebaseApp);
-    const user = auth.currentUser;
+    // Extragem header-ul Authorization
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ error: 'Token de autentificare lipsă sau invalid.' });
+    }
 
-    if (!user) {
+    // Extragem token-ul (fără "Bearer ")
+    const token = authHeader.split(' ')[1];
+
+    // Verificăm token-ul cu Firebase Admin SDK
+    const decodedToken = await admin.auth().verifyIdToken(token);
+    const email = decodedToken.email;
+
+    if (!email) {
       return res.status(401).json({ error: 'Utilizatorul nu este autentificat.' });
     }
 
-    res.status(200).json({ email: user.email });
+    res.status(200).json({ email: email });
   } catch (error) {
-    res.status(500).json({ error: 'Eroare la obținerea utilizatorului: ' + error.message });
+    res.status(401).json({ error: 'Token invalid sau expirat: ' + error.message });
   }
 });
 
