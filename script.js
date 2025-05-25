@@ -1,165 +1,201 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Verificăm sesiunea la încărcare
+    const authToken = localStorage.getItem('authToken');
+    const profileLink = document.getElementById('profileLink');
+    const signupForm = document.getElementById('signupForm');
+    const loginForm = document.getElementById('loginForm');
+    const showSignup = document.getElementById('showSignup');
+    const showLogin = document.getElementById('showLogin');
+
+    if (authToken) {
+        if (profileLink) profileLink.style.display = 'block';
+        if (signupForm) signupForm.className = 'form-container hidden';
+        if (loginForm) loginForm.className = 'form-container hidden';
+    } else {
+        if (profileLink) profileLink.style.display = 'none';
+        if (signupForm) signupForm.className = 'form-container visible';
+        if (loginForm) loginForm.className = 'form-container hidden';
+        if (showSignup) showSignup.className = 'toggle-button active';
+        if (showLogin) showLogin.className = 'toggle-button';
+    }
+
     async function handleSignup() {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      const messageDiv = document.getElementById('message');
-      const signupForm = document.getElementById('signupForm');
-      const loginForm = document.getElementById('loginForm');
-      const showSignup = document.getElementById('showSignup');
-      const showLogin = document.getElementById('showLogin');
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const messageDiv = document.getElementById('message');
+        const signupForm = document.getElementById('signupForm');
+        const loginForm = document.getElementById('loginForm');
+        const showSignup = document.getElementById('showSignup');
+        const showLogin = document.getElementById('showLogin');
 
-      if (!email || !password) {
-        messageDiv.textContent = 'Email-ul și parola sunt obligatorii.';
-        messageDiv.className = 'message error visible';
-        setTimeout(() => {
-          messageDiv.className = 'message error hidden';
-        }, 3000);
-        return;
-      }
-
-      try {
-        const response = await fetch('/api/auth/signup', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password })
-        });
-        const data = await response.json();
-
-        if (response.ok) {
-          messageDiv.textContent = data.message;
-          messageDiv.className = 'message success visible';
-          if (signupForm) signupForm.className = 'form-container hidden';
-          if (loginForm) loginForm.className = 'form-container visible';
-          if (showSignup) showSignup.className = 'toggle-button';
-          if (showLogin) showLogin.className = 'toggle-button active';
-          setTimeout(() => {
-            messageDiv.className = 'message success hidden';
-          }, 3000);
-        } else {
-          messageDiv.textContent = data.error;
-          messageDiv.className = 'message error visible';
-          setTimeout(() => {
-            messageDiv.className = 'message error hidden';
-          }, 3000);
+        if (!email || !password) {
+            messageDiv.textContent = 'Email-ul și parola sunt obligatorii.';
+            messageDiv.className = 'message error visible';
+            setTimeout(() => {
+                messageDiv.className = 'message error hidden';
+            }, 3000);
+            return;
         }
-      } catch (error) {
-        messageDiv.textContent = 'Eroare la conectare: ' + error.message;
-        messageDiv.className = 'message error visible';
-        setTimeout(() => {
-          messageDiv.className = 'message error hidden';
-        }, 3000);
-      }
+
+        try {
+            const response = await fetch('/api/auth/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+            const data = await response.json();
+
+            if (response.ok) {
+                messageDiv.textContent = data.message;
+                messageDiv.className = 'message success visible';
+                if (signupForm) signupForm.className = 'form-container hidden';
+                if (loginForm) loginForm.className = 'form-container visible';
+                if (showSignup) showSignup.className = 'toggle-button';
+                if (showLogin) showLogin.className = 'toggle-button active';
+                setTimeout(() => {
+                    messageDiv.className = 'message success hidden';
+                }, 3000);
+            } else {
+                messageDiv.textContent = data.error;
+                messageDiv.className = 'message error visible';
+                setTimeout(() => {
+                    messageDiv.className = 'message error hidden';
+                }, 3000);
+            }
+        } catch (error) {
+            messageDiv.textContent = 'Eroare la conectare: ' + error.message;
+            messageDiv.className = 'message error visible';
+            setTimeout(() => {
+                messageDiv.className = 'message error hidden';
+            }, 3000);
+        }
     }
 
     async function handleLogin() {
-      const email = document.getElementById('loginEmail').value;
-      const password = document.getElementById('loginPassword').value;
-      const messageDiv = document.getElementById('message');
-      const signupForm = document.getElementById('signupForm');
-      const loginForm = document.getElementById('loginForm');
-      const showSignup = document.getElementById('showSignup');
-      const showLogin = document.getElementById('showLogin');
-      const profileLink = document.getElementById('profileLink');
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        const messageDiv = document.getElementById('message');
+        const signupForm = document.getElementById('signupForm');
+        const loginForm = document.getElementById('loginForm');
+        const showSignup = document.getElementById('showSignup');
+        const showLogin = document.getElementById('showLogin');
+        const profileLink = document.getElementById('profileLink');
 
-      if (!email || !password) {
-        messageDiv.textContent = 'Email-ul și parola sunt obligatorii.';
-        messageDiv.className = 'message error visible';
-        setTimeout(() => {
-          messageDiv.className = 'message error hidden';
-        }, 3000);
-        return;
-      }
-
-      try {
-        const response = await fetch('/api/auth/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password })
-        });
-        const data = await response.json();
-
-        if (response.ok) {
-          messageDiv.textContent = data.message;
-          messageDiv.className = 'message success visible';
-          if (profileLink) profileLink.style.display = 'block';
-          localStorage.setItem('authToken', data.token); // Salvăm token-ul din răspuns
-          setTimeout(() => {
-            messageDiv.className = 'message success hidden';
-          }, 3000);
-        } else {
-          messageDiv.textContent = data.error;
-          messageDiv.className = 'message error visible';
-          setTimeout(() => {
-            messageDiv.className = 'message error hidden';
-          }, 3000);
+        if (!email || !password) {
+            messageDiv.textContent = 'Email-ul și parola sunt obligatorii.';
+            messageDiv.className = 'message error visible';
+            setTimeout(() => {
+                messageDiv.className = 'message error hidden';
+            }, 3000);
+            return;
         }
-      } catch (error) {
-        messageDiv.textContent = 'Eroare la conectare: ' + error.message;
-        messageDiv.className = 'message error visible';
-        setTimeout(() => {
-          messageDiv.className = 'message error hidden';
-        }, 3000);
-      }
+
+        try {
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+            const data = await response.json();
+
+            if (response.ok) {
+                messageDiv.textContent = data.message;
+                messageDiv.className = 'message success visible';
+                if (profileLink) profileLink.style.display = 'block';
+                localStorage.setItem('authToken', data.token); // Salvăm token-ul din răspuns
+                setTimeout(() => {
+                    messageDiv.className = 'message success hidden';
+                    window.location.href = 'profile.html'; // Redirecționare automată la profil
+                }, 3000);
+            } else {
+                messageDiv.textContent = data.error;
+                messageDiv.className = 'message error visible';
+                setTimeout(() => {
+                    messageDiv.className = 'message error hidden';
+                }, 3000);
+            }
+        } catch (error) {
+            messageDiv.textContent = 'Eroare la conectare: ' + error.message;
+            messageDiv.className = 'message error visible';
+            setTimeout(() => {
+                messageDiv.className = 'message error hidden';
+            }, 3000);
+        }
     }
 
     async function handleLogout() {
-      const messageDiv = document.getElementById('message');
-      const profileLink = document.getElementById('profileLink');
+        const authToken = localStorage.getItem('authToken');
+        const messageDiv = document.getElementById('message');
+        const profileLink = document.getElementById('profileLink');
 
-      try {
-        const response = await fetch('/api/auth/logout', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' }
-        });
-        const data = await response.json();
-
-        if (response.ok) {
-          messageDiv.textContent = data.message;
-          messageDiv.className = 'message success visible';
-          if (profileLink) profileLink.style.display = 'none';
-          setTimeout(() => {
-            messageDiv.className = 'message success hidden';
-          }, 3000);
-        } else {
-          messageDiv.textContent = data.error;
-          messageDiv.className = 'message error visible';
-          setTimeout(() => {
-            messageDiv.className = 'message error hidden';
-          }, 3000);
+        if (!authToken) {
+            messageDiv.textContent = 'Nu ești autentificat.';
+            messageDiv.className = 'message error visible';
+            setTimeout(() => {
+                messageDiv.className = 'message error hidden';
+            }, 3000);
+            return;
         }
-      } catch (error) {
-        messageDiv.textContent = 'Eroare la deconectare: ' + error.message;
-        messageDiv.className = 'message error visible';
-        setTimeout(() => {
-          messageDiv.className = 'message error hidden';
-        }, 3000);
-      }
+
+        try {
+            const response = await fetch('/api/auth/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}` // Trimitem token-ul
+                }
+            });
+            const data = await response.json();
+
+            if (response.ok) {
+                messageDiv.textContent = data.message;
+                messageDiv.className = 'message success visible';
+                if (profileLink) profileLink.style.display = 'none';
+                localStorage.removeItem('authToken'); // Ștergem token-ul
+                setTimeout(() => {
+                    messageDiv.className = 'message success hidden';
+                    window.location.href = 'index.html'; // Redirecționare la index
+                }, 3000);
+            } else {
+                messageDiv.textContent = data.error;
+                messageDiv.className = 'message error visible';
+                setTimeout(() => {
+                    messageDiv.className = 'message error hidden';
+                }, 3000);
+            }
+        } catch (error) {
+            messageDiv.textContent = 'Eroare la deconectare: ' + error.message;
+            messageDiv.className = 'message error visible';
+            setTimeout(() => {
+                messageDiv.className = 'message error hidden';
+            }, 3000);
+        }
     }
 
     function showSignupForm() {
-      const signupForm = document.getElementById('signupForm');
-      const loginForm = document.getElementById('loginForm');
-      const showSignup = document.getElementById('showSignup');
-      const showLogin = document.getElementById('showLogin');
-      const profileLink = document.getElementById('profileLink');
-      signupForm.className = 'form-container visible';
-      loginForm.className = 'form-container hidden';
-      showSignup.className = 'toggle-button active';
-      showLogin.className = 'toggle-button';
-      if (profileLink) profileLink.style.display = 'none';
+        const signupForm = document.getElementById('signupForm');
+        const loginForm = document.getElementById('loginForm');
+        const showSignup = document.getElementById('showSignup');
+        const showLogin = document.getElementById('showLogin');
+        const profileLink = document.getElementById('profileLink');
+        signupForm.className = 'form-container visible';
+        loginForm.className = 'form-container hidden';
+        showSignup.className = 'toggle-button active';
+        showLogin.className = 'toggle-button';
+        if (profileLink) profileLink.style.display = 'none';
     }
 
     function showLoginForm() {
-      const signupForm = document.getElementById('signupForm');
-      const loginForm = document.getElementById('loginForm');
-      const showSignup = document.getElementById('showSignup');
-      const showLogin = document.getElementById('showLogin');
-      const profileLink = document.getElementById('profileLink');
-      signupForm.className = 'form-container hidden';
-      loginForm.className = 'form-container visible';
-      showSignup.className = 'toggle-button';
-      showLogin.className = 'toggle-button active';
-      if (profileLink) profileLink.style.display = 'none';
+        const signupForm = document.getElementById('signupForm');
+        const loginForm = document.getElementById('loginForm');
+        const showSignup = document.getElementById('showSignup');
+        const showLogin = document.getElementById('showLogin');
+        const profileLink = document.getElementById('profileLink');
+        signupForm.className = 'form-container hidden';
+        loginForm.className = 'form-container visible';
+        showSignup.className = 'toggle-button';
+        showLogin.className = 'toggle-button active';
+        if (profileLink) profileLink.style.display = 'none';
     }
 
     // Expunem funcțiile global pentru a fi apelate din HTML
@@ -177,32 +213,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const showLoginButton = document.getElementById('showLogin');
 
     if (signupButton) {
-      signupButton.addEventListener('click', handleSignup);
+        signupButton.addEventListener('click', handleSignup);
     } else {
-      console.error('Butonul de signup nu a fost găsit!');
+        console.error('Butonul de signup nu a fost găsit!');
     }
 
     if (loginButton) {
-      loginButton.addEventListener('click', handleLogin);
+        loginButton.addEventListener('click', handleLogin);
     } else {
-      console.error('Butonul de login nu a fost găsit!');
+        console.error('Butonul de login nu a fost găsit!');
     }
 
     if (logoutButton) {
-      logoutButton.addEventListener('click', handleLogout);
+        logoutButton.addEventListener('click', handleLogout);
     } else {
-      console.error('Butonul de logout nu a fost găsit!');
+        console.error('Butonul de logout nu a fost găsit!');
     }
 
     if (showSignupButton) {
-      showSignupButton.addEventListener('click', showSignupForm);
+        showSignupButton.addEventListener('click', showSignupForm);
     } else {
-      console.error('Butonul de afișare signup nu a fost găsit!');
+        console.error('Butonul de afișare signup nu a fost găsit!');
     }
 
     if (showLoginButton) {
-      showLoginButton.addEventListener('click', showLoginForm);
+        showLoginButton.addEventListener('click', showLoginForm);
     } else {
-      console.error('Butonul de afișare login nu a fost găsit!');
+        console.error('Butonul de afișare login nu a fost găsit!');
     }
-  });
+});
