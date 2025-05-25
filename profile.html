@@ -30,8 +30,11 @@
                     return;
                 }
 
-                console.log('Trimit cerere către /api/auth/user...'); // Depanare: Confirmăm că ajungem aici
-                const response = await fetch('/api/auth/user', {
+                // Folosim URL-ul complet pentru Vercel
+                const apiUrl = `${window.location.origin}/api/auth/user`;
+                console.log('Trimit cerere către:', apiUrl); // Depanare: Confirmăm URL-ul
+
+                const response = await fetch(apiUrl, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -48,7 +51,7 @@
                     emailElement.textContent = `Eroare: ${data.error || 'Eroare la încărcarea email-ului.'}`; // Afișăm eroarea
                 }
             } catch (error) {
-                console.error('Eroare la fetch:', error.message); // Depanare: Vedem eroarea exactă
+                console.error('Eroare detaliată la fetch:', error); // Depanare: Vedem eroarea completă
                 document.getElementById('userEmail').textContent = `Eroare la conectare cu serverul: ${error.message}`;
             }
         }
