@@ -1,6 +1,7 @@
 require('dotenv').config();
 const { initializeApp } = require('firebase/app');
 const { getDatabase } = require('firebase/database'); // Import corect din firebase/database
+const admin = require('firebase-admin'); // Adăugăm Firebase Admin SDK
 
 // Configurația din variabilele de mediu
 const firebaseConfig = {
@@ -26,5 +27,17 @@ console.log('Firebase app inițializat cu projectId:', app.options.projectId);
 // Inițializăm Realtime Database
 const database = getDatabase(app); // Inițializare corectă
 
-// Exportăm app și database pentru a fi folosite în alte fișiere
-module.exports = { app, database };
+// Inițializăm Firebase Admin SDK
+const serviceAccount = {
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+  clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+};
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: process.env.FIREBASE_DATABASE_URL,
+});
+
+// Exportăm app, database și admin pentru a fi folosite în alte fișiere
+module.exports = { app, database, admin };
