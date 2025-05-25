@@ -16,16 +16,25 @@
     <div class="form-container">
         <p>Welcome to your Fitness AI profile! This is a placeholder page.</p>
         <p>Here you will soon manage your fitness and nutrition goals.</p>
-        <p id="userEmail">Loading email...</p> <!-- Adăugăm un loc pentru email -->
+        <p id="userEmail">Loading email...</p>
         <a href="index.html">Back to Home</a>
     </div>
     <script>
         // Funcție pentru a încărca email-ul utilizatorului
         async function loadUserEmail() {
             try {
+                const token = localStorage.getItem('authToken'); // Obținem token-ul din localStorage
+                if (!token) {
+                    document.getElementById('userEmail').textContent = 'Nu există token. Te rog să te loghezi.';
+                    return;
+                }
+
                 const response = await fetch('/api/auth/user', {
                     method: 'GET',
-                    headers: { 'Content-Type': 'application/json' }
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` // Adăugăm token-ul în header
+                    }
                 });
                 const data = await response.json();
 
