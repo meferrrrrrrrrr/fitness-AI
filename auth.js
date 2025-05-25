@@ -1,5 +1,6 @@
 require('dotenv').config();
 const { initializeApp } = require('firebase/app');
+const { getDatabase } = require('firebase/database'); // Import corect din firebase/database
 
 // Configurația din variabilele de mediu
 const firebaseConfig = {
@@ -22,5 +23,8 @@ if (missingFields.length > 0) {
 const app = initializeApp(firebaseConfig);
 console.log('Firebase app inițializat cu projectId:', app.options.projectId);
 
-// Exportăm app pentru a fi folosit în alte fișiere
-module.exports = { app };
+// Inițializăm Realtime Database
+const database = getDatabase(app); // Inițializare corectă
+
+// Exportăm app și database pentru a fi folosite în alte fișiere
+module.exports = { app, database };
