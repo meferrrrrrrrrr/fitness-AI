@@ -6,17 +6,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');
     const showSignup = document.getElementById('showSignup');
     const showLogin = document.getElementById('showLogin');
+    const logoutButton = document.getElementById('logoutButton');
+    const messageDiv = document.getElementById('message');
+
+    // Resetează mesajul la încărcare
+    if (messageDiv) messageDiv.className = 'message hidden';
 
     if (authToken) {
         if (profileLink) profileLink.style.display = 'block';
         if (signupForm) signupForm.className = 'form-container hidden';
         if (loginForm) loginForm.className = 'form-container hidden';
+        if (logoutButton) logoutButton.style.display = 'block'; // Afișăm logout
     } else {
         if (profileLink) profileLink.style.display = 'none';
-        if (signupForm) signupForm.className = 'form-container visible';
-        if (loginForm) loginForm.className = 'form-container hidden';
-        if (showSignup) showSignup.className = 'toggle-button active';
-        if (showLogin) showLogin.className = 'toggle-button';
+        if (signupForm) signupForm.className = 'form-container hidden'; // Ascundem signup
+        if (loginForm) loginForm.className = 'form-container visible'; // Afișăm login
+        if (showSignup) showSignup.className = 'toggle-button';
+        if (showLogin) showLogin.className = 'toggle-button active';
+        if (logoutButton) logoutButton.style.display = 'none'; // Ascundem logout
     }
 
     async function handleSignup() {
@@ -102,10 +109,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 messageDiv.textContent = data.message;
                 messageDiv.className = 'message success visible';
                 if (profileLink) profileLink.style.display = 'block';
-                localStorage.setItem('authToken', data.token); // Salvăm token-ul din răspuns
+                localStorage.setItem('authToken', data.token); // Salvăm token-ul
                 setTimeout(() => {
                     messageDiv.className = 'message success hidden';
-                    window.location.href = 'profile.html'; // Redirecționare automată la profil
+                    window.location.href = 'profile.html'; // Redirecționare
                 }, 3000);
             } else {
                 messageDiv.textContent = data.error;
@@ -127,13 +134,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const authToken = localStorage.getItem('authToken');
         const messageDiv = document.getElementById('message');
         const profileLink = document.getElementById('profileLink');
+        const logoutButton = document.getElementById('logoutButton');
 
         if (!authToken) {
-            messageDiv.textContent = 'Nu ești autentificat.';
-            messageDiv.className = 'message error visible';
-            setTimeout(() => {
-                messageDiv.className = 'message error hidden';
-            }, 3000);
+            if (messageDiv) {
+                messageDiv.textContent = 'Nu ești autentificat.';
+                messageDiv.className = 'message error visible';
+                setTimeout(() => {
+                    messageDiv.className = 'message error hidden';
+                }, 3000);
+            }
             return;
         }
 
@@ -142,33 +152,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${authToken}` // Trimitem token-ul
+                    'Authorization': `Bearer ${authToken}`
                 }
             });
             const data = await response.json();
 
             if (response.ok) {
-                messageDiv.textContent = data.message;
-                messageDiv.className = 'message success visible';
+                if (messageDiv) {
+                    messageDiv.textContent = data.message;
+                    messageDiv.className = 'message success visible';
+                }
                 if (profileLink) profileLink.style.display = 'none';
+                if (logoutButton) logoutButton.style.display = 'none';
                 localStorage.removeItem('authToken'); // Ștergem token-ul
                 setTimeout(() => {
-                    messageDiv.className = 'message success hidden';
-                    window.location.href = 'index.html'; // Redirecționare la index
+                    if (messageDiv) messageDiv.className = 'message success hidden';
+                    window.location.href = 'index.html'; // Redirecționare
                 }, 3000);
             } else {
-                messageDiv.textContent = data.error;
+                if (messageDiv) {
+                    messageDiv.textContent = data.error;
+                    messageDiv.className = 'message error visible';
+                    setTimeout(() => {
+                        messageDiv.className = 'message error hidden';
+                    }, 3000);
+                }
+            }
+        } catch (error) {
+            if (messageDiv) {
+                messageDiv.textContent = 'Eroare la deconectare: ' + error.message;
                 messageDiv.className = 'message error visible';
                 setTimeout(() => {
                     messageDiv.className = 'message error hidden';
                 }, 3000);
             }
-        } catch (error) {
-            messageDiv.textContent = 'Eroare la deconectare: ' + error.message;
-            messageDiv.className = 'message error visible';
-            setTimeout(() => {
-                messageDiv.className = 'message error hidden';
-            }, 3000);
         }
     }
 
@@ -178,10 +195,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const showSignup = document.getElementById('showSignup');
         const showLogin = document.getElementById('showLogin');
         const profileLink = document.getElementById('profileLink');
-        signupForm.className = 'form-container visible';
-        loginForm.className = 'form-container hidden';
-        showSignup.className = 'toggle-button active';
-        showLogin.className = 'toggle-button';
+        if (signupForm) signupForm.className = 'form-container visible';
+        if (loginForm) loginForm.className = 'form-container hidden';
+        if (showSignup) showSignup.className = 'toggle-button active';
+        if (showLogin) showLogin.className = 'toggle-button';
         if (profileLink) profileLink.style.display = 'none';
     }
 
@@ -191,10 +208,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const showSignup = document.getElementById('showSignup');
         const showLogin = document.getElementById('showLogin');
         const profileLink = document.getElementById('profileLink');
-        signupForm.className = 'form-container hidden';
-        loginForm.className = 'form-container visible';
-        showSignup.className = 'toggle-button';
-        showLogin.className = 'toggle-button active';
+        if (signupForm) signupForm.className = 'form-container hidden';
+        if (loginForm) loginForm.className = 'form-container visible';
+        if (showSignup) showSignup.className = 'toggle-button';
+        if (showLogin) showLogin.className = 'toggle-button active';
         if (profileLink) profileLink.style.display = 'none';
     }
 
@@ -207,17 +224,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Adăugăm manual event listeneri pentru butoane
     const signupButton = document.getElementById('signupButton');
-    const loginButton = document.getElementById('loginButton');
-    const logoutButton = document.getElementById('logoutButton');
-    const showSignupButton = document.getElementById('showSignup');
-    const showLoginButton = document.getElementById('showLogin');
-
     if (signupButton) {
         signupButton.addEventListener('click', handleSignup);
     } else {
         console.error('Butonul de signup nu a fost găsit!');
     }
 
+    const loginButton = document.getElementById('loginButton');
     if (loginButton) {
         loginButton.addEventListener('click', handleLogin);
     } else {
@@ -230,12 +243,14 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Butonul de logout nu a fost găsit!');
     }
 
+    const showSignupButton = document.getElementById('showSignup');
     if (showSignupButton) {
         showSignupButton.addEventListener('click', showSignupForm);
     } else {
         console.error('Butonul de afișare signup nu a fost găsit!');
     }
 
+    const showLoginButton = document.getElementById('showLogin');
     if (showLoginButton) {
         showLoginButton.addEventListener('click', showLoginForm);
     } else {
