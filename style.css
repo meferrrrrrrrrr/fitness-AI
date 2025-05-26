@@ -96,11 +96,13 @@ h1 {
 .success {
     background-color: #d4edda;
     color: #155724;
+    display: block; /* Adăugat pentru claritate */
 }
 
 .error {
     background-color: #f8d7da;
     color: #721c24;
+    display: block; /* Adăugat pentru claritate */
 }
 
 .hidden {
