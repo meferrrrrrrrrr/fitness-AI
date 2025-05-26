@@ -8,7 +8,6 @@
                  return;
              }
 
-             // Folosim URL-ul complet pentru Vercel
              const apiUrl = `${window.location.origin}/api/auth/user`;
              console.log('Trimit cerere către:', apiUrl); // Depanare: Confirmăm URL-ul
 
@@ -34,12 +33,17 @@
          }
      }
 
-     // Funcție pentru logout
+     // Funcție pentru logout cu confirmare
      async function handleLogout() {
          const authToken = localStorage.getItem('authToken');
          if (!authToken) {
              console.error('Nu există token pentru logout.');
              return;
+         }
+
+         // Cerem confirmare utilizatorului
+         if (!confirm('Sigur vrei să te deconectezi?')) {
+             return; // Anulăm logout-ul dacă utilizatorul apasă "Cancel"
          }
 
          try {
