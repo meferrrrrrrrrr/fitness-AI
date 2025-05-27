@@ -14,7 +14,7 @@ body {
     background: linear-gradient(135deg, #00ddeb, #00a3c4);
     padding: 20px 40px;
     display: flex;
-    justify-content: space-between; /* Ajustat pentru aliniere corectă */
+    justify-content: space-between;
     align-items: center;
     z-index: 1000;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
@@ -45,16 +45,14 @@ body {
     background: #f44336;
     color: white;
     border: none;
-    padding: 4px 10px; /* Redus pentru a fi mai mic */
+    padding: 4px 10px;
     border-radius: 20px;
     font-weight: bold;
     text-decoration: none;
-    font-size: 12px; /* Redus pentru a fi clar „Logout” */
+    font-size: 12px;
     cursor: pointer;
     transition: background-color 0.3s;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    margin: 0 auto; /* Centrare orizontală */
-    max-width: 80px; /* Limitare lățime pentru a preveni tăierea */
     white-space: nowrap; /* Previne ruperea textului */
 }
 
