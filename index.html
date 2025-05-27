@@ -9,28 +9,35 @@
     <link rel="apple-touch-icon" href="public/apple-touch-icon.png">
 </head>
 <body>
-    <div class="header-logo">
-        <img src="public/logo.png" alt="Fitness AI Logo">
-    </div>
-    <h1>Welcome to Fitness AI!</h1>
-    <div class="form-toggle">
-        <button id="showSignup" class="toggle-button active">Sign Up</button>
-        <button id="showLogin" class="toggle-button">Login</button>
-    </div>
-    <div class="form-container" id="signupForm">
-        <input type="email" id="email" placeholder="Email" required>
-        <input type="password" id="password" placeholder="Password" required>
-        <button id="signupButton">Sign Up</button>
-    </div>
-    <div class="form-container hidden" id="loginForm">
-        <input type="email" id="loginEmail" placeholder="Email" required>
-        <input type="password" id="loginPassword" placeholder="Password" required>
-        <button id="loginButton">Login</button>
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <img src="public/logo.png" alt="Fitness AI Logo">
+        </div>
+        <ul class="navbar-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="profile.html">Profile</a></li>
+        </ul>
         <button id="logoutButton" style="display: none;">Logout</button>
-        <a id="profileLink" href="profile.html" style="display: none;">Go to Profile</a>
+    </nav>
+    <div class="content">
+        <h1>Welcome to Fitness AI!</h1>
+        <div class="form-toggle">
+            <button id="showSignup" class="toggle-button active">Sign Up</button>
+            <button id="showLogin" class="toggle-button">Login</button>
+        </div>
+        <div class="form-container" id="signupForm">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button id="signupButton">Sign Up</button>
+        </div>
+        <div class="form-container hidden" id="loginForm">
+            <input type="email" id="loginEmail" placeholder="Email" required>
+            <input type="password" id="loginPassword" placeholder="Password" required>
+            <button id="loginButton">Login</button>
+            <a id="profileLink" href="profile.html" style="display: none;">Go to Profile</a>
+        </div>
+        <div id="message" class="message"></div>
     </div>
-    <div id="message" class="message"></div>
-
     <script src="script.js"></script>
 </body>
 </html>
