@@ -131,6 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function handleLogout() {
+        console.log('handleLogout called'); // Debug pentru a vedea când e apelat
         const authToken = localStorage.getItem('authToken');
         const messageDiv = document.getElementById('message');
         const profileLink = document.getElementById('profileLink');
@@ -236,13 +237,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Butonul de signup nu a fost găsit!');
     }
 
-    const loginButton = document.getElementById('loginButton');
-    if (loginButton) {
-        loginButton.addEventListener('click', handleLogin);
-    } else {
-        console.error('Butonul de login nu a fost găsit!');
-    }
-
     if (logoutButton) {
         logoutButton.addEventListener('click', handleLogout);
     } else {
@@ -261,5 +255,14 @@ document.addEventListener('DOMContentLoaded', () => {
         showLoginButton.addEventListener('click', showLoginForm);
     } else {
         console.error('Butonul de afișare login nu a fost găsit!');
+    }
+
+    // Adăugăm un event listener pentru a apela handleLogin când utilizatorul apasă Enter în loginForm
+    const loginFormElement = document.getElementById('loginForm');
+    if (loginFormElement) {
+        loginFormElement.addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevenim submit-ul implicit
+            handleLogin();
+        });
     }
 });
