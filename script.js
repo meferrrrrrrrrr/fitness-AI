@@ -147,6 +147,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // Adăugăm confirmare ca în profile.js
+        if (!confirm('Sigur vrei să te deconectezi?')) {
+            return; // Anulăm logout-ul dacă utilizatorul apasă "Cancel"
+        }
+
         try {
             const response = await fetch('/api/auth/logout', {
                 method: 'POST',
@@ -165,6 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (profileLink) profileLink.style.display = 'none';
                 if (logoutButton) logoutButton.style.display = 'none';
                 localStorage.removeItem('authToken'); // Ștergem token-ul
+                localStorage.removeItem('targetWeight'); // Ștergem greutatea țintă (ca în profile.js)
                 setTimeout(() => {
                     if (messageDiv) messageDiv.className = 'message success hidden';
                     window.location.href = 'index.html'; // Redirecționare
