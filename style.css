@@ -56,8 +56,14 @@ body {
     white-space: nowrap; /* Previne ruperea textului */
 }
 
-.logout-btn:hover {
-    background: #da190b;
+#logoutButton.logout-btn {
+    background: #f44336 !important;
+    color: white !important;
+    border-radius: 20px !important;
+}
+
+#logoutButton.logout-btn:hover {
+    background: #da190b !important;
 }
 
 .content {
