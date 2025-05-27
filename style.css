@@ -12,66 +12,58 @@ body {
     top: 0;
     width: 100%;
     background: linear-gradient(135deg, #00ddeb, #00a3c4);
-    padding: 10px 30px; /* Padding mai mare pentru spațiu */
+    padding: 20px 40px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Ajustat pentru aliniere corectă */
     align-items: center;
     z-index: 1000;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     height: 60px;
 }
 
-.navbar-logo {
-    padding: 5px 10px; /* Spațiu în jurul logo-ului */
-}
-
-.navbar-logo img {
-    width: 120px;
-    height: auto;
-    display: block;
-}
-
-.navbar-links {
-    list-style: none;
+.logo-container {
     display: flex;
-    margin: 0;
-    padding: 0 20px; /* Padding pentru a nu fi lipite de margini */
+    align-items: center;
+    justify-content: flex-start;
+    max-width: 60%;
+    gap: 10px;
 }
 
-.navbar-links li {
-    margin: 0 15px;
+.logo-img {
+    width: 40px;
+    height: 40px;
 }
 
-.navbar-links a {
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s;
+.logo-text {
+    font-family: 'Roboto', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #ffffff;
 }
 
-.navbar-links a:hover {
-    color: #f0f0f0;
-}
-
-#logoutButton {
+.btn-primary {
     background: #f44336;
     color: white;
     border: none;
-    padding: 8px 15px;
-    border-radius: 4px;
+    padding: 4px 10px; /* Redus pentru a fi mai mic */
+    border-radius: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 12px; /* Redus pentru a fi clar „Logout” */
     cursor: pointer;
     transition: background-color 0.3s;
-    width: 100px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    margin-right: 20px; /* Spațiu de la marginea dreaptă */
+    margin: 0 auto; /* Centrare orizontală */
+    max-width: 80px; /* Limitare lățime pentru a preveni tăierea */
+    white-space: nowrap; /* Previne ruperea textului */
 }
 
-#logoutButton:hover {
+.btn-primary:hover {
     background: #da190b;
 }
 
 .content {
-    margin-top: 80px; /* Spațiu sub navbar */
+    margin-top: 80px;
     padding: 20px;
 }
 
@@ -188,7 +180,7 @@ a:hover {
     padding: 10px;
     border-radius: 4px;
     display: none;
-    width: 300px; /* Lățime fixă pentru mesaj */
+    width: 300px;
     text-align: center;
 }
 
