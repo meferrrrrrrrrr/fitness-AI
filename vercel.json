@@ -28,10 +28,6 @@
       "destination": "/index.js"
     },
     {
-      "source": "/profile.html",
-      "destination": "/profile.html"
-    },
-    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
