@@ -53,47 +53,16 @@ body {
     cursor: pointer;
     transition: background-color 0.3s;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    white-space: nowrap; /* Previne ruperea textului */
+    white-space: nowrap;
 }
 
-#logoutButton.logout-btn {
-    background: #f44336 !important;
-    color: white !important;
-    border-radius: 20px !important;
-}
-
-#logoutButton.logout-btn:hover {
-    background: #da190b !important;
+.logout-btn:hover {
+    background: #da190b;
 }
 
 .content {
     margin-top: 80px;
     padding: 20px;
-}
-
-.main-container {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 30px;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    color: #333;
-}
-
-.profile-section, .goals-section {
-    margin-bottom: 20px;
-}
-
-h1 {
-    color: #1e3c72;
-    text-align: center;
-    margin-top: 0;
-}
-
-h3 {
-    color: #2a5298;
-    margin: 10px 0;
 }
 
 .form-toggle {
@@ -130,13 +99,6 @@ h3 {
     margin: 0 auto;
 }
 
-.form-container label {
-    display: block;
-    margin: 5px 0;
-    font-weight: bold;
-    color: #333;
-}
-
 .form-container input {
     width: 100%;
     padding: 8px;
@@ -161,22 +123,6 @@ h3 {
 
 .form-container button:hover {
     background: linear-gradient(135deg, #00a3c4, #00ddeb);
-}
-
-#saveGoalButton {
-    margin-top: 10px;
-}
-
-a {
-    display: block;
-    margin-top: 10px;
-    text-align: center;
-    color: #2a5298;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
 }
 
 .message {
@@ -206,8 +152,4 @@ a:hover {
 
 .visible {
     display: block;
-}
-
-.user-email {
-    color: #333;
 }
