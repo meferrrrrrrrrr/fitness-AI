@@ -14,9 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (messageDiv) messageDiv.className = 'message hidden';
 
     // Inițializăm starea
+    console.log('Token inițial la încărcare:', authToken);
     updateStatus(authToken);
 
     function updateStatus(token) {
+        console.log('Actualizez starea cu token:', token);
         if (token) {
             if (signupForm) signupForm.className = 'form-container hidden';
             if (loginForm) loginForm.className = 'form-container hidden';
@@ -53,12 +55,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ email, password })
             });
             const data = await response.json();
+            console.log('Răspuns signup:', data);
 
             if (response.ok) {
                 messageDiv.textContent = data.message;
                 messageDiv.className = 'message success visible';
                 localStorage.setItem('lastEmail', email); // Salvăm email-ul pentru afișare
-                updateStatus(localStorage.getItem('authToken')); // Actualizăm starea
+                // Login automat după signup
+                const loginResponse = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const loginData = await loginResponse.json();
+                console.log('Răspuns login automat după signup:', loginData);
+                if (loginResponse.ok) {
+                    localStorage.setItem('authToken', loginData.token);
+                    updateStatus(loginData.token);
+                } else {
+                    messageDiv.textContent = 'Cont creat, dar logare automată eșuată: ' + loginData.error;
+                    messageDiv.className = 'message error visible';
+                }
                 setTimeout(() => { messageDiv.className = 'message success hidden'; }, 3000);
             } else {
                 messageDiv.textContent = data.error;
@@ -90,12 +107,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ email, password })
             });
             const data = await response.json();
+            console.log('Răspuns login:', data);
 
             if (response.ok) {
                 messageDiv.textContent = data.message;
                 messageDiv.className = 'message success visible';
                 localStorage.setItem('authToken', data.token);
                 localStorage.setItem('lastEmail', email); // Salvăm email-ul
+                console.log('Token salvat după login:', localStorage.getItem('authToken'));
                 updateStatus(data.token);
                 setTimeout(() => { messageDiv.className = 'message success hidden'; }, 3000);
             } else {
@@ -129,12 +148,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
             const data = await response.json();
+            console.log('Răspuns logout:', data);
 
             if (response.ok) {
                 messageDiv.textContent = data.message;
                 messageDiv.className = 'message success visible';
                 localStorage.removeItem('authToken');
                 localStorage.removeItem('lastEmail');
+                console.log('Token șters după logout:', localStorage.getItem('authToken'));
                 updateStatus(null);
                 setTimeout(() => { messageDiv.className = 'message success hidden'; }, 3000);
             } else {
@@ -166,6 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ email })
             });
             const data = await response.json();
+            console.log('Răspuns reset password:', data);
 
             if (response.ok) {
                 messageDiv.textContent = data.message;
