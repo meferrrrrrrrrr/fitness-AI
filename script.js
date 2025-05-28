@@ -6,9 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const showSignup = document.getElementById('showSignup');
     const showLogin = document.getElementById('showLogin');
     const messageDiv = document.getElementById('message');
-    let statusDiv = document.createElement('div'); // Pentru afișarea stării
-    statusDiv.id = 'statusDiv';
-    document.querySelector('.content').insertBefore(statusDiv, messageDiv);
+    const statusDiv = document.getElementById('statusDiv'); // Folosim statusDiv din HTML
 
     // Resetează mesajul la încărcare
     if (messageDiv) messageDiv.className = 'message hidden';

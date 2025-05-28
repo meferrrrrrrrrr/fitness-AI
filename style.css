@@ -24,8 +24,6 @@ body {
 .logo-container {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    max-width: 60%;
     gap: 10px;
 }
 
@@ -35,7 +33,6 @@ body {
 }
 
 .logo-text {
-    font-family: 'Roboto', sans-serif;
     font-size: 22px;
     font-weight: 700;
     color: #ffffff;
@@ -48,12 +45,10 @@ body {
     padding: 4px 10px;
     border-radius: 20px;
     font-weight: bold;
-    text-decoration: none;
     font-size: 12px;
     cursor: pointer;
     transition: background-color 0.3s;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    white-space: nowrap;
 }
 
 .logout-btn:hover {
@@ -76,7 +71,7 @@ body {
     margin: 0 5px;
     border: none;
     border-radius: 4px;
-    background: linear-gradient(135deg, #00ddeb, #00a3c4);
+    background: #00ddeb;
     color: white;
     cursor: pointer;
     width: 120px;
@@ -85,8 +80,7 @@ body {
 }
 
 .toggle-button.active {
-    background: linear-gradient(135deg, #00a3c4, #00ddeb);
-    color: white;
+    background: #00a3c4;
 }
 
 .form-container {
@@ -111,8 +105,6 @@ body {
 .form-container button {
     width: 120px;
     padding: 8px 15px;
-    background: linear-gradient(135deg, #00ddeb, #00a3c4);
-    color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -121,8 +113,31 @@ body {
     margin: 10px 5px;
 }
 
-.form-container button:hover {
-    background: linear-gradient(135deg, #00a3c4, #00ddeb);
+#signupButton {
+    background: #4CAF50; /* Verde */
+    color: white;
+}
+
+#signupButton:hover {
+    background: #45a049;
+}
+
+#loginButton {
+    background: #4CAF50; /* Verde */
+    color: white;
+}
+
+#loginButton:hover {
+    background: #45a049;
+}
+
+#resetPasswordButton {
+    background: #ff69b4; /* Roz */
+    color: white;
+}
+
+#resetPasswordButton:hover {
+    background: #ff4da6;
 }
 
 .message {
