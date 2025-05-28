@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('authToken', data.token); // Salvăm token-ul
                 setTimeout(() => {
                     messageDiv.className = 'message success hidden';
-                    window.location.href = 'profile.html'; // Redirecționare
+                    window.location.href = '/profile.html'; // Redirecționare absolută
                 }, 3000);
             } else {
                 messageDiv.textContent = data.error;
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function handleLogout() {
-        console.log('handleLogout called'); // Debug pentru a vedea când e apelat
+        console.log('handleLogout called');
         const authToken = localStorage.getItem('authToken');
         const messageDiv = document.getElementById('message');
         const profileLink = document.getElementById('profileLink');
@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (!confirm('Sigur vrei să te deconectezi?')) {
-            return; // Anulăm logout-ul dacă utilizatorul apasă "Cancel"
+            return;
         }
 
         try {
@@ -169,10 +169,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 if (profileLink) profileLink.style.display = 'none';
                 if (logoutButton) logoutButton.style.display = 'none';
-                localStorage.removeItem('authToken'); // Ștergem token-ul
+                localStorage.removeItem('authToken');
                 setTimeout(() => {
                     if (messageDiv) messageDiv.className = 'message success hidden';
-                    window.location.href = 'index.html'; // Redirecționare
+                    window.location.href = 'index.html';
                 }, 3000);
             } else {
                 if (messageDiv) {
@@ -309,7 +309,4 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.error('Butonul de afișare login nu a fost găsit!');
     }
-
-    // Eliminăm event listener-ul submit de pe loginForm
-    // (acum folosim butonul loginButton)
 });
