@@ -1,8 +1,8 @@
-// Funcție pentru a încărca email-ul utilizatorului și greutatea țintă
+// Funcție pentru a încărca email-ul utilizatorului
 async function loadUserEmail() {
     try {
-        const token = localStorage.getItem('authToken'); // Obținem token-ul din localStorage
-        console.log('Token găsit în Local Storage:', token); // Depanare: Verificăm token-ul
+        const token = localStorage.getItem('authToken');
+        console.log('Token găsit în Local Storage:', token);
         const emailElement = document.getElementById('userEmail');
         if (!token) {
             emailElement.textContent = 'Nu există token. Te rog să te loghezi.';
@@ -10,36 +10,25 @@ async function loadUserEmail() {
         }
 
         const apiUrl = `${window.location.origin}/api/auth/user`;
-        console.log('Trimit cerere către:', apiUrl); // Depanare: Confirmăm URL-ul
+        console.log('Trimit cerere către:', apiUrl);
 
         const response = await fetch(apiUrl, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}` // Adăugăm token-ul în header
+                'Authorization': `Bearer ${token}`
             }
         });
-        console.log('Răspuns primit:', response.status, response.statusText); // Depanare: Vedem statusul
+        console.log('Răspuns primit:', response.status, response.statusText);
 
         const data = await response.json();
         if (response.ok) {
-            emailElement.textContent = `Email: ${data.email}`; // Afișăm email-ul
+            emailElement.textContent = `Email: ${data.email}`;
         } else {
-            emailElement.textContent = `Eroare: ${data.error || 'Eroare la încărcarea email-ului.'}`; // Afișăm eroarea
-        }
-
-        // Încărcăm greutatea țintă salvată
-        const savedWeight = localStorage.getItem('targetWeight');
-        if (savedWeight) {
-            const goalMessage = document.getElementById('goalMessage');
-            goalMessage.textContent = `Current goal: ${savedWeight} kg`;
-            goalMessage.className = 'message success visible';
-            setTimeout(() => {
-                goalMessage.className = 'message success hidden';
-            }, 3000);
+            emailElement.textContent = `Eroare: ${data.error || 'Eroare la încărcarea email-ului.'}`;
         }
     } catch (error) {
-        console.error('Eroare detaliată la fetch:', error); // Depanare: Vedem eroarea completă
+        console.error('Eroare detaliată la fetch:', error);
         document.getElementById('userEmail').textContent = `Eroare la conectare cu serverul: ${error.message}`;
     }
 }
@@ -53,7 +42,7 @@ async function handleLogout() {
     }
 
     if (!confirm('Sigur vrei să te deconectezi?')) {
-        return; // Anulăm logout-ul dacă utilizatorul apasă "Cancel"
+        return;
     }
 
     try {
@@ -61,15 +50,14 @@ async function handleLogout() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authToken}`
+                'Authorization': `Bearer ${token}`
             }
         });
         const data = await response.json();
 
         if (response.ok) {
-            localStorage.removeItem('authToken'); // Ștergem token-ul
-            localStorage.removeItem('targetWeight'); // Ștergem greutatea țintă la logout
-            window.location.href = 'index.html'; // Redirecționăm la index
+            localStorage.removeItem('authToken');
+            window.location.href = 'index.html';
         } else {
             console.error('Eroare la logout:', data.error);
         }
@@ -78,46 +66,13 @@ async function handleLogout() {
     }
 }
 
-// Funcție pentru salvarea obiectivului
-function handleSaveGoal() {
-    const targetWeight = document.getElementById('targetWeight').value;
-    const goalMessage = document.getElementById('goalMessage');
-
-    if (!targetWeight || targetWeight <= 0) {
-        goalMessage.textContent = 'Please enter a valid weight.';
-        goalMessage.className = 'message error visible';
-        setTimeout(() => {
-            goalMessage.className = 'message error hidden';
-        }, 3000);
-        return;
-    }
-
-    // Salvăm greutatea în localStorage
-    localStorage.setItem('targetWeight', targetWeight);
-    goalMessage.textContent = `Goal saved! Target weight: ${targetWeight} kg`;
-    goalMessage.className = 'message success visible';
-    setTimeout(() => {
-        goalMessage.className = 'message success hidden';
-    }, 3000);
-
-    // Resetăm input-ul
-    document.getElementById('targetWeight').value = '';
-}
-
-// Adăugăm event listener pentru butoanele de logout și save goal
+// Adăugăm event listener pentru butonul de logout
 document.addEventListener('DOMContentLoaded', () => {
     const logoutButton = document.getElementById('logoutButton');
     if (logoutButton) {
         logoutButton.addEventListener('click', handleLogout);
     } else {
         console.error('Butonul de logout nu a fost găsit!');
-    }
-
-    const saveGoalButton = document.getElementById('saveGoalButton');
-    if (saveGoalButton) {
-        saveGoalButton.addEventListener('click', handleSaveGoal);
-    } else {
-        console.error('Butonul de salvare obiectiv nu a fost găsit!');
     }
 });
 
