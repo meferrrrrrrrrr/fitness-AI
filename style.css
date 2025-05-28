@@ -140,6 +140,15 @@ body {
     background: #ff4da6;
 }
 
+#statusDiv {
+    margin-top: 15px; /* Mai mult spațiu sub form */
+    text-align: center;
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #ffffff; /* Asigurăm vizibilitatea textului pe fundalul albastru */
+}
+
 .message {
     margin: 20px auto;
     padding: 10px;
