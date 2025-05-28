@@ -1,57 +1,22 @@
 const express = require('express');
 const path = require('path');
-const { app: firebaseApp, database, admin } = require('./auth'); // Adăugăm admin
+const { app: firebaseApp, admin } = require('./auth');
 const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } = require('firebase/auth');
 
 const app = express();
 
-// Middleware pentru depanare
-app.use((req, res, next) => {
-  console.log(`Request: ${req.method} ${req.url}`);
-  next();
-});
-
 // Parsăm body-ul cererilor JSON
 app.use(express.json());
 
-// Servim fișierele statice (ex. index.html, script.js)
+// Servim fișierele statice (HTML, JS, CSS)
 app.use(express.static(path.join(__dirname, '.'), {
   index: 'index.html',
   extensions: ['html', 'js', 'css']
 }));
 
-// Verificăm dacă Firebase este inițializat corect
-if (!firebaseApp) {
-  console.error('Eroare: firebaseApp este undefined');
-} else {
-  console.log('Firebase app inițializat:', firebaseApp.options ? firebaseApp.options.projectId : 'fără options');
-}
-
 // Middleware pentru gestionarea erorilor
 app.use((err, req, res, next) => {
-  console.error('Server Error:', err.stack);
   res.status(500).json({ error: 'A apărut o eroare internă', details: err.message });
-});
-
-// Endpoint de test simplu, fără Firebase
-app.get('/api/test', (req, res) => {
-  res.status(200).json({ message: 'Serverul funcționează pe Vercel!' });
-});
-
-// Endpoint-ul existent pentru Firebase
-app.get('/api/test-firebase', (req, res) => {
-  if (!firebaseApp) {
-    return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
-  }
-  try {
-    if (firebaseApp.options.projectId === 'ai-fitness94') {
-      res.status(200).json({ message: 'Firebase configurat corect!' });
-    } else {
-      res.status(500).json({ error: 'Firebase nu e configurat corect.' });
-    }
-  } catch (error) {
-    res.status(500).json({ error: 'Eroare la verificarea Firebase: ' + error.message });
-  }
 });
 
 // Endpoint pentru signup
@@ -76,7 +41,7 @@ app.post('/api/auth/signup', async (req, res) => {
   }
 });
 
-// Endpoint pentru login (modificat pentru a returna token-ul)
+// Endpoint pentru login
 app.post('/api/auth/login', async (req, res) => {
   const { email, password } = req.body;
 
@@ -92,8 +57,8 @@ app.post('/api/auth/login', async (req, res) => {
     const auth = getAuth(firebaseApp);
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-    const idToken = await user.getIdToken(); // Obținem token-ul
-    res.status(200).json({ message: 'Logare reușită!', userId: user.uid, token: idToken }); // Returnăm token-ul
+    const idToken = await user.getIdToken();
+    res.status(200).json({ message: 'Logare reușită!', userId: user.uid, token: idToken });
   } catch (error) {
     res.status(400).json({ error: 'Eroare la logare: ' + error.message });
   }
@@ -135,23 +100,19 @@ app.post('/api/auth/reset-password', async (req, res) => {
   }
 });
 
-// Endpoint pentru a obține utilizatorul curent (modificat pentru a verifica token-ul)
+// Endpoint pentru a obține utilizatorul curent
 app.get('/api/auth/user', async (req, res) => {
   if (!firebaseApp || !admin) {
     return res.status(500).json({ error: 'Firebase app sau admin nu este inițializat.' });
   }
 
   try {
-    // Extragem header-ul Authorization
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return res.status(401).json({ error: 'Token de autentificare lipsă sau invalid.' });
     }
 
-    // Extragem token-ul (fără "Bearer ")
     const token = authHeader.split(' ')[1];
-
-    // Verificăm token-ul cu Firebase Admin SDK
     const decodedToken = await admin.auth().verifyIdToken(token);
     const email = decodedToken.email;
 
@@ -159,13 +120,13 @@ app.get('/api/auth/user', async (req, res) => {
       return res.status(401).json({ error: 'Utilizatorul nu este autentificat.' });
     }
 
-    res.status(200).json({ email: email });
+    res.status(200).json({ email });
   } catch (error) {
     res.status(401).json({ error: 'Token invalid sau expirat: ' + error.message });
   }
 });
 
-// Pornim serverul local pe portul 3000
+// Pornim serverul
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
