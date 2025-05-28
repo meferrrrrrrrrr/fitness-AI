@@ -66,13 +66,20 @@ app.post('/api/auth/login', async (req, res) => {
 
 // Endpoint pentru logout
 app.post('/api/auth/logout', async (req, res) => {
-  if (!firebaseApp) {
-    return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
+  if (!firebaseApp || !admin) {
+    return res.status(500).json({ error: 'Firebase app sau admin nu este inițializat.' });
   }
 
   try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ error: 'Token de autentificare lipsă sau invalid.' });
+    }
+
+    const token = authHeader.split(' ')[1];
+    await admin.auth().verifyIdToken(token); // Verifică token-ul
     const auth = getAuth(firebaseApp);
-    await signOut(auth);
+    await signOut(auth); // Logout global
     res.status(200).json({ message: 'Deconectare reușită!' });
   } catch (error) {
     res.status(400).json({ error: 'Eroare la deconectare: ' + error.message });

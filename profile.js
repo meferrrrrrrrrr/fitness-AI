@@ -1,10 +1,10 @@
 // Funcție pentru a încărca email-ul utilizatorului
 async function loadUserEmail() {
     try {
-        const token = localStorage.getItem('authToken');
-        console.log('Token găsit în Local Storage:', token);
+        const authToken = localStorage.getItem('authToken');
+        console.log('Token găsit în Local Storage:', authToken);
         const emailElement = document.getElementById('userEmail');
-        if (!token) {
+        if (!authToken) {
             emailElement.textContent = 'Nu există token. Te rog să te loghezi.';
             return;
         }
@@ -16,7 +16,7 @@ async function loadUserEmail() {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${authToken}`
             }
         });
         console.log('Răspuns primit:', response.status, response.statusText);
@@ -46,18 +46,21 @@ async function handleLogout() {
     }
 
     try {
+        console.log('Trimit cerere de logout către /api/auth/logout');
         const response = await fetch('/api/auth/logout', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${authToken}`
             }
         });
+        console.log('Răspuns primit de la logout:', response.status, response.statusText);
         const data = await response.json();
 
         if (response.ok) {
+            console.log('Logout reușit, șterg token și redirecționez:', data.message);
             localStorage.removeItem('authToken');
-            window.location.href = 'index.html';
+            window.location.href = '/index.html'; // Path absolut
         } else {
             console.error('Eroare la logout:', data.error);
         }
