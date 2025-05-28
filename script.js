@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    async function handleLogin() {
+    async function handleLogin(event) {
         const email = document.getElementById('loginEmail').value;
         const password = document.getElementById('loginPassword').value;
         const messageDiv = document.getElementById('message');
@@ -278,7 +278,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const loginButton = document.getElementById('loginButton');
     if (loginButton) {
-        loginButton.addEventListener('click', handleLogin);
+        loginButton.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevenim submit-ul implicit
+            handleLogin();
+        });
     } else {
         console.error('Butonul de login nu a fost găsit!');
     }
