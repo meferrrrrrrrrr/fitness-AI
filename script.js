@@ -148,7 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Adăugăm confirmare ca în profile.js
         if (!confirm('Sigur vrei să te deconectezi?')) {
             return; // Anulăm logout-ul dacă utilizatorul apasă "Cancel"
         }
@@ -171,7 +170,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (profileLink) profileLink.style.display = 'none';
                 if (logoutButton) logoutButton.style.display = 'none';
                 localStorage.removeItem('authToken'); // Ștergem token-ul
-                localStorage.removeItem('targetWeight'); // Ștergem greutatea țintă (ca în profile.js)
                 setTimeout(() => {
                     if (messageDiv) messageDiv.className = 'message success hidden';
                     window.location.href = 'index.html'; // Redirecționare
@@ -193,6 +191,46 @@ document.addEventListener('DOMContentLoaded', () => {
                     messageDiv.className = 'message error hidden';
                 }, 3000);
             }
+        }
+    }
+
+    async function handleResetPassword() {
+        const email = document.getElementById('loginEmail').value;
+        const messageDiv = document.getElementById('message');
+
+        if (!email) {
+            messageDiv.textContent = 'Email-ul este obligatoriu.';
+            messageDiv.className = 'message error visible';
+            setTimeout(() => {
+                messageDiv.className = 'message error hidden';
+            }, 3000);
+            return;
+        }
+
+        try {
+            const response = await fetch('/api/auth/reset-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
+            const data = await response.json();
+
+            if (response.ok) {
+                messageDiv.textContent = data.message;
+                messageDiv.className = 'message success visible';
+            } else {
+                messageDiv.textContent = data.error;
+                messageDiv.className = 'message error visible';
+            }
+            setTimeout(() => {
+                messageDiv.className = 'message hidden';
+            }, 3000);
+        } catch (error) {
+            messageDiv.textContent = 'Eroare la resetarea parolei: ' + error.message;
+            messageDiv.className = 'message error visible';
+            setTimeout(() => {
+                messageDiv.className = 'message error hidden';
+            }, 3000);
         }
     }
 
@@ -226,6 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.handleSignup = handleSignup;
     window.handleLogin = handleLogin;
     window.handleLogout = handleLogout;
+    window.handleResetPassword = handleResetPassword;
     window.showSignupForm = showSignupForm;
     window.showLoginForm = showLoginForm;
 
@@ -237,10 +276,24 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Butonul de signup nu a fost găsit!');
     }
 
+    const loginButton = document.getElementById('loginButton');
+    if (loginButton) {
+        loginButton.addEventListener('click', handleLogin);
+    } else {
+        console.error('Butonul de login nu a fost găsit!');
+    }
+
     if (logoutButton) {
         logoutButton.addEventListener('click', handleLogout);
     } else {
         console.error('Butonul de logout nu a fost găsit!');
+    }
+
+    const resetPasswordButton = document.getElementById('resetPasswordButton');
+    if (resetPasswordButton) {
+        resetPasswordButton.addEventListener('click', handleResetPassword);
+    } else {
+        console.error('Butonul de resetare parolă nu a fost găsit!');
     }
 
     const showSignupButton = document.getElementById('showSignup');
@@ -257,12 +310,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Butonul de afișare login nu a fost găsit!');
     }
 
-    // Adăugăm un event listener pentru a apela handleLogin când utilizatorul apasă Enter în loginForm
-    const loginFormElement = document.getElementById('loginForm');
-    if (loginFormElement) {
-        loginFormElement.addEventListener('submit', (event) => {
-            event.preventDefault(); // Prevenim submit-ul implicit
-            handleLogin();
-        });
-    }
+    // Eliminăm event listener-ul submit de pe loginForm
+    // (acum folosim butonul loginButton)
 });
