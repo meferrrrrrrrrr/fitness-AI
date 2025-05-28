@@ -1,28 +1,28 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Elemente DOM
+    // DOM Elements
     const authToken = localStorage.getItem('authToken');
     const signupForm = document.getElementById('signupForm');
     const loginForm = document.getElementById('loginForm');
     const showSignup = document.getElementById('showSignup');
     const showLogin = document.getElementById('showLogin');
     const messageDiv = document.getElementById('message');
-    const statusDiv = document.getElementById('statusDiv'); // Folosim statusDiv din HTML
+    const statusDiv = document.getElementById('statusDiv');
 
-    // Resetează mesajul la încărcare
+    // Reset message on load
     if (messageDiv) messageDiv.className = 'message hidden';
 
-    // Inițializăm starea
-    console.log('Token inițial la încărcare:', authToken ? 'există' : 'null');
+    // Initialize state
+    console.log('Initial token on load:', authToken ? 'exists' : 'null');
     updateStatus(authToken);
 
     function updateStatus(token) {
-        console.log('Actualizez starea cu token:', token ? 'există' : 'null');
+        console.log('Updating state with token:', token ? 'exists' : 'null');
         if (token) {
             if (signupForm) signupForm.className = 'form-container hidden';
             if (loginForm) loginForm.className = 'form-container hidden';
             if (showSignup) showSignup.style.display = 'none';
             if (showLogin) showLogin.style.display = 'none';
-            statusDiv.innerHTML = `Logat ca: ${localStorage.getItem('lastEmail') || 'Utilizator'} <button id="logoutButton" class="logout-btn">Logout</button>`;
+            statusDiv.innerHTML = `Logged in as: ${localStorage.getItem('lastEmail') || 'User'} <button id="logoutButton" class="logout-btn">Logout</button>`;
             document.getElementById('logoutButton').addEventListener('click', handleLogout);
         } else {
             if (signupForm) signupForm.className = 'form-container hidden';
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (showLogin) showLogin.className = 'toggle-button active';
             if (showSignup) showSignup.style.display = 'inline-block';
             if (showLogin) showLogin.style.display = 'inline-block';
-            statusDiv.innerHTML = 'Nu ești autentificat.';
+            statusDiv.innerHTML = 'You are not logged in.';
         }
     }
 
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = document.getElementById('password').value;
 
         if (!email || !password) {
-            messageDiv.textContent = 'Email-ul și parola sunt obligatorii.';
+            messageDiv.textContent = 'Email and password are required.';
             messageDiv.className = 'message error visible';
             setTimeout(() => { messageDiv.className = 'message error hidden'; }, 3000);
             return;
@@ -53,26 +53,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ email, password })
             });
             const data = await response.json();
-            console.log('Răspuns signup:', data.message);
+            console.log('Signup response:', data.message);
 
             if (response.ok) {
                 messageDiv.textContent = data.message;
                 messageDiv.className = 'message success visible';
-                localStorage.setItem('lastEmail', email); // Salvăm email-ul pentru afișare
-                // Login automat după signup
+                localStorage.setItem('lastEmail', email);
                 const loginResponse = await fetch('/api/auth/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
                 });
                 const loginData = await loginResponse.json();
-                console.log('Răspuns login automat după signup:', loginData.message);
+                console.log('Auto-login response after signup:', loginData.message);
                 if (loginResponse.ok) {
                     localStorage.setItem('authToken', loginData.token);
-                    console.log('Token salvat după signup');
+                    console.log('Token saved after signup');
                     updateStatus(loginData.token);
                 } else {
-                    messageDiv.textContent = 'Cont creat, dar logare automată eșuată: ' + loginData.error;
+                    messageDiv.textContent = 'Account created, but auto-login failed: ' + loginData.error;
                     messageDiv.className = 'message error visible';
                 }
                 setTimeout(() => { messageDiv.className = 'message success hidden'; }, 3000);
@@ -82,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => { messageDiv.className = 'message error hidden'; }, 3000);
             }
         } catch (error) {
-            messageDiv.textContent = 'Eroare la conectare: ' + error.message;
+            messageDiv.textContent = 'Connection error: ' + error.message;
             messageDiv.className = 'message error visible';
             setTimeout(() => { messageDiv.className = 'message error hidden'; }, 3000);
         }
@@ -93,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = document.getElementById('loginPassword').value;
 
         if (!email || !password) {
-            messageDiv.textContent = 'Email-ul și parola sunt obligatorii.';
+            messageDiv.textContent = 'Email and password are required.';
             messageDiv.className = 'message error visible';
             setTimeout(() => { messageDiv.className = 'message error hidden'; }, 3000);
             return;
@@ -106,14 +105,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ email, password })
             });
             const data = await response.json();
-            console.log('Răspuns login:', data.message);
+            console.log('Login response:', data.message);
 
             if (response.ok) {
                 messageDiv.textContent = data.message;
                 messageDiv.className = 'message success visible';
                 localStorage.setItem('authToken', data.token);
-                localStorage.setItem('lastEmail', email); // Salvăm email-ul
-                console.log('Token salvat după login');
+                localStorage.setItem('lastEmail', email);
+                console.log('Token saved after login');
                 updateStatus(data.token);
                 setTimeout(() => { messageDiv.className = 'message success hidden'; }, 3000);
             } else {
@@ -122,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => { messageDiv.className = 'message error hidden'; }, 3000);
             }
         } catch (error) {
-            messageDiv.textContent = 'Eroare la conectare: ' + error.message;
+            messageDiv.textContent = 'Connection error: ' + error.message;
             messageDiv.className = 'message error visible';
             setTimeout(() => { messageDiv.className = 'message error hidden'; }, 3000);
         }
@@ -132,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const authToken = localStorage.getItem('authToken');
 
         if (!authToken) {
-            messageDiv.textContent = 'Nu ești autentificat.';
+            messageDiv.textContent = 'You are not logged in.';
             messageDiv.className = 'message error visible';
             setTimeout(() => { messageDiv.className = 'message error hidden'; }, 3000);
             return;
@@ -147,14 +146,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
             const data = await response.json();
-            console.log('Răspuns logout:', data.message);
+            console.log('Logout response:', data.message);
 
             if (response.ok) {
                 messageDiv.textContent = data.message;
                 messageDiv.className = 'message success visible';
                 localStorage.removeItem('authToken');
                 localStorage.removeItem('lastEmail');
-                console.log('Token șters după logout');
+                console.log('Token cleared after logout');
                 updateStatus(null);
                 setTimeout(() => { messageDiv.className = 'message success hidden'; }, 3000);
             } else {
@@ -163,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => { messageDiv.className = 'message error hidden'; }, 3000);
             }
         } catch (error) {
-            messageDiv.textContent = 'Eroare la deconectare: ' + error.message;
+            messageDiv.textContent = 'Logout error: ' + error.message;
             messageDiv.className = 'message error visible';
             setTimeout(() => { messageDiv.className = 'message error hidden'; }, 3000);
         }
@@ -173,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = document.getElementById('loginEmail').value;
 
         if (!email) {
-            messageDiv.textContent = 'Email-ul este obligatoriu.';
+            messageDiv.textContent = 'Email is required.';
             messageDiv.className = 'message error visible';
             setTimeout(() => { messageDiv.className = 'message error hidden'; }, 3000);
             return;
@@ -186,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ email })
             });
             const data = await response.json();
-            console.log('Răspuns reset password:', data.message);
+            console.log('Reset password response:', data.message);
 
             if (response.ok) {
                 messageDiv.textContent = data.message;
@@ -197,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             setTimeout(() => { messageDiv.className = 'message hidden'; }, 3000);
         } catch (error) {
-            messageDiv.textContent = 'Eroare la resetarea parolei: ' + error.message;
+            messageDiv.textContent = 'Password reset error: ' + error.message;
             messageDiv.className = 'message error visible';
             setTimeout(() => { messageDiv.className = 'message error hidden'; }, 3000);
         }
@@ -221,7 +220,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (showLogin) showLogin.className = 'toggle-button active';
     }
 
-    // Expunem funcțiile global
     window.handleSignup = handleSignup;
     window.handleLogin = handleLogin;
     window.handleLogout = handleLogout;
@@ -229,7 +227,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.showSignupForm = showSignupForm;
     window.showLoginForm = showLoginForm;
 
-    // Adăugăm manual event listeneri
     const signupButton = document.getElementById('signupButton');
     if (signupButton) signupButton.addEventListener('click', handleSignup);
 
