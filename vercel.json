@@ -22,26 +22,14 @@
       "use": "@vercel/static"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/public/(.*)",
-      "dest": "/public/$1"
+      "source": "/api/(.*)",
+      "destination": "/index.js"
     },
     {
-      "src": "/style.css",
-      "dest": "/style.css"
-    },
-    {
-      "src": "/script.js",
-      "dest": "/script.js"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/index.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
   "headers": [
