@@ -8,11 +8,14 @@ const app = express();
 // Parsăm body-ul cererilor JSON
 app.use(express.json());
 
-// Servim fișierele statice (HTML, JS, CSS)
+// Servim fișierele statice din rădăcina proiectului (HTML, JS, CSS)
 app.use(express.static(path.join(__dirname, '.'), {
   index: 'index.html',
   extensions: ['html', 'js', 'css']
 }));
+
+// Servim fișierele statice din folderul public (imagini, etc.)
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // Middleware pentru gestionarea erorilor
 app.use((err, req, res, next) => {
