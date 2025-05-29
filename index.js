@@ -25,15 +25,8 @@ app.use((err, req, res, next) => {
 // Endpoint pentru signup
 app.post('/api/auth/signup', async (req, res) => {
   const { email, password } = req.body;
-
-  if (!email || !password) {
-    return res.status(400).json({ error: 'Email și parolă sunt obligatorii.' });
-  }
-
-  if (!firebaseApp) {
-    return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
-  }
-
+  if (!email || !password) return res.status(400).json({ error: 'Email și parolă sunt obligatorii.' });
+  if (!firebaseApp) return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
   try {
     const auth = getAuth(firebaseApp);
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -47,15 +40,8 @@ app.post('/api/auth/signup', async (req, res) => {
 // Endpoint pentru login
 app.post('/api/auth/login', async (req, res) => {
   const { email, password } = req.body;
-
-  if (!email || !password) {
-    return res.status(400).json({ error: 'Email și parolă sunt obligatorii.' });
-  }
-
-  if (!firebaseApp) {
-    return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
-  }
-
+  if (!email || !password) return res.status(400).json({ error: 'Email și parolă sunt obligatorii.' });
+  if (!firebaseApp) return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
   try {
     const auth = getAuth(firebaseApp);
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -69,20 +55,14 @@ app.post('/api/auth/login', async (req, res) => {
 
 // Endpoint pentru logout
 app.post('/api/auth/logout', async (req, res) => {
-  if (!firebaseApp || !admin) {
-    return res.status(500).json({ error: 'Firebase app sau admin nu este inițializat.' });
-  }
-
+  if (!firebaseApp || !admin) return res.status(500).json({ error: 'Firebase app sau admin nu este inițializat.' });
   try {
     const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({ error: 'Token de autentificare lipsă sau invalid.' });
-    }
-
+    if (!authHeader || !authHeader.startsWith('Bearer ')) return res.status(401).json({ error: 'Token de autentificare lipsă sau invalid.' });
     const token = authHeader.split(' ')[1];
-    await admin.auth().verifyIdToken(token); // Verifică token-ul
+    await admin.auth().verifyIdToken(token);
     const auth = getAuth(firebaseApp);
-    await signOut(auth); // Logout global
+    await signOut(auth);
     res.status(200).json({ message: 'Deconectare reușită!' });
   } catch (error) {
     res.status(400).json({ error: 'Eroare la deconectare: ' + error.message });
@@ -92,15 +72,8 @@ app.post('/api/auth/logout', async (req, res) => {
 // Endpoint pentru resetare parolă
 app.post('/api/auth/reset-password', async (req, res) => {
   const { email } = req.body;
-
-  if (!email) {
-    return res.status(400).json({ error: 'Email-ul este obligatoriu.' });
-  }
-
-  if (!firebaseApp) {
-    return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
-  }
-
+  if (!email) return res.status(400).json({ error: 'Email-ul este obligatoriu.' });
+  if (!firebaseApp) return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
   try {
     const auth = getAuth(firebaseApp);
     await sendPasswordResetEmail(auth, email);
@@ -112,24 +85,14 @@ app.post('/api/auth/reset-password', async (req, res) => {
 
 // Endpoint pentru a obține utilizatorul curent
 app.get('/api/auth/user', async (req, res) => {
-  if (!firebaseApp || !admin) {
-    return res.status(500).json({ error: 'Firebase app sau admin nu este inițializat.' });
-  }
-
+  if (!firebaseApp || !admin) return res.status(500).json({ error: 'Firebase app sau admin nu este inițializat.' });
   try {
     const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({ error: 'Token de autentificare lipsă sau invalid.' });
-    }
-
+    if (!authHeader || !authHeader.startsWith('Bearer ')) return res.status(401).json({ error: 'Token de autentificare lipsă sau invalid.' });
     const token = authHeader.split(' ')[1];
     const decodedToken = await admin.auth().verifyIdToken(token);
     const email = decodedToken.email;
-
-    if (!email) {
-      return res.status(401).json({ error: 'Utilizatorul nu este autentificat.' });
-    }
-
+    if (!email) return res.status(401).json({ error: 'Utilizatorul nu este autentificat.' });
     res.status(200).json({ email });
   } catch (error) {
     res.status(401).json({ error: 'Token invalid sau expirat: ' + error.message });
