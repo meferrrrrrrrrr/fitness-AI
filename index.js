@@ -11,6 +11,11 @@ app.use(express.json());
 // Servim fișierele statice din folderul public
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Servim index.html doar pentru ruta rădăcină
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 // Middleware pentru gestionarea erorilor
 app.use((err, req, res, next) => {
   res.status(500).json({ error: 'A apărut o eroare internă', details: err.message });
@@ -128,11 +133,6 @@ app.get('/api/auth/user', async (req, res) => {
   } catch (error) {
     res.status(401).json({ error: 'Token invalid sau expirat: ' + error.message });
   }
-});
-
-// Servim index.html doar pentru ruta rădăcină (ca fallback)
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Pornim serverul
