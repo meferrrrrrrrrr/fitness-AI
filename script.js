@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const showLogin = document.getElementById('showLogin');
     const messageDiv = document.getElementById('message');
     const statusDiv = document.getElementById('statusDiv');
-    const navbar = document.querySelector('.navbar');
 
     // Reset message on load
     if (messageDiv) messageDiv.className = 'message hidden';
@@ -15,22 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize state
     console.log('Initial token on load:', authToken ? 'exists' : 'null');
     updateStatus(authToken);
-
-    // Scroll handling for navbar
-    let lastScrollTop = 0;
-    window.addEventListener('scroll', () => {
-        let currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        if (currentScrollTop > lastScrollTop) {
-            // Scroll down - hide navbar
-            navbar.classList.remove('visible');
-            navbar.classList.add('hidden');
-        } else {
-            // Scroll up - show navbar
-            navbar.classList.remove('hidden');
-            navbar.classList.add('visible');
-        }
-        lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop; // Prevent negative scroll
-    });
 
     function updateStatus(token) {
         console.log('Updating state with token:', token ? 'exists' : 'null');

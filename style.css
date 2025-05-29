@@ -1,46 +1,24 @@
 body {
     font-family: 'Roboto', Arial, sans-serif;
-    background: url('/abc2.jpeg') no-repeat center center/cover;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
     margin: 0;
     padding: 0;
     min-height: 100vh;
     color: #ffffff;
-    position: relative;
-}
-
-body::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.3);
-    z-index: -1;
 }
 
 .navbar {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(107, 72, 255, 0.1);
+    background: linear-gradient(135deg, #00ddeb, #00a3c4);
     padding: 20px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     z-index: 1000;
-    box-shadow: none;
-    height: 60px;
-    transition: all 0.3s ease;
-}
-
-.navbar.visible {
-    background: rgba(107, 72, 255, 0.3);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-}
-
-.navbar.hidden {
-    transform: translateY(-100%);
+    height: 60px;
 }
 
 .logo-container {
@@ -58,7 +36,6 @@ body::before {
     font-size: 22px;
     font-weight: 700;
     color: #ffffff;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .logout-btn {
@@ -78,65 +55,9 @@ body::before {
     background: #da190b;
 }
 
-/* Hero Section */
-.hero {
-    height: 100vh;
-    background: url('/abc.jpeg') no-repeat center center/cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    position: relative;
-}
-
-.hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 0;
-}
-
-.hero-content {
-    position: relative;
-    z-index: 1;
-}
-
-.hero-title {
-    font-size: 48px;
-    font-weight: 700;
-    color: #ffffff;
-    text-shadow: 2px 2px 4px rgba(107, 72, 255, 0.5);
-    margin-bottom: 20px;
-}
-
-.cta-button {
-    background: #6B48FF;
-    color: #ffffff;
-    border: none;
-    padding: 15px 30px;
-    border-radius: 25px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-.cta-button:hover {
-    background: #00DDEB;
-}
-
 .content {
     margin-top: 80px;
     padding: 20px;
-}
-
-.content h1, #statusDiv {
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .form-toggle {
@@ -193,7 +114,7 @@ body::before {
 }
 
 #signupButton {
-    background: #4CAF50;
+    background: #4CAF50; /* Verde */
     color: white;
 }
 
@@ -202,7 +123,7 @@ body::before {
 }
 
 #loginButton {
-    background: #4CAF50;
+    background: #4CAF50; /* Verde */
     color: white;
 }
 
@@ -211,7 +132,7 @@ body::before {
 }
 
 #resetPasswordButton {
-    background: #ff69b4;
+    background: #ff69b4; /* Roz */
     color: white;
 }
 
@@ -220,12 +141,12 @@ body::before {
 }
 
 #statusDiv {
-    margin-top: 15px;
+    margin-top: 15px; /* Mai mult spațiu sub form */
     text-align: center;
     width: 300px;
     margin-left: auto;
     margin-right: auto;
-    color: #ffffff;
+    color: #ffffff; /* Asigurăm vizibilitatea textului pe fundalul albastru */
 }
 
 .message {
@@ -255,47 +176,4 @@ body::before {
 
 .visible {
     display: block;
-}
-
-/* Benefits Section */
-.benefits {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    padding: 40px 20px;
-    background: transparent;
-    flex-wrap: wrap;
-}
-
-.benefit-card {
-    background: #ffffff;
-    color: #1A1A1A;
-    width: 250px;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-}
-
-.benefit-card:hover {
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-    transform: translateY(-5px);
-}
-
-.benefit-card .icon {
-    font-size: 40px;
-    margin-bottom: 10px;
-    display: block;
-}
-
-.benefit-card h3 {
-    font-size: 20px;
-    margin: 10px 0;
-    font-weight: 600;
-}
-
-.benefit-card p {
-    font-size: 14px;
-    margin: 0;
 }

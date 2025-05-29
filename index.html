@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fitness AI</title>
-    <link rel="stylesheet" href="public/style.css">
+    <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" href="public/favicon-32x32.png">
     <link rel="apple-touch-icon" href="public/apple-touch-icon.png">
 </head>
-
 <body>
     <nav class="navbar">
         <div class="logo-container">
@@ -16,15 +15,7 @@
             <span class="logo-text">Fitness AI</span>
         </div>
     </nav>
-    <!-- Secțiunea Hero -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">Transform Your Life with Fitness AI!</h1>
-            <button class="cta-button" onclick="document.getElementById('auth-section').scrollIntoView({behavior: 'smooth'})">Get Started</button>
-        </div>
-    </section>
-    <!-- Zona de autentificare -->
-    <div class="content" id="auth-section">
+    <div class="content">
         <h1>Welcome to Fitness AI!</h1>
         <div class="form-toggle">
             <button id="showSignup" class="toggle-button active">Sign Up</button>
@@ -44,24 +35,6 @@
         <div id="statusDiv"></div>
         <div id="message" class="message"></div>
     </div>
-    <!-- Secțiunea de beneficii -->
-    <section class="benefits">
-        <div class="benefit-card">
-            <span class="icon">💪</span>
-            <h3>Personalized Workouts</h3>
-            <p>Get tailored exercise plans just for you!</p>
-        </div>
-        <div class="benefit-card">
-            <span class="icon">📊</span>
-            <h3>Track Progress</h3>
-            <p>Monitor your fitness journey with ease.</p>
-        </div>
-        <div class="benefit-card">
-            <span class="icon">🎯</span>
-            <h3>Stay Motivated</h3>
-            <p>Stay inspired with daily goals and tips.</p>
-        </div>
-    </section>
-    <script src="public/script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
