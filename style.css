@@ -55,6 +55,57 @@ body {
     background: #da190b;
 }
 
+/* Hero Section */
+.hero {
+    height: 100vh;
+    background: url('public/gag.png') no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Overlay negru pentru contrast */
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-title {
+    font-size: 48px;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(107, 72, 255, 0.5); /* Umbră mov */
+    margin-bottom: 20px;
+}
+
+.cta-button {
+    background: #6B48FF; /* Mov */
+    color: #ffffff;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 25px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.cta-button:hover {
+    background: #00DDEB; /* Cyan */
+}
+
 .content {
     margin-top: 80px;
     padding: 20px;
@@ -141,12 +192,12 @@ body {
 }
 
 #statusDiv {
-    margin-top: 15px; /* Mai mult spațiu sub form */
+    margin-top: 15px;
     text-align: center;
     width: 300px;
     margin-left: auto;
     margin-right: auto;
-    color: #ffffff; /* Asigurăm vizibilitatea textului pe fundalul albastru */
+    color: #ffffff;
 }
 
 .message {
