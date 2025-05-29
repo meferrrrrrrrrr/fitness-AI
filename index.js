@@ -8,11 +8,8 @@ const app = express();
 // Parsăm body-ul cererilor JSON
 app.use(express.json());
 
-// Servim fișierele statice (HTML, JS, CSS)
-app.use(express.static(path.join(__dirname, '.'), {
-  index: 'index.html',
-  extensions: ['html', 'js', 'css']
-}));
+// Servim fișierele statice din folderul public
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Middleware pentru gestionarea erorilor
 app.use((err, req, res, next) => {
@@ -77,9 +74,9 @@ app.post('/api/auth/logout', async (req, res) => {
     }
 
     const token = authHeader.split(' ')[1];
-    await admin.auth().verifyIdToken(token); // Verifică token-ul
+    await admin.auth().verifyIdToken(token);
     const auth = getAuth(firebaseApp);
-    await signOut(auth); // Logout global
+    await signOut(auth);
     res.status(200).json({ message: 'Deconectare reușită!' });
   } catch (error) {
     res.status(400).json({ error: 'Eroare la deconectare: ' + error.message });
@@ -131,6 +128,11 @@ app.get('/api/auth/user', async (req, res) => {
   } catch (error) {
     res.status(401).json({ error: 'Token invalid sau expirat: ' + error.message });
   }
+});
+
+// Servim index.html doar pentru ruta rădăcină (ca fallback)
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Pornim serverul
