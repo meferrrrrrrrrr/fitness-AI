@@ -11,24 +11,24 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    background: transparent; /* Transparent inițial */
+    background: rgba(107, 72, 255, 0.1); /* Mov foarte transparent */
     padding: 20px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     z-index: 1000;
-    box-shadow: none; /* Fără umbră inițial */
+    box-shadow: none;
     height: 60px;
-    transition: all 0.3s ease; /* Tranziție pentru dispariție/reapariție */
+    transition: all 0.3s ease;
 }
 
 .navbar.visible {
-    background: #1A1A1A; /* Negru când e vizibil */
+    background: rgba(107, 72, 255, 0.3); /* Mov mai vizibil */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .navbar.hidden {
-    transform: translateY(-100%); /* Se ascunde în sus */
+    transform: translateY(-100%);
 }
 
 .logo-container {
@@ -46,6 +46,7 @@ body {
     font-size: 22px;
     font-weight: 700;
     color: #ffffff;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Umbră pentru vizibilitate */
 }
 
 .logout-btn {
