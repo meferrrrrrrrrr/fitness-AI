@@ -239,3 +239,46 @@ body {
 .visible {
     display: block;
 }
+
+/* Benefits Section */
+.benefits {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #1e3c72, #2a5298); /* Păstrăm fundalul general */
+    flex-wrap: wrap; /* Pentru responsivitate */
+}
+
+.benefit-card {
+    background: #ffffff; /* Alb */
+    color: #1A1A1A; /* Negru */
+    width: 250px;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.benefit-card:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4); /* Umbră mai mare la hover */
+    transform: translateY(-5px); /* Ușor ridicat */
+}
+
+.benefit-card .icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.benefit-card h3 {
+    font-size: 20px;
+    margin: 10px 0;
+    font-weight: 600;
+}
+
+.benefit-card p {
+    font-size: 14px;
+    margin: 0;
+}
