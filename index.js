@@ -19,83 +19,89 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // Middleware pentru gestionarea erorilor
 app.use((err, req, res, next) => {
-  res.status(500).json({ error: 'A apărut o eroare internă', details: err.message });
+  res.status(500).json({ error: 'An internal error occurred', details: err.message });
 });
 
 // Endpoint pentru signup
 app.post('/api/auth/signup', async (req, res) => {
   const { email, password } = req.body;
-  if (!email || !password) return res.status(400).json({ error: 'Email și parolă sunt obligatorii.' });
-  if (!firebaseApp) return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
+  if (!email || !password) return res.status(400).json({ error: 'Email and password are required.' });
+  if (!firebaseApp) return res.status(500).json({ error: 'Firebase app is not initialized.' });
   try {
     const auth = getAuth(firebaseApp);
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-    res.status(201).json({ message: 'Cont creat cu succes!', userId: user.uid });
+    res.status(201).json({ message: 'Account created successfully!', userId: user.uid });
   } catch (error) {
-    res.status(400).json({ error: 'Eroare la crearea contului: ' + error.message });
+    res.status(400).json({ error: 'Error creating account: ' + error.message });
   }
 });
 
 // Endpoint pentru login
 app.post('/api/auth/login', async (req, res) => {
   const { email, password } = req.body;
-  if (!email || !password) return res.status(400).json({ error: 'Email și parolă sunt obligatorii.' });
-  if (!firebaseApp) return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
+  if (!email || !password) return res.status(400).json({ error: 'Email and password are required.' });
+  if (!firebaseApp) return res.status(500).json({ error: 'Firebase app is not initialized.' });
   try {
     const auth = getAuth(firebaseApp);
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
     const idToken = await user.getIdToken();
-    res.status(200).json({ message: 'Logare reușită!', userId: user.uid, token: idToken });
+    res.status(200).json({ message: 'Login successful!', userId: user.uid, token: idToken });
   } catch (error) {
-    res.status(400).json({ error: 'Eroare la logare: ' + error.message });
+    res.status(400).json({ error: 'Error logging in: ' + error.message });
   }
 });
 
 // Endpoint pentru logout
 app.post('/api/auth/logout', async (req, res) => {
-  if (!firebaseApp || !admin) return res.status(500).json({ error: 'Firebase app sau admin nu este inițializat.' });
+  if (!firebaseApp || !admin) return res.status(500).json({ error: 'Firebase app or admin is not initialized.' });
   try {
     const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) return res.status(401).json({ error: 'Token de autentificare lipsă sau invalid.' });
+    if (!authHeader || !authHeader.startsWith('Bearer ')) return res.status(401).json({ error: 'Authentication token missing or invalid.' });
     const token = authHeader.split(' ')[1];
     await admin.auth().verifyIdToken(token);
     const auth = getAuth(firebaseApp);
     await signOut(auth);
-    res.status(200).json({ message: 'Deconectare reușită!' });
+    res.status(200).json({ message: 'Logout successful!' });
   } catch (error) {
-    res.status(400).json({ error: 'Eroare la deconectare: ' + error.message });
+    res.status(400).json({ error: 'Error logging out: ' + error.message });
   }
 });
 
 // Endpoint pentru resetare parolă
 app.post('/api/auth/reset-password', async (req, res) => {
   const { email } = req.body;
-  if (!email) return res.status(400).json({ error: 'Email-ul este obligatoriu.' });
-  if (!firebaseApp) return res.status(500).json({ error: 'Firebase app nu este inițializat.' });
+  if (!email) return res.status(400).json({ error: 'Email is required.' });
+  if (!firebaseApp) return res.status(500).json({ error: 'Firebase app is not initialized.' });
   try {
+    // Verificăm dacă emailul există
+    await admin.auth().getUserByEmail(email);
+    // Dacă ajunge aici, emailul există – trimitem emailul de resetare
     const auth = getAuth(firebaseApp);
     await sendPasswordResetEmail(auth, email);
-    res.status(200).json({ message: 'Email pentru resetarea parolei a fost trimis!' });
+    res.status(200).json({ message: 'Password reset email has been sent!' });
   } catch (error) {
-    res.status(400).json({ error: 'Eroare la trimiterea email-ului de resetare: ' + error.message });
+    if (error.code === 'auth/user-not-found') {
+      return res.status(404).json({ error: 'Email is not registered.' });
+    }
+    res.status(400).json({ error: 'Error sending password reset email: ' + error.message });
   }
 });
 
 // Endpoint pentru a obține utilizatorul curent
 app.get('/api/auth/user', async (req, res) => {
-  if (!firebaseApp || !admin) return res.status(500).json({ error: 'Firebase app sau admin nu este inițializat.' });
+  if (!firebaseApp || !admin) return res.status(500).json({ error: 'Firebase app or admin is not initialized.' });
   try {
     const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) return res.status(401).json({ error: 'Token de autentificare lipsă sau invalid.' });
+    if (!authHeader || !authHeader.startsWith('Bearer ')) return res.status(401).json({ error: 'Authentication token missing or invalid.' });
     const token = authHeader.split(' ')[1];
     const decodedToken = await admin.auth().verifyIdToken(token);
     const email = decodedToken.email;
-    if (!email) return res.status(401).json({ error: 'Utilizatorul nu este autentificat.' });
+    if (!email) return res.status(401).json({ error: 'User is not authenticated.' });
     res.status(200).json({ email });
   } catch (error) {
-    res.status(401).json({ error: 'Token invalid sau expirat: ' + error.message });
+    res.status(401).json({ error: 'Invalid or expired token: ' + error.message });
   }
 });
 

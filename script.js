@@ -60,10 +60,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ email, password })
             });
             const data = await response.json();
-            console.log('Signup response:', data.message);
+            console.log('Signup response:', data);
 
             if (response.ok) {
-                messageDiv.textContent = data.message;
+                messageDiv.textContent = data.message; // "Account created successfully!"
                 messageDiv.className = 'message success visible';
                 localStorage.setItem('lastEmail', email);
                 const loginResponse = await fetch('/api/auth/login', {
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify({ email, password })
                 });
                 const loginData = await loginResponse.json();
-                console.log('Auto-login response after signup:', loginData.message);
+                console.log('Auto-login response after signup:', loginData);
                 if (loginResponse.ok) {
                     localStorage.setItem('authToken', loginData.token);
                     console.log('Token saved after signup');
@@ -112,10 +112,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ email, password })
             });
             const data = await response.json();
-            console.log('Login response:', data.message);
+            console.log('Login response:', data);
 
             if (response.ok) {
-                messageDiv.textContent = data.message;
+                messageDiv.textContent = data.message; // "Login successful!"
                 messageDiv.className = 'message success visible';
                 localStorage.setItem('authToken', data.token);
                 localStorage.setItem('lastEmail', email);
@@ -153,10 +153,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
             const data = await response.json();
-            console.log('Logout response:', data.message);
+            console.log('Logout response:', data);
 
             if (response.ok) {
-                messageDiv.textContent = data.message;
+                messageDiv.textContent = data.message; // "Logout successful!"
                 messageDiv.className = 'message success visible';
                 localStorage.removeItem('authToken');
                 localStorage.removeItem('lastEmail');
@@ -192,18 +192,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ email })
             });
             const data = await response.json();
-            console.log('Reset password response:', data.message);
+            console.log('Reset password response:', data);
 
             if (response.ok) {
-                messageDiv.textContent = data.message;
+                messageDiv.textContent = data.message; // "Password reset email has been sent!"
                 messageDiv.className = 'message success visible';
             } else {
-                messageDiv.textContent = data.error;
+                messageDiv.textContent = data.error; // "Email is not registered." sau alte erori
                 messageDiv.className = 'message error visible';
             }
             setTimeout(() => { messageDiv.className = 'message hidden'; }, 3000);
         } catch (error) {
-            messageDiv.textContent = 'Password reset error: ' + error.message;
+            messageDiv.textContent = 'Connection error: ' + error.message;
             messageDiv.className = 'message error visible';
             setTimeout(() => { messageDiv.className = 'message error hidden'; }, 3000);
         }
