@@ -16,29 +16,29 @@
       <img src="/public/images/logo.png" alt="Fitness AI Logo" class="logo-img" />
       <span class="logo-text">Fitness AI</span>
     </div>
+    <div class="auth-container">
+      <div class="form-toggle">
+        <button id="showSignup" class="toggle-button active">Sign Up</button>
+        <button id="showLogin" class="toggle-button">Login</button>
+      </div>
+      <div class="auth-dropdown">
+        <div class="form-container" id="signupForm">
+          <input type="email" id="email" placeholder="Email" required />
+          <input type="password" id="password" placeholder="Password" required />
+          <button id="signupButton" type="button">Sign Up</button>
+        </div>
+        <form class="form-container hidden" id="loginForm">
+          <input type="email" id="loginEmail" placeholder="Email" required />
+          <input type="password" id="loginPassword" placeholder="Password" required />
+          <button id="loginButton" type="button">Login</button>
+          <button id="resetPasswordButton" type="button">Forgot Password?</button>
+        </form>
+      </div>
+    </div>
   </nav>
 
   <div class="content">
     <h1>Welcome to Fitness AI!</h1>
-
-    <div class="form-toggle">
-      <button id="showSignup" class="toggle-button active">Sign Up</button>
-      <button id="showLogin" class="toggle-button">Login</button>
-    </div>
-
-    <div class="form-container" id="signupForm">
-      <input type="email" id="email" placeholder="Email" required />
-      <input type="password" id="password" placeholder="Password" required />
-      <button id="signupButton" type="button">Sign Up</button>
-    </div>
-
-    <form class="form-container hidden" id="loginForm">
-      <input type="email" id="loginEmail" placeholder="Email" required />
-      <input type="password" id="loginPassword" placeholder="Password" required />
-      <button id="loginButton" type="button">Login</button>
-      <button id="resetPasswordButton" type="button">Forgot Password?</button>
-    </form>
-
     <div id="statusDiv"></div>
     <div id="message" class="message"></div>
   </div>

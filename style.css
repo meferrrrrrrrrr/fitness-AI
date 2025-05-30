@@ -17,7 +17,7 @@ body {
   position: fixed;
   top: 0;
   width: 100%;
-  padding: 10px 40px; /* Reducem padding-ul pentru un look mai sleek */
+  padding: 10px 40px; /* Margini interioare pentru a evita marginile extreme */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -52,43 +52,24 @@ body {
   color: #ffffff;
 }
 
-.logout-btn {
-  background: #f44336;
-  color: white;
-  border: none;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-weight: bold;
-  font-size: 12px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.logout-btn:hover {
-  background: #da190b;
-}
-
-.content {
-  margin-top: 80px;
-  padding: 20px;
+.auth-container {
+  position: relative; /* Pentru poziționarea dropdown-ului */
+  margin-left: auto; /* Aliniere la dreapta, dar cu spațiu */
+  padding-right: 40px; /* Spațiu suplimentar de la margine */
 }
 
 .form-toggle {
-  margin: 0 auto 20px;
-  text-align: center;
-  width: 300px;
+  display: flex;
+  gap: 10px;
 }
 
 .toggle-button {
   padding: 8px 15px;
-  margin: 0 5px;
   border: none;
   border-radius: 4px;
   background: #00ddeb;
   color: white;
   cursor: pointer;
-  width: 120px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   transition: background 0.3s;
 }
@@ -97,14 +78,27 @@ body {
   background: #00a3c4;
 }
 
-.form-container {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.auth-dropdown {
+  display: none; /* Inițial ascuns, afișat prin JS */
+  position: absolute;
+  top: 100%; /* Așezat sub navbar */
+  right: 40px; /* Aliniat cu padding-ul navbar-ului */
   width: 300px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  z-index: 1001; /* Deasupra altor elemente */
+  transition: opacity 0.3s ease; /* Tranziție smooth pentru afișare */
+}
+
+.auth-dropdown.visible {
+  display: block;
+}
+
+.form-container {
   text-align: center;
-  margin: 0 auto;
+  margin: 0;
 }
 
 .form-container input {
@@ -152,6 +146,11 @@ body {
 
 #resetPasswordButton:hover {
   background: #ff4da6;
+}
+
+.content {
+  margin-top: 80px;
+  padding: 20px;
 }
 
 #statusDiv {

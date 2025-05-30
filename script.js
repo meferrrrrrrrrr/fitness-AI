@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');
     const showSignup = document.getElementById('showSignup');
     const showLogin = document.getElementById('showLogin');
+    const authDropdown = document.querySelector('.auth-dropdown');
     const messageDiv = document.getElementById('message');
     const statusDiv = document.getElementById('statusDiv');
     const navbar = document.querySelector('.navbar');
@@ -19,15 +20,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateStatus(token) {
         console.log('Updating state with token:', token ? 'exists' : 'null');
         if (token) {
-            if (signupForm) signupForm.className = 'form-container hidden';
-            if (loginForm) loginForm.className = 'form-container hidden';
+            if (authDropdown) authDropdown.className = 'auth-dropdown hidden';
             if (showSignup) showSignup.style.display = 'none';
             if (showLogin) showLogin.style.display = 'none';
-            statusDiv.innerHTML = `Logged in as: ${localStorage.getItem('lastEmail') || 'User'} <button id="logoutButton" class="logout-btn">Logout</button>`;
+            statusDiv.innerHTML = `Hello, ${localStorage.getItem('lastEmail') || 'User'} <button id="logoutButton" class="logout-btn">Logout</button>`;
             document.getElementById('logoutButton').addEventListener('click', handleLogout);
         } else {
-            if (signupForm) signupForm.className = 'form-container hidden';
-            if (loginForm) loginForm.className = 'form-container visible';
+            if (authDropdown) authDropdown.className = 'auth-dropdown hidden';
             if (showSignup) showSignup.className = 'toggle-button';
             if (showLogin) showLogin.className = 'toggle-button active';
             if (showSignup) showSignup.style.display = 'inline-block';
@@ -204,8 +203,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showSignupForm() {
-        const signupForm = document.getElementById('signupForm');
-        const loginForm = document.getElementById('loginForm');
+        const authDropdown = document.querySelector('.auth-dropdown');
+        if (authDropdown) authDropdown.className = 'auth-dropdown visible';
         if (signupForm) signupForm.className = 'form-container visible';
         if (loginForm) loginForm.className = 'form-container hidden';
         if (showSignup) showSignup.className = 'toggle-button active';
@@ -213,8 +212,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showLoginForm() {
-        const signupForm = document.getElementById('signupForm');
-        const loginForm = document.getElementById('loginForm');
+        const authDropdown = document.querySelector('.auth-dropdown');
+        if (authDropdown) authDropdown.className = 'auth-dropdown visible';
         if (signupForm) signupForm.className = 'form-container hidden';
         if (loginForm) loginForm.className = 'form-container visible';
         if (showSignup) showSignup.className = 'toggle-button';
@@ -233,6 +232,14 @@ document.addEventListener('DOMContentLoaded', () => {
             navbar.classList.remove('hidden');
         }
         lastScroll = currentScroll;
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (event) => {
+        const isClickInside = authDropdown.contains(event.target) || showSignup.contains(event.target) || showLogin.contains(event.target);
+        if (!isClickInside && authDropdown.classList.contains('visible')) {
+            authDropdown.className = 'auth-dropdown hidden';
+        }
     });
 
     window.handleSignup = handleSignup;
