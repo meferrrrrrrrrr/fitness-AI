@@ -1,10 +1,16 @@
 body {
   font-family: 'Roboto', Arial, sans-serif;
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
   margin: 0;
   padding: 0;
   min-height: 100vh;
   color: #ffffff;
+  /* Setăm hero-bg.webp ca fundal general */
+  background-image: url('/public/images/hero-bg.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* Adăugăm un fundal semi-transparent pentru lizibilitate */
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .navbar {
