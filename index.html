@@ -1,40 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fitness AI</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/png" href="public/favicon-32x32.png">
-    <link rel="apple-touch-icon" href="public/apple-touch-icon.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fitness AI</title>
+  <link rel="stylesheet" href="style.css" />
+  
+  <!-- Favicon & Apple icon din /images -->
+  <link rel="icon" type="image/png" href="/images/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo-container">
-            <img src="public/logo.png" alt="Fitness AI Logo" class="logo-img">
-            <span class="logo-text">Fitness AI</span>
-        </div>
-    </nav>
-    <div class="content">
-        <h1>Welcome to Fitness AI!</h1>
-        <div class="form-toggle">
-            <button id="showSignup" class="toggle-button active">Sign Up</button>
-            <button id="showLogin" class="toggle-button">Login</button>
-        </div>
-        <div class="form-container" id="signupForm">
-            <input type="email" id="email" placeholder="Email" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <button id="signupButton" type="button">Sign Up</button>
-        </div>
-        <form class="form-container hidden" id="loginForm">
-            <input type="email" id="loginEmail" placeholder="Email" required>
-            <input type="password" id="loginPassword" placeholder="Password" required>
-            <button id="loginButton" type="button">Login</button>
-            <button id="resetPasswordButton" type="button">Forgot Password?</button>
-        </form>
-        <div id="statusDiv"></div>
-        <div id="message" class="message"></div>
+  <nav class="navbar">
+    <div class="logo-container">
+      <!-- WebP cu fallback -->
+      <picture>
+        <source srcset="/images/logo.webp" type="image/webp" />
+        <img src="/images/logo.png" alt="Fitness AI Logo" class="logo-img" />
+      </picture>
+      <span class="logo-text">Fitness AI</span>
     </div>
-    <script src="script.js"></script>
+  </nav>
+
+  <div class="content">
+    <h1>Welcome to Fitness AI!</h1>
+
+    <div class="form-toggle">
+      <button id="showSignup" class="toggle-button active">Sign Up</button>
+      <button id="showLogin" class="toggle-button">Login</button>
+    </div>
+
+    <div class="form-container" id="signupForm">
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button id="signupButton" type="button">Sign Up</button>
+    </div>
+
+    <form class="form-container hidden" id="loginForm">
+      <input type="email" id="loginEmail" placeholder="Email" required />
+      <input type="password" id="loginPassword" placeholder="Password" required />
+      <button id="loginButton" type="button">Login</button>
+      <button id="resetPasswordButton" type="button">Forgot Password?</button>
+    </form>
+
+    <div id="statusDiv"></div>
+    <div id="message" class="message"></div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
