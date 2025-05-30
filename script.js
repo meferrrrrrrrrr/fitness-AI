@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const showLogin = document.getElementById('showLogin');
     const authDropdown = document.querySelector('.auth-dropdown');
     const messageDiv = document.getElementById('message');
-    const statusDiv = document.getElementById('statusDiv');
+    const authStatus = document.getElementById('authStatus');
     const navbar = document.querySelector('.navbar');
 
     // Reset message on load
@@ -23,15 +23,22 @@ document.addEventListener('DOMContentLoaded', () => {
             if (authDropdown) authDropdown.className = 'auth-dropdown hidden';
             if (showSignup) showSignup.style.display = 'none';
             if (showLogin) showLogin.style.display = 'none';
-            statusDiv.innerHTML = `Hello, ${localStorage.getItem('lastEmail') || 'User'} <button id="logoutButton" class="logout-btn">Logout</button>`;
-            document.getElementById('logoutButton').addEventListener('click', handleLogout);
+            if (authStatus) {
+                authStatus.innerHTML = `Hello, ${localStorage.getItem('lastEmail') || 'User'}! <button id="logoutButton" class="logout-btn">Logout</button>`;
+                authStatus.style.display = 'block'; // Asigurăm că e vizibil
+                const logoutButton = document.getElementById('logoutButton');
+                if (logoutButton) logoutButton.addEventListener('click', handleLogout);
+            }
         } else {
             if (authDropdown) authDropdown.className = 'auth-dropdown hidden';
             if (showSignup) showSignup.className = 'toggle-button';
             if (showLogin) showLogin.className = 'toggle-button active';
             if (showSignup) showSignup.style.display = 'inline-block';
             if (showLogin) showLogin.style.display = 'inline-block';
-            statusDiv.innerHTML = 'You are not logged in.';
+            if (authStatus) {
+                authStatus.textContent = 'You are not logged in.';
+                authStatus.style.display = 'block';
+            }
         }
     }
 
