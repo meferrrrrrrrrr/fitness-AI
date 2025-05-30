@@ -1,179 +1,179 @@
 body {
-    font-family: 'Roboto', Arial, sans-serif;
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    color: #ffffff;
+  font-family: 'Roboto', Arial, sans-serif;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  color: #ffffff;
 }
 
 .navbar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background: linear-gradient(135deg, #00ddeb, #00a3c4);
-    padding: 20px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    height: 60px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: linear-gradient(135deg, #00ddeb, #00a3c4);
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  height: 60px;
 }
 
 .logo-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .logo-img {
-    width: 40px;
-    height: 40px;
+  width: 40px;
+  height: 40px;
 }
 
 .logo-text {
-    font-size: 22px;
-    font-weight: 700;
-    color: #ffffff;
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
 }
 
 .logout-btn {
-    background: #f44336;
-    color: white;
-    border: none;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 12px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  background: #f44336;
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .logout-btn:hover {
-    background: #da190b;
+  background: #da190b;
 }
 
 .content {
-    margin-top: 80px;
-    padding: 20px;
+  margin-top: 80px;
+  padding: 20px;
 }
 
 .form-toggle {
-    margin: 0 auto 20px;
-    text-align: center;
-    width: 300px;
+  margin: 0 auto 20px;
+  text-align: center;
+  width: 300px;
 }
 
 .toggle-button {
-    padding: 8px 15px;
-    margin: 0 5px;
-    border: none;
-    border-radius: 4px;
-    background: #00ddeb;
-    color: white;
-    cursor: pointer;
-    width: 120px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transition: background 0.3s;
+  padding: 8px 15px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 4px;
+  background: #00ddeb;
+  color: white;
+  cursor: pointer;
+  width: 120px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s;
 }
 
 .toggle-button.active {
-    background: #00a3c4;
+  background: #00a3c4;
 }
 
 .form-container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    text-align: center;
-    margin: 0 auto;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+  margin: 0 auto;
 }
 
 .form-container input {
-    width: 100%;
-    padding: 8px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
 .form-container button {
-    width: 120px;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.3s;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    margin: 10px 5px;
+  width: 120px;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  margin: 10px 5px;
 }
 
 #signupButton {
-    background: #4CAF50; /* Verde */
-    color: white;
+  background: #4CAF50; /* Verde */
+  color: white;
 }
 
 #signupButton:hover {
-    background: #45a049;
+  background: #45a049;
 }
 
 #loginButton {
-    background: #4CAF50; /* Verde */
-    color: white;
+  background: #4CAF50; /* Verde */
+  color: white;
 }
 
 #loginButton:hover {
-    background: #45a049;
+  background: #45a049;
 }
 
 #resetPasswordButton {
-    background: #ff69b4; /* Roz */
-    color: white;
+  background: #ff69b4; /* Roz */
+  color: white;
 }
 
 #resetPasswordButton:hover {
-    background: #ff4da6;
+  background: #ff4da6;
 }
 
 #statusDiv {
-    margin-top: 15px; /* Mai mult spațiu sub form */
-    text-align: center;
-    width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-    color: #ffffff; /* Asigurăm vizibilitatea textului pe fundalul albastru */
+  margin-top: 15px; /* Mai mult spațiu sub form */
+  text-align: center;
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #ffffff; /* Asigurăm vizibilitatea textului pe fundalul albastru */
 }
 
 .message {
-    margin: 20px auto;
-    padding: 10px;
-    border-radius: 4px;
-    display: none;
-    width: 300px;
-    text-align: center;
+  margin: 20px auto;
+  padding: 10px;
+  border-radius: 4px;
+  display: none;
+  width: 300px;
+  text-align: center;
 }
 
 .success {
-    background-color: #d4edda;
-    color: #155724;
-    display: block;
+  background-color: #d4edda;
+  color: #155724;
+  display: block;
 }
 
 .error {
-    background-color: #f8d7da;
-    color: #721c24;
-    display: block;
+  background-color: #f8d7da;
+  color: #721c24;
+  display: block;
 }
 
 .hidden {
-    display: none;
+  display: none;
 }
 
 .visible {
-    display: block;
+  display: block;
 }
