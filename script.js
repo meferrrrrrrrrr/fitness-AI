@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const showLogin = document.getElementById('showLogin');
     const messageDiv = document.getElementById('message');
     const statusDiv = document.getElementById('statusDiv');
+    const navbar = document.querySelector('.navbar');
 
     // Reset message on load
     if (messageDiv) messageDiv.className = 'message hidden';
@@ -219,6 +220,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (showSignup) showSignup.className = 'toggle-button';
         if (showLogin) showLogin.className = 'toggle-button active';
     }
+
+    // Logic for navbar scroll behavior
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+        if (currentScroll > lastScroll && currentScroll > 100) {
+            // Scroll down, hide navbar
+            navbar.classList.add('hidden');
+        } else {
+            // Scroll up, show navbar
+            navbar.classList.remove('hidden');
+        }
+        lastScroll = currentScroll;
+    });
 
     window.handleSignup = handleSignup;
     window.handleLogin = handleLogin;
