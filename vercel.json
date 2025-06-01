@@ -32,6 +32,10 @@
       "destination": "/public/$1"
     },
     {
+      "source": "/dashboard.html",
+      "destination": "/dashboard.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
