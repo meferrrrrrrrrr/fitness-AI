@@ -22,19 +22,20 @@ body.dashboard-body {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
+/* Ajustăm poziționarea pentru a fi sus în dreapta */
 .dashboard-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-end; /* Aliniem la dreapta */
+  justify-content: flex-start; /* Aliniem sus */
   min-height: 100vh;
-  padding: 20px;
-  text-align: center;
+  padding: 40px; /* Spațiu de la margini */
+  text-align: right; /* Text aliniat la dreapta */
 }
 
 .dashboard-content h1 {
-  font-size: 36px;
-  margin-bottom: 20px;
+  font-size: 16px; /* Micșorăm fontul, apropiat de logout (12px), dar puțin mai mare */
+  margin-bottom: 10px; /* Reducem spațiul față de butonul de logout */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
