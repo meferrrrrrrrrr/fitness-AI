@@ -69,7 +69,9 @@ async function handleLogin() {
             updateStatus(data.token);
             window.location.href = '/dashboard.html';
         } else {
-            showMessage(data.error, 'error');
+            // Personalizăm mesajul de eroare pentru login
+            const errorMessage = data.error.includes('auth/invalid-credential') ? 'Invalid credentials.' : data.error;
+            showMessage(errorMessage, 'error');
         }
     } catch (error) {
         showMessage('Connection error: ' + error.message, 'error');
