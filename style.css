@@ -357,22 +357,26 @@ body.dashboard-body .background-container {
 }
 
 .message {
-  margin: 20px auto;
-  padding: 10px;
-  border-radius: 4px;
+  margin: 5px auto; /* Reducem marginile */
+  padding: 4px 8px; /* Reducem padding-ul */
+  border-radius: 3px;
   display: none;
-  width: 300px;
+  width: 100%; /* Ocupă lățimea containerului */
+  max-width: 220px; /* Reducem lățimea maximă */
   text-align: center;
+  font-size: 12px; /* Font mic pentru discreție */
+  opacity: 0.9; /* Ușor transparent */
+  line-height: 1.2; /* Spațiere mai mică între rânduri */
 }
 
 .success {
-  background-color: #d4edda;
+  background-color: rgba(212, 237, 218, 0.7); /* Verde mai subtil */
   color: #155724;
   display: block;
 }
 
 .error {
-  background-color: #f8d7da;
+  background-color: rgba(248, 215, 218, 0.7); /* Roșu mai subtil */
   color: #721c24;
   display: block;
 }
@@ -459,10 +463,9 @@ body.dashboard-body .background-container {
   }
 
   .message {
-    width: 90%;
-    max-width: 250px; /* Reducem lățimea mesajului */
-    padding: 8px;
-    font-size: 14px;
+    max-width: 180px; /* Și mai mic pe mobil */
+    font-size: 11px; /* Font și mai mic */
+    padding: 3px 6px; /* Reducem padding-ul */
   }
 
   .dashboard-content {

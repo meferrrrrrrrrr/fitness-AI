@@ -4,7 +4,7 @@ async function handleSignup() {
     const password = document.getElementById('password').value;
 
     if (!email || !password) {
-        showMessage('Email and password are required.', 'error');
+        showMessage('Email and password are required.', 'error', 'signup');
         return;
     }
 
@@ -18,7 +18,7 @@ async function handleSignup() {
         console.log('Signup response:', data);
 
         if (response.ok) {
-            showMessage(data.message, 'success');
+            showMessage(data.message, 'success', 'signup');
             localStorage.setItem('lastEmail', email);
             const loginResponse = await fetch('/api/auth/login', {
                 method: 'POST',
@@ -33,13 +33,13 @@ async function handleSignup() {
                 updateStatus(loginData.token);
                 window.location.href = '/dashboard.html';
             } else {
-                showMessage('Account created, but auto-login failed: ' + loginData.error, 'error');
+                showMessage('Account created, but auto-login failed: ' + loginData.error, 'error', 'signup');
             }
         } else {
-            showMessage(data.error, 'error');
+            showMessage(data.error, 'error', 'signup');
         }
     } catch (error) {
-        showMessage('Connection error: ' + error.message, 'error');
+        showMessage('Connection error: ' + error.message, 'error', 'signup');
     }
 }
 
@@ -48,7 +48,7 @@ async function handleLogin() {
     const password = document.getElementById('loginPassword').value;
 
     if (!email || !password) {
-        showMessage('Email and password are required.', 'error');
+        showMessage('Email and password are required.', 'error', 'login');
         return;
     }
 
@@ -62,19 +62,18 @@ async function handleLogin() {
         console.log('Login response:', data);
 
         if (response.ok) {
-            showMessage(data.message, 'success');
+            showMessage(data.message, 'success', 'login');
             localStorage.setItem('authToken', data.token);
             localStorage.setItem('lastEmail', email);
             console.log('Token saved after login');
             updateStatus(data.token);
             window.location.href = '/dashboard.html';
         } else {
-            // Personalizăm mesajul de eroare pentru login
             const errorMessage = data.error.includes('auth/invalid-credential') ? 'Invalid credentials.' : data.error;
-            showMessage(errorMessage, 'error');
+            showMessage(errorMessage, 'error', 'login');
         }
     } catch (error) {
-        showMessage('Connection error: ' + error.message, 'error');
+        showMessage('Connection error: ' + error.message, 'error', 'login');
     }
 }
 
@@ -82,7 +81,7 @@ async function handleLogout() {
     const authToken = localStorage.getItem('authToken');
 
     if (!authToken) {
-        showMessage('You are not logged in.', 'error');
+        showMessage('You are not logged in.', 'error', 'login');
         return;
     }
 
@@ -105,10 +104,10 @@ async function handleLogout() {
             updateStatus(null);
             window.location.href = '/';
         } else {
-            showMessage(data.error, 'error');
+            showMessage(data.error, 'error', 'login');
         }
     } catch (error) {
-        showMessage('Logout error: ' + error.message, 'error');
+        showMessage('Logout error: ' + error.message, 'error', 'login');
     }
 }
 
@@ -116,7 +115,7 @@ async function handleResetPassword() {
     const email = document.getElementById('loginEmail').value;
 
     if (!email) {
-        showMessage('Email is required.', 'error');
+        showMessage('Email is required.', 'error', 'login');
         return;
     }
 
@@ -130,12 +129,12 @@ async function handleResetPassword() {
         console.log('Reset password response:', data);
 
         if (response.ok) {
-            showMessage(data.message, 'success');
+            showMessage(data.message, 'success', 'login');
         } else {
-            showMessage(data.error, 'error');
+            showMessage(data.error, 'error', 'login');
         }
     } catch (error) {
-        showMessage('Connection error: ' + error.message, 'error');
+        showMessage('Connection error: ' + error.message, 'error', 'login');
     }
 }
 
@@ -165,8 +164,8 @@ function showLoginForm() {
     if (showLogin) showLogin.className = 'toggle-button active';
 }
 
-function showMessage(text, type) {
-    const messageDiv = document.getElementById('message');
+function showMessage(text, type, formType) {
+    const messageDiv = document.getElementById(formType === 'signup' ? 'signupMessage' : 'loginMessage');
     if (messageDiv) {
         messageDiv.textContent = text;
         messageDiv.className = `message ${type} visible`;
@@ -214,18 +213,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const showSignup = document.getElementById('showSignup');
     const showLogin = document.getElementById('showLogin');
     const authDropdown = document.querySelector('.auth-dropdown');
-    const messageDiv = document.getElementById('message');
+    const signupMessageDiv = document.getElementById('signupMessage');
+    const loginMessageDiv = document.getElementById('loginMessage');
     const authStatus = document.getElementById('authStatus');
     const navbar = document.querySelector('.navbar');
 
-    // Reset message on load
-    if (messageDiv) messageDiv.className = 'message hidden';
+    // Reset messages on load
+    if (signupMessageDiv) signupMessageDiv.className = 'message hidden';
+    if (loginMessageDiv) loginMessageDiv.className = 'message hidden';
 
     // Afișăm mesajul de logout (dacă există)
     const logoutMessage = localStorage.getItem('logoutMessage');
     if (logoutMessage) {
         const { text, type } = JSON.parse(logoutMessage);
-        showMessage(text, type);
+        showMessage(text, type, 'login');
         localStorage.removeItem('logoutMessage');
     }
 
