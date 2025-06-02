@@ -41,6 +41,7 @@ body.dashboard-body .background-container {
   font-size: 16px; /* Micșorăm fontul, apropiat de logout (12px), dar puțin mai mare */
   margin-bottom: 10px; /* Reducem spațiul față de butonul de logout */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  color: #ffffff; /* Păstrăm alb pentru email */
 }
 
 /* Container nou centrat pentru Meme Gen Awake */
@@ -62,11 +63,13 @@ body.dashboard-body .background-container {
   font-size: 24px;
   margin-bottom: 10px;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  color: #ffffff; /* Titlul rămâne alb */
 }
 
 #memeGeneratorSection p {
   font-size: 16px;
   margin-bottom: 20px;
+  color: #000000; /* Subtext negru */
 }
 
 #memeGeneratorSection input {
@@ -98,6 +101,7 @@ body.dashboard-body .background-container {
   padding: 10px;
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.1);
+  color: #ffffff; /* Răspunsurile rămân albe */
 }
 
 .navbar {
@@ -271,15 +275,24 @@ body.dashboard-body .background-container {
   text-align: center;
 }
 
+.content h1 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  color: #ffffff; /* Titlul principal rămâne alb */
+}
+
 .section-container h2 {
   font-size: 24px;
   margin-bottom: 10px;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  color: #ffffff; /* Titlurile secțiunilor rămân albe */
 }
 
 .section-container p {
   font-size: 16px;
   margin-bottom: 20px;
+  color: #000000; /* Subtext negru */
 }
 
 .input-field {
@@ -312,6 +325,7 @@ body.dashboard-body .background-container {
   padding: 10px;
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.1);
+  color: #ffffff; /* Răspunsurile rămân albe */
 }
 
 .auth-status {
@@ -437,6 +451,29 @@ body.dashboard-body .background-container {
     font-size: 12px; /* Reducem fontul */
   }
 
+  .meme-gen-container {
+    padding: 10px;
+    min-height: calc(100vh - 60px); /* Ajustăm pentru navbar mai mic */
+  }
+
+  #memeGeneratorSection h2 {
+    font-size: 20px;
+  }
+
+  #memeGeneratorSection p {
+    font-size: 14px;
+    color: #000000; /* Păstrăm subtext negru pe mobil */
+  }
+
+  #memeGeneratorSection input {
+    padding: 8px;
+  }
+
+  #memeGeneratorSection button {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
   .section-container {
     padding: 10px;
   }
@@ -447,6 +484,7 @@ body.dashboard-body .background-container {
 
   .section-container p {
     font-size: 14px;
+    color: #000000; /* Păstrăm subtext negru pe mobil */
   }
 
   .input-field {
