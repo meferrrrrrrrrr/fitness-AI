@@ -287,10 +287,12 @@ body.dashboard-body {
     margin: 5px 2px; /* Reducem marginile */
   }
 
-  /* Ajustăm conținutul principal */
+  /* Ajustăm conținutul principal pentru a preveni mișcarea ciudată */
   .content {
-    margin-top: 60px; /* Reducem spațiul de sus */
+    margin-top: 60px; /* Păstrăm spațiul de sus */
     padding: 10px; /* Reducem padding-ul */
+    min-height: calc(100vh - 60px); /* Asigurăm o înălțime minimă sub navbar */
+    box-sizing: border-box; /* Include padding în calcul */
   }
 
   .content h1 {
