@@ -6,6 +6,7 @@ body {
   color: #ffffff;
   background: none;
   overflow-y: auto;
+  overflow-x: hidden; /* Prevenim scroll-ul orizontal */
   -webkit-overflow-scrolling: touch;
 }
 
@@ -177,11 +178,11 @@ body.dashboard-body .background-container {
   position: absolute;
   top: 100%;
   right: 40px;
-  width: 300px;
+  width: 250px; /* Reducem lățimea pe desktop */
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  padding: 20px;
+  padding: 15px; /* Reducem padding-ul */
   z-index: 1001;
   transition: opacity 0.3s ease;
 }
@@ -197,7 +198,7 @@ body.dashboard-body .background-container {
 
 .form-container input {
   width: 100%;
-  padding: 8px;
+  padding: 6px; /* Reducem padding-ul */
   margin: 5px 0;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -205,14 +206,14 @@ body.dashboard-body .background-container {
 }
 
 .form-container button {
-  width: 120px;
-  padding: 8px 15px;
+  width: 100px; /* Reducem lățimea butoanelor */
+  padding: 6px 10px; /* Reducem padding-ul */
   border: none;
   border-radius: 4px;
   cursor: pointer;
   transition: background 0.3s;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  margin: 10px 5px;
+  margin: 5px 5px; /* Reducem marginile */
 }
 
 #signupButton {
@@ -264,6 +265,9 @@ body.dashboard-body .background-container {
   padding: 20px;
   position: relative;
   z-index: 1;
+  width: 100%; /* Asigurăm lățimea fixă */
+  max-width: 100%; /* Prevenim depășirea */
+  box-sizing: border-box;
 }
 
 /* Secțiuni generale pentru conținut */
@@ -273,6 +277,7 @@ body.dashboard-body .background-container {
   margin: 0 auto; /* Centrăm secțiunile */
   padding: 20px;
   text-align: center;
+  box-sizing: border-box;
 }
 
 .content h1 {
@@ -369,6 +374,8 @@ body.dashboard-body .background-container {
     padding: 10px 20px;
     height: 50px;
     flex-wrap: wrap;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .logo-img {
@@ -399,20 +406,20 @@ body.dashboard-body .background-container {
   }
 
   .auth-dropdown {
-    width: 90%;
-    max-width: 300px;
+    width: 85%; /* Reducem lățimea pe mobil */
+    max-width: 250px; /* Limităm lățimea maximă */
     right: 10px;
-    padding: 15px;
+    padding: 10px; /* Reducem padding-ul */
   }
 
   .form-container input {
-    padding: 6px;
+    padding: 5px; /* Reducem padding-ul */
     font-size: 14px;
   }
 
   .form-container button {
-    width: 100px;
-    padding: 6px 10px;
+    width: 90px; /* Reducem lățimea butoanelor */
+    padding: 5px 8px; /* Reducem padding-ul */
     font-size: 14px;
     margin: 5px 2px;
   }
@@ -422,6 +429,8 @@ body.dashboard-body .background-container {
     padding: 10px;
     min-height: calc(100vh - 60px);
     box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
   }
 
   .content h1 {
@@ -430,7 +439,7 @@ body.dashboard-body .background-container {
 
   .message {
     width: 90%;
-    max-width: 300px;
+    max-width: 250px; /* Reducem lățimea mesajului */
     padding: 8px;
     font-size: 14px;
   }
@@ -454,6 +463,8 @@ body.dashboard-body .background-container {
   .meme-gen-container {
     padding: 10px;
     min-height: calc(100vh - 60px); /* Ajustăm pentru navbar mai mic */
+    width: 100%;
+    max-width: 100%;
   }
 
   #memeGeneratorSection h2 {
@@ -476,6 +487,8 @@ body.dashboard-body .background-container {
 
   .section-container {
     padding: 10px;
+    width: 100%;
+    max-width: 100%;
   }
 
   .section-container h2 {
