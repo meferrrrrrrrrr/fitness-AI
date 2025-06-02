@@ -11,7 +11,7 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
-/* Adăugăm un container pentru fundal – optimizat */
+/* Adăugăm un container pentru gradient */
 .background-container {
   position: fixed;
   top: 0;
@@ -19,21 +19,17 @@ body {
   width: 100%;
   height: 100%;
   z-index: -1; /* Sub toate elementele */
-  background-image: url('/public/images/hero-bg.webp');
-  background-size: cover; /* Păstrăm cover, dar verificăm optimizarea */
-  background-position: center;
-  background-repeat: no-repeat;
-  /* Adăugăm un strat semi-transparent */
-  background-color: rgba(0, 0, 0, 0.4);
+  /* Gradient turcoaz la cyan pentru index.html */
+  background: linear-gradient(135deg, #00ddeb, #00ffff);
+  /* Adăugăm un strat semi-transparent pentru contrast */
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 /* Stiluri specifice pentru dashboard.html */
 body.dashboard-body .background-container {
-  background-image: url('/public/images/ai-room.webp');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: rgba(0, 0, 0, 0.4);
+  /* Gradient diferit turcoaz la cyan pentru dashboard */
+  background: linear-gradient(135deg, #00c4cc, #00e5e5);
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 /* Ajustăm poziționarea pentru a fi sus în dreapta */
@@ -62,9 +58,8 @@ body.dashboard-body .background-container {
   justify-content: space-between;
   align-items: center;
   z-index: 1000;
-  /* Simplificăm fundalul – eliminăm tranziția pentru performanță */
-  background: rgba(0, 0, 0, 0.5); /* Fundal semi-transparent, fără blur */
-  /* Eliminăm tranziția pentru a reduce jitter-ul */
+  /* Simplificăm fundalul */
+  background: rgba(0, 0, 0, 0.5); /* Fundal semi-transparent */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Umbră subtilă */
   height: 60px;
 }
