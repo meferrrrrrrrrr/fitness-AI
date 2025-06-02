@@ -11,7 +11,7 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
-/* Adăugăm un container pentru fundal */
+/* Adăugăm un container pentru fundal – optimizat */
 .background-container {
   position: fixed;
   top: 0;
@@ -20,7 +20,7 @@ body {
   height: 100%;
   z-index: -1; /* Sub toate elementele */
   background-image: url('/public/images/hero-bg.webp');
-  background-size: cover;
+  background-size: cover; /* Păstrăm cover, dar verificăm optimizarea */
   background-position: center;
   background-repeat: no-repeat;
   /* Adăugăm un strat semi-transparent */
@@ -62,9 +62,9 @@ body.dashboard-body .background-container {
   justify-content: space-between;
   align-items: center;
   z-index: 1000;
-  /* Simplificăm fundalul – eliminăm backdrop-filter */
+  /* Simplificăm fundalul – eliminăm tranziția pentru performanță */
   background: rgba(0, 0, 0, 0.5); /* Fundal semi-transparent, fără blur */
-  transition: all 0.3s ease; /* Tranziție smooth pentru ascundere/reapariție */
+  /* Eliminăm tranziția pentru a reduce jitter-ul */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Umbră subtilă */
   height: 60px;
 }
