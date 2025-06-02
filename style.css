@@ -33,7 +33,6 @@ body.dashboard-body .background-container {
   flex-direction: column;
   align-items: flex-end; /* Aliniem la dreapta */
   justify-content: flex-start; /* Aliniem sus */
-  min-height: 100vh;
   padding: 40px; /* Spațiu de la margini */
   text-align: right; /* Text aliniat la dreapta */
 }
@@ -42,6 +41,63 @@ body.dashboard-body .background-container {
   font-size: 16px; /* Micșorăm fontul, apropiat de logout (12px), dar puțin mai mare */
   margin-bottom: 10px; /* Reducem spațiul față de butonul de logout */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Container nou centrat pentru Meme Gen Awake */
+.meme-gen-container {
+  display: flex;
+  justify-content: center; /* Centrăm orizontal */
+  align-items: center; /* Centrăm vertical */
+  min-height: calc(100vh - 80px); /* Ajustăm pentru navbar și padding */
+  padding: 20px;
+  text-align: center;
+}
+
+#memeGeneratorSection {
+  max-width: 600px; /* Lățime maximă pentru conținut */
+  width: 100%;
+}
+
+#memeGeneratorSection h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+#memeGeneratorSection p {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+#memeGeneratorSection input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#memeGeneratorSection button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background: #ff69b4;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s;
+}
+
+#memeGeneratorSection button:hover {
+  background: #ff4da6;
+}
+
+#memeGeneratorSection .response {
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .navbar {
@@ -206,6 +262,58 @@ body.dashboard-body .background-container {
   z-index: 1;
 }
 
+/* Secțiuni generale pentru conținut */
+.section-container {
+  max-width: 600px; /* Lățime maximă pentru secțiuni */
+  width: 100%;
+  margin: 0 auto; /* Centrăm secțiunile */
+  padding: 20px;
+  text-align: center;
+}
+
+.section-container h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.section-container p {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+.action-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background: #4CAF50;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s;
+}
+
+.action-button:hover {
+  background: #45a049;
+}
+
+.response {
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
 .auth-status {
   margin-top: 10px;
   color: #ffffff;
@@ -327,5 +435,27 @@ body.dashboard-body .background-container {
   .logout-btn {
     padding: 6px 12px; /* Reducem dimensiunea butonului */
     font-size: 12px; /* Reducem fontul */
+  }
+
+  .section-container {
+    padding: 10px;
+  }
+
+  .section-container h2 {
+    font-size: 20px;
+  }
+
+  .section-container p {
+    font-size: 14px;
+  }
+
+  .input-field {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .action-button {
+    padding: 8px 16px;
+    font-size: 14px;
   }
 }

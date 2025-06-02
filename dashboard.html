@@ -3,24 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fitness AI - Dashboard</title>
+  <title>MEF AI - Meme Gen Awake</title>
   <link rel="stylesheet" href="style.css" />
-  
-  <!-- Favicon & Apple icon din /public/images -->
   <link rel="icon" type="image/png" href="/public/images/favicon-32x32.png" />
   <link rel="apple-touch-icon" href="/public/images/apple-touch-icon.png" />
 </head>
 <body class="dashboard-body">
-  <!-- Adăugăm containerul pentru fundal -->
   <div class="background-container"></div>
-
   <div class="dashboard-content">
     <h1 id="welcomeMessage">Welcome, <span id="userEmail">User</span>!</h1>
     <button id="logoutButton" class="logout-btn">Logout</button>
   </div>
-
+  <!-- Container centrat pentru Meme Gen Awake -->
+  <div class="meme-gen-container">
+    <div id="memeGeneratorSection">
+      <h2>Meme Gen Awake</h2>
+      <p>Create viral memes with truth and humor.</p>
+      <input type="text" id="memePrompt" placeholder="Enter meme theme (e.g., freedom, AI)..." />
+      <button id="generateMeme">Generate Meme</button>
+      <div id="memeResponse" class="response"></div>
+    </div>
+  </div>
   <script>
-    // Afișăm email-ul din localStorage în loc de "User"
+    // Afișăm email-ul din localStorage
     const userEmailSpan = document.getElementById('userEmail');
     const lastEmail = localStorage.getItem('lastEmail') || 'User';
     if (userEmailSpan) userEmailSpan.textContent = lastEmail;
