@@ -230,3 +230,78 @@ body.dashboard-body {
 .visible {
   display: block;
 }
+
+/* Media Queries pentru responsive design */
+@media (max-width: 768px) {
+  /* Ajustăm navbar-ul */
+  .navbar {
+    padding: 10px 20px; /* Reducem padding-ul */
+    height: 50px; /* Reducem înălțimea */
+    flex-wrap: wrap; /* Permitem wrap pentru elemente */
+  }
+
+  .logo-img {
+    width: 30px; /* Reducem dimensiunea logo-ului */
+    height: 30px;
+  }
+
+  .logo-text {
+    font-size: 18px; /* Reducem fontul */
+  }
+
+  .auth-container {
+    padding-right: 20px; /* Reducem spațiul din dreapta */
+  }
+
+  .form-toggle {
+    gap: 5px; /* Reducem spațiul între butoane */
+  }
+
+  .toggle-button {
+    padding: 6px 10px; /* Reducem dimensiunea butoanelor */
+    font-size: 14px; /* Reducem fontul */
+  }
+
+  .auth-status {
+    font-size: 12px; /* Reducem fontul */
+    margin-top: 5px;
+  }
+
+  /* Ajustăm dropdown-ul */
+  .auth-dropdown {
+    width: 90%; /* Facem lățimea adaptivă */
+    max-width: 300px; /* Păstrăm un maxim */
+    right: 10px; /* Reducem offset-ul din dreapta */
+    padding: 15px; /* Reducem padding-ul */
+  }
+
+  .form-container input {
+    padding: 6px; /* Reducem padding-ul input-urilor */
+    font-size: 14px; /* Reducem fontul */
+  }
+
+  .form-container button {
+    width: 100px; /* Reducem lățimea butoanelor */
+    padding: 6px 10px; /* Reducem padding-ul */
+    font-size: 14px; /* Reducem fontul */
+    margin: 5px 2px; /* Reducem marginile */
+  }
+
+  /* Ajustăm conținutul principal */
+  .content {
+    margin-top: 60px; /* Reducem spațiul de sus */
+    padding: 10px; /* Reducem padding-ul */
+  }
+
+  .content h1 {
+    font-size: 24px; /* Reducem fontul titlului */
+  }
+
+  /* Ajustăm mesajele */
+  .message {
+    width: 90%; /* Facem lățimea adaptivă */
+    max-width: 300px; /* Păstrăm un maxim */
+    padding: 8px; /* Reducem padding-ul */
+    font-size: 14px; /* Reducem fontul */
+  }
+}
