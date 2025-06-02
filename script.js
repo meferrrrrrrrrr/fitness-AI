@@ -238,19 +238,21 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = '/';
     }
 
-    // Logic for navbar scroll behavior – dezactivăm pe mobil
-    let lastScroll = 0;
-    window.addEventListener('scroll', () => {
-        // Verificăm dacă ecranul e mai mic de 768px (mobil)
-        if (window.innerWidth > 768) {
-            const currentScroll = window.pageYOffset;
-            if (currentScroll > lastScroll && currentScroll > 100) {
-                if (navbar) navbar.classList.add('hidden');
-            } else {
-                if (navbar) navbar.classList.remove('hidden');
-            }
-            lastScroll = currentScroll;
+    // Logic for navbar scroll behavior – înlocuim cu logica din script.js vechi
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', function () {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        if (scrollTop > lastScrollTop) {
+            navbar.style.top = '-80px'; // Ascunde navbar-ul
+        } else {
+            navbar.style.top = '0'; // Afișează navbar-ul
         }
+        if (scrollTop > 50) {
+            navbar.classList.add('scrolled'); // Adaugă umbră
+        } else {
+            navbar.classList.remove('scrolled'); // Elimină umbra
+        }
+        lastScrollTop = scrollTop;
     });
 
     // Close dropdown when clicking outside

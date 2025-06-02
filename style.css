@@ -4,31 +4,26 @@ body {
   padding: 0;
   min-height: 100vh;
   color: #ffffff;
-  /* Eliminăm imaginea de fundal de pe body */
   background: none;
-  /* Adăugăm suport pentru scroll smooth pe mobil */
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
 
-/* Adăugăm un container pentru gradient */
+/* Adăugăm gradientul din style.css vechi */
 .background-container {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1; /* Sub toate elementele */
-  /* Gradient turcoaz la cyan pentru index.html */
-  background: linear-gradient(135deg, #00ddeb, #00ffff);
-  /* Adăugăm un strat semi-transparent pentru contrast */
+  z-index: -1;
+  background: linear-gradient(135deg, #1A2526, #00F0FF, #6e48aa); /* Gradient din style.css vechi */
   background-color: rgba(0, 0, 0, 0.2);
 }
 
 /* Stiluri specifice pentru dashboard.html */
 body.dashboard-body .background-container {
-  /* Gradient diferit turcoaz la cyan pentru dashboard */
-  background: linear-gradient(135deg, #00c4cc, #00e5e5);
+  background: linear-gradient(135deg, #1A2526, #00F0FF 50%, #6e48aa); /* Variantă subtil diferită */
   background-color: rgba(0, 0, 0, 0.2);
 }
 
@@ -36,16 +31,16 @@ body.dashboard-body .background-container {
 .dashboard-content {
   display: flex;
   flex-direction: column;
-  align-items: flex-end; /* Aliniem la dreapta */
-  justify-content: flex-start; /* Aliniem sus */
+  align-items: flex-end;
+  justify-content: flex-start;
   min-height: 100vh;
-  padding: 40px; /* Spațiu de la margini */
-  text-align: right; /* Text aliniat la dreapta */
+  padding: 40px;
+  text-align: right;
 }
 
 .dashboard-content h1 {
-  font-size: 16px; /* Micșorăm fontul, apropiat de logout (12px), dar puțin mai mare */
-  margin-bottom: 10px; /* Reducem spațiul față de butonul de logout */
+  font-size: 16px;
+  margin-bottom: 10px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
@@ -53,15 +48,20 @@ body.dashboard-body .background-container {
   position: fixed;
   top: 0;
   width: 100%;
-  padding: 10px 40px; /* Margini interioare pentru a evita marginile extreme */
+  padding: 10px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 1000;
-  /* Simplificăm fundalul */
-  background: rgba(0, 0, 0, 0.5); /* Fundal semi-transparent */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Umbră subtilă */
+  background: linear-gradient(to right, #1A2526, #00F0FF, #6e48aa); /* Gradient din style.css vechi */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   height: 60px;
+  transition: top 0.3s; /* Adăugăm tranziție pentru logica navbar */
+}
+
+/* Suport pentru clasa scrolled din script.js vechi */
+.navbar.scrolled {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Din style.css vechi */
 }
 
 .navbar.hidden {
@@ -87,9 +87,9 @@ body.dashboard-body .background-container {
 }
 
 .auth-container {
-  position: relative; /* Pentru poziționarea dropdown-ului */
-  margin-left: auto; /* Aliniere la dreapta, dar cu spațiu */
-  padding-right: 40px; /* Spațiu suplimentar de la margine */
+  position: relative;
+  margin-left: auto;
+  padding-right: 40px;
 }
 
 .form-toggle {
@@ -113,17 +113,17 @@ body.dashboard-body .background-container {
 }
 
 .auth-dropdown {
-  display: none; /* Inițial ascuns, afișat prin JS */
+  display: none;
   position: absolute;
-  top: 100%; /* Așezat sub navbar */
-  right: 40px; /* Aliniat cu padding-ul navbar-ului */
+  top: 100%;
+  right: 40px;
   width: 300px;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   padding: 20px;
-  z-index: 1001; /* Deasupra altor elemente */
-  transition: opacity 0.3s ease; /* Tranziție smooth pentru afișare */
+  z-index: 1001;
+  transition: opacity 0.3s ease;
 }
 
 .auth-dropdown.visible {
@@ -156,7 +156,7 @@ body.dashboard-body .background-container {
 }
 
 #signupButton {
-  background: #4CAF50; /* Verde */
+  background: #4CAF50;
   color: white;
 }
 
@@ -165,7 +165,7 @@ body.dashboard-body .background-container {
 }
 
 #loginButton {
-  background: #4CAF50; /* Verde */
+  background: #4CAF50;
   color: white;
 }
 
@@ -174,7 +174,7 @@ body.dashboard-body .background-container {
 }
 
 #resetPasswordButton {
-  background: #ff69b4; /* Roz */
+  background: #ff69b4;
   color: white;
 }
 
@@ -183,7 +183,7 @@ body.dashboard-body .background-container {
 }
 
 .logout-btn {
-  background: #f44336; /* Roșu pentru Logout */
+  background: #f44336;
   color: white;
   border: none;
   padding: 4px 10px;
@@ -202,13 +202,13 @@ body.dashboard-body .background-container {
 .content {
   margin-top: 80px;
   padding: 20px;
-  position: relative; /* Asigurăm că e deasupra background-container */
-  z-index: 1; /* Deasupra fundalului */
+  position: relative;
+  z-index: 1;
 }
 
 .auth-status {
   margin-top: 10px;
-  color: #ffffff; /* Schimbat la alb pentru a fi vizibil pe navbar */
+  color: #ffffff;
   font-size: 14px;
 }
 
@@ -243,77 +243,73 @@ body.dashboard-body .background-container {
 
 /* Media Queries pentru responsive design */
 @media (max-width: 768px) {
-  /* Ajustăm navbar-ul */
   .navbar {
-    padding: 10px 20px; /* Reducem padding-ul */
-    height: 50px; /* Reducem înălțimea */
-    flex-wrap: wrap; /* Permitem wrap pentru elemente */
+    padding: 10px 20px;
+    height: 50px;
+    flex-wrap: wrap;
   }
 
   .logo-img {
-    width: 30px; /* Reducem dimensiunea logo-ului */
+    width: 30px;
     height: 30px;
   }
 
   .logo-text {
-    font-size: 18px; /* Reducem fontul */
+    font-size: 18px;
   }
 
   .auth-container {
-    padding-right: 20px; /* Reducem spațiul din dreapta */
+    padding-right: 20px;
   }
 
   .form-toggle {
-    gap: 5px; /* Reducem spațiul între butoane */
+    gap: 5px;
   }
 
   .toggle-button {
-    padding: 6px 10px; /* Reducem dimensiunea butoanelor */
-    font-size: 14px; /* Reducem fontul */
+    padding: 6px 10px;
+    font-size: 14px;
   }
 
   .auth-status {
-    font-size: 12px; /* Reducem fontul */
+    font-size: 12px;
     margin-top: 5px;
   }
 
-  /* Ajustăm dropdown-ul */
   .auth-dropdown {
-    width: 90%; /* Facem lățimea adaptivă */
-    max-width: 300px; /* Păstrăm un maxim */
-    right: 10px; /* Reducem offset-ul din dreapta */
-    padding: 15px; /* Reducem padding-ul */
+    width: 90%;
+    max-width: 300px;
+    right: 10px;
+    padding: 15px;
   }
 
   .form-container input {
-    padding: 6px; /* Reducem padding-ul input-urilor */
-    font-size: 14px; /* Reducem fontul */
+    padding: 6px;
+    font-size: 14px;
   }
 
   .form-container button {
-    width: 100px; /* Reducem lățimea butoanelor */
-    padding: 6px 10px; /* Reducem padding-ul */
-    font-size: 14px; /* Reducem fontul */
-    margin: 5px 2px; /* Reducem marginile */
+    width: 100px;
+    padding: 6px 10px;
+    font-size: 14px;
+    margin: 5px 2px;
   }
 
-  /* Ajustăm conținutul principal pentru a preveni mișcarea ciudată */
   .content {
-    margin-top: 60px; /* Păstrăm spațiul de sus */
-    padding: 10px; /* Reducem padding-ul */
-    min-height: calc(100vh - 60px); /* Asigurăm o înălțime minimă sub navbar */
-    box-sizing: border-box; /* Include padding în calcul */
+    margin-top: 60px;
+    padding: 10px;
+    min-height: calc(100vh - 60px);
+    box-sizing: border-box;
   }
 
   .content h1 {
-    font-size: 24px; /* Reducem fontul titlului */
+    font-size: 24px;
   }
 
-  /* Ajustăm mesajele */
   .message {
-    width: 90%; /* Facem lățimea adaptivă */
-    max-width: 300px; /* Păstrăm un maxim */
-    padding: 8px; /* Reducem padding-ul */
-    font-size: 14px; /* Reducem fontul */
+    width: 90%;
+    max-width: 300px;
+    padding: 8px;
+    font-size: 14px;
   }
 }
