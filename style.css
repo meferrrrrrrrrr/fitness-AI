@@ -31,16 +31,16 @@ body.dashboard-body .background-container {
 .dashboard-content {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  justify-content: flex-start;
+  align-items: flex-end; /* Aliniem la dreapta */
+  justify-content: flex-start; /* Aliniem sus */
   min-height: 100vh;
-  padding: 40px;
-  text-align: right;
+  padding: 40px; /* Spațiu de la margini */
+  text-align: right; /* Text aliniat la dreapta */
 }
 
 .dashboard-content h1 {
-  font-size: 16px;
-  margin-bottom: 10px;
+  font-size: 16px; /* Micșorăm fontul, apropiat de logout (12px), dar puțin mai mare */
+  margin-bottom: 10px; /* Reducem spațiul față de butonul de logout */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
@@ -311,5 +311,21 @@ body.dashboard-body .background-container {
     max-width: 300px;
     padding: 8px;
     font-size: 14px;
+  }
+
+  .dashboard-content {
+    align-items: center; /* Centrăm pe mobil */
+    padding: 20px; /* Reducem padding-ul */
+    text-align: center; /* Centrăm textul */
+  }
+
+  .dashboard-content h1 {
+    font-size: 14px; /* Reducem fontul pe mobil */
+    margin-bottom: 5px; /* Reducem spațiul */
+  }
+
+  .logout-btn {
+    padding: 6px 12px; /* Reducem dimensiunea butonului */
+    font-size: 12px; /* Reducem fontul */
   }
 }
