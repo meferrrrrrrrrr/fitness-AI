@@ -6,11 +6,10 @@ body {
   color: #ffffff;
   background: none;
   overflow-y: auto;
-  overflow-x: hidden; /* Prevenim scroll-ul orizontal */
+  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
 }
 
-/* Adăugăm gradientul din style.css vechi */
 .background-container {
   position: fixed;
   top: 0;
@@ -18,45 +17,42 @@ body {
   width: 100%;
   height: 100%;
   z-index: -1;
-  background: linear-gradient(135deg, #1A2526, #00F0FF, #6e48aa); /* Gradient din style.css vechi */
+  background: linear-gradient(135deg, #1A2526, #00F0FF, #6e48aa);
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-/* Stiluri specifice pentru dashboard.html */
 body.dashboard-body .background-container {
-  background: linear-gradient(135deg, #1A2526, #00F0FF 50%, #6e48aa); /* Variantă subtil diferită */
+  background: linear-gradient(135deg, #1A2526, #00F0FF 50%, #6e48aa);
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-/* Ajustăm poziționarea pentru a fi sus în dreapta */
 .dashboard-content {
   display: flex;
   flex-direction: column;
-  align-items: flex-end; /* Aliniem la dreapta */
-  justify-content: flex-start; /* Aliniem sus */
-  padding: 40px; /* Spațiu de la margini */
-  text-align: right; /* Text aliniat la dreapta */
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 40px;
+  text-align: right;
 }
 
 .dashboard-content h1 {
-  font-size: 16px; /* Micșorăm fontul, apropiat de logout (12px), dar puțin mai mare */
-  margin-bottom: 10px; /* Reducem spațiul față de butonul de logout */
+  font-size: 16px;
+  margin-bottom: 10px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  color: #ffffff; /* Păstrăm alb pentru email */
+  color: #ffffff;
 }
 
-/* Container nou centrat pentru Meme Gen Awake */
 .meme-gen-container {
   display: flex;
-  justify-content: center; /* Centrăm orizontal */
-  align-items: center; /* Centrăm vertical */
-  min-height: calc(100vh - 80px); /* Ajustăm pentru navbar și padding */
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 80px);
   padding: 20px;
   text-align: center;
 }
 
 #memeGeneratorSection {
-  max-width: 600px; /* Lățime maximă pentru conținut */
+  max-width: 600px;
   width: 100%;
 }
 
@@ -64,22 +60,24 @@ body.dashboard-body .background-container {
   font-size: 24px;
   margin-bottom: 10px;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-  color: #ffffff; /* Titlul rămâne alb */
+  color: #ffffff;
 }
 
 #memeGeneratorSection p {
   font-size: 16px;
   margin-bottom: 20px;
-  color: #000000; /* Subtext negru */
+  color: #000000;
 }
 
-#memeGeneratorSection input {
+#memeGeneratorSection input,
+#memeGeneratorSection select {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+  font-size: 16px;
 }
 
 #memeGeneratorSection button {
@@ -102,7 +100,16 @@ body.dashboard-body .background-container {
   padding: 10px;
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.1);
-  color: #ffffff; /* Răspunsurile rămân albe */
+  color: #ffffff;
+}
+
+#memeGeneratorSection canvas {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 10px auto;
+  display: block;
 }
 
 .navbar {
@@ -113,16 +120,15 @@ body.dashboard-body .background-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 1002; /* Aducem navbar și mai sus */
-  background: linear-gradient(to right, #1A2526, #00F0FF, #6e48aa); /* Gradient din style.css vechi */
+  z-index: 1002;
+  background: linear-gradient(to right, #1A2526, #00F0FF, #6e48aa);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   height: 60px;
-  transition: top 0.3s; /* Adăugăm tranziție pentru logica navbar */
+  transition: top 0.3s;
 }
 
-/* Suport pentru clasa scrolled din script.js vechi */
 .navbar.scrolled {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Din style.css vechi */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .navbar.hidden {
@@ -176,15 +182,15 @@ body.dashboard-body .background-container {
 .auth-dropdown {
   display: none;
   position: absolute;
-  top: calc(100% + 5px); /* Ajustăm cu un offset sub navbar */
+  top: calc(100% + 5px);
   right: 40px;
-  width: 240px; /* Reducem lățimea pe desktop */
-  background: linear-gradient(135deg, rgba(26, 37, 38, 0.6), rgba(0, 240, 255, 0.2)); /* Mai transparent */
-  border: 1px solid rgba(255, 255, 255, 0.1); /* Bordură și mai subtilă */
-  border-radius: 6px; /* Colțuri mai rotunjite */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); /* Umbră mai subtilă */
-  padding: 10px; /* Reducem padding-ul */
-  z-index: 1001; /* Sub navbar */
+  width: 240px;
+  background: linear-gradient(135deg, rgba(26, 37, 38, 0.6), rgba(0, 240, 255, 0.2));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  padding: 10px;
+  z-index: 1001;
   transition: opacity 0.3s ease;
 }
 
@@ -198,33 +204,33 @@ body.dashboard-body .background-container {
 }
 
 .form-container h2 {
-  display: none; /* Ascundem titlurile "Sign Up" și "Login" */
+  display: none;
 }
 
 .form-container input {
   width: 100%;
-  padding: 5px; /* Reducem padding-ul */
+  padding: 5px;
   margin: 5px 0;
-  border: 1px solid rgba(255, 255, 255, 0.3); /* Bordură albă subtilă */
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 4px;
   box-sizing: border-box;
-  background: rgba(255, 255, 255, 0.1); /* Fundal semi-transparent */
-  color: #ffffff; /* Text alb */
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
 }
 
 .form-container input::placeholder {
-  color: rgba(255, 255, 255, 0.7); /* Placeholder alb */
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .form-container button {
-  width: 90px; /* Reducem lățimea butoanelor */
-  padding: 5px 8px; /* Reducem padding-ul */
+  width: 90px;
+  padding: 5px 8px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   transition: background 0.3s;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Umbră mai mică */
-  margin: 5px 3px; /* Reducem marginile */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  margin: 5px 3px;
 }
 
 #signupButton {
@@ -272,28 +278,12 @@ body.dashboard-body .background-container {
 }
 
 .content {
-  margin-top: 80px; /* Default pentru desktop */
+  margin-top: 80px;
   padding: 20px;
   position: relative;
   z-index: 1;
-  width: 100%; /* Asigurăm lățimea fixă */
-  max-width: 100%; /* Prevenim depășirea */
-  box-sizing: border-box;
-}
-
-@media (max-width: 768px) {
-  .content {
-    margin-top: 180px; /* Creștem spațiul pe mobil pentru a evita suprapunerea */
-  }
-}
-
-/* Secțiuni generale pentru conținut */
-.section-container {
-  max-width: 600px; /* Lățime maximă pentru secțiuni */
   width: 100%;
-  margin: 0 auto; /* Centrăm secțiunile */
-  padding: 20px;
-  text-align: center;
+  max-width: 100%;
   box-sizing: border-box;
 }
 
@@ -301,20 +291,29 @@ body.dashboard-body .background-container {
   font-size: 32px;
   margin-bottom: 20px;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-  color: #ffffff; /* Titlul principal rămâne alb */
+  color: #ffffff;
+}
+
+.section-container {
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  box-sizing: border-box;
 }
 
 .section-container h2 {
   font-size: 24px;
   margin-bottom: 10px;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-  color: #ffffff; /* Titlurile secțiunilor rămân albe */
+  color: #ffffff;
 }
 
 .section-container p {
   font-size: 16px;
   margin-bottom: 20px;
-  color: #000000; /* Subtext negru */
+  color: #000000;
 }
 
 .input-field {
@@ -347,7 +346,7 @@ body.dashboard-body .background-container {
   padding: 10px;
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.1);
-  color: #ffffff; /* Răspunsurile rămân albe */
+  color: #ffffff;
 }
 
 .auth-status {
@@ -357,26 +356,26 @@ body.dashboard-body .background-container {
 }
 
 .message {
-  margin: 5px auto; /* Reducem marginile */
-  padding: 4px 8px; /* Reducem padding-ul */
+  margin: 5px auto;
+  padding: 4px 8px;
   border-radius: 3px;
   display: none;
-  width: 100%; /* Ocupă lățimea containerului */
-  max-width: 220px; /* Reducem lățimea maximă */
+  width: 100%;
+  max-width: 220px;
   text-align: center;
-  font-size: 12px; /* Font mic pentru discreție */
-  opacity: 0.9; /* Ușor transparent */
-  line-height: 1.2; /* Spațiere mai mică între rânduri */
+  font-size: 12px;
+  opacity: 0.9;
+  line-height: 1.2;
 }
 
 .success {
-  background-color: rgba(212, 237, 218, 0.7); /* Verde mai subtil */
+  background-color: rgba(212, 237, 218, 0.7);
   color: #155724;
   display: block;
 }
 
 .error {
-  background-color: rgba(248, 215, 218, 0.7); /* Roșu mai subtil */
+  background-color: rgba(248, 215, 218, 0.7);
   color: #721c24;
   display: block;
 }
@@ -389,7 +388,6 @@ body.dashboard-body .background-container {
   display: block;
 }
 
-/* Media Queries pentru responsive design */
 @media (max-width: 768px) {
   .navbar {
     padding: 10px 20px;
@@ -427,30 +425,30 @@ body.dashboard-body .background-container {
   }
 
   .auth-dropdown {
-    width: 75%; /* Reducem lățimea pe mobil */
-    max-width: 200px; /* Mai compact pe mobil */
+    width: 75%;
+    max-width: 200px;
     right: 10px;
-    padding: 6px; /* Reducem padding-ul */
+    padding: 6px;
   }
 
   .form-container h2 {
-    display: none; /* Ascundem titlurile pe mobil */
+    display: none;
   }
 
   .form-container input {
-    padding: 4px; /* Reducem padding-ul */
-    font-size: 12px; /* Reducem fontul pe mobil */
+    padding: 4px;
+    font-size: 12px;
   }
 
   .form-container button {
-    width: 80px; /* Reducem lățimea butoanelor */
-    padding: 4px 6px; /* Reducem padding-ul */
-    font-size: 12px; /* Reducem fontul pe mobil */
+    width: 80px;
+    padding: 4px 6px;
+    font-size: 12px;
     margin: 4px 2px;
   }
 
   .content {
-    margin-top: 180px; /* Creștem spațiul pe mobil pentru a evita suprapunerea */
+    margin-top: 180px;
     padding: 10px;
     min-height: calc(100vh - 60px);
     box-sizing: border-box;
@@ -463,30 +461,30 @@ body.dashboard-body .background-container {
   }
 
   .message {
-    max-width: 180px; /* Și mai mic pe mobil */
-    font-size: 11px; /* Font și mai mic */
-    padding: 3px 6px; /* Reducem padding-ul */
+    max-width: 180px;
+    font-size: 11px;
+    padding: 3px 6px;
   }
 
   .dashboard-content {
-    align-items: center; /* Centrăm pe mobil */
-    padding: 20px; /* Reducem padding-ul */
-    text-align: center; /* Centrăm textul */
+    align-items: center;
+    padding: 20px;
+    text-align: center;
   }
 
   .dashboard-content h1 {
-    font-size: 14px; /* Reducem fontul pe mobil */
-    margin-bottom: 5px; /* Reducem spațiul */
+    font-size: 14px;
+    margin-bottom: 5px;
   }
 
   .logout-btn {
-    padding: 6px 12px; /* Reducem dimensiunea butonului */
-    font-size: 12px; /* Reducem fontul */
+    padding: 6px 12px;
+    font-size: 12px;
   }
 
   .meme-gen-container {
     padding: 10px;
-    min-height: calc(100vh - 60px); /* Ajustăm pentru navbar mai mic */
+    min-height: calc(100vh - 60px);
     width: 100%;
     max-width: 100%;
   }
@@ -497,11 +495,14 @@ body.dashboard-body .background-container {
 
   #memeGeneratorSection p {
     font-size: 14px;
-    color: #000000; /* Păstrăm subtext negru pe mobil */
+    color: #000000;
   }
 
-  #memeGeneratorSection input {
+  #memeGeneratorSection input,
+  #memeGeneratorSection select {
     padding: 8px;
+    font-size: 16px;
+    margin: 8px 0;
   }
 
   #memeGeneratorSection button {
@@ -521,12 +522,13 @@ body.dashboard-body .background-container {
 
   .section-container p {
     font-size: 14px;
-    color: #000000; /* Păstrăm subtext negru pe mobil */
+    color: #000000;
   }
 
   .input-field {
     padding: 8px;
-    font-size: 14px;
+    font-size: 16px;
+    margin: 8px 0;
   }
 
   .action-button {

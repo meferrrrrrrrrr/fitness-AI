@@ -6,7 +6,7 @@
   <title>MEF AI - Life Optimization Hub</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" type="image/png" href="/public/images/favicon-32x32.png" />
-  <link rel="apple-touch-icon" href="/public/images/apple-touch-icon.png" />
+  <link rel="apple-touch-icon" href="/public/images/apple-icon" />
 </head>
 <body>
   <div class="background-container"></div>
@@ -33,7 +33,7 @@
           <h2>Login</h2>
           <input type="email" id="loginEmail" placeholder="Email" />
           <input type="password" id="loginPassword" placeholder="Password" />
-          <button id="loginButton">Login</button>
+          <button id="button">Login</button>
           <button id="resetPasswordButton">Reset Password</button>
           <p id="loginMessage" class="message hidden"></p>
         </div>
@@ -50,10 +50,31 @@
       <button id="generatePlan" class="action-button" aria-label="Generate daily plan for life optimization">Generate Daily Plan</button>
       <div id="coachResponse" class="response"></div>
     </div>
-    <!-- Previzualizare Meme Generator -->
-    <div id="memePreviewSection" class="section-container">
-      <h2>Create Impactful Content</h2>
-      <p>Generate viral memes on consciousness, freedom, and more on <a href="/dashboard.html">MEF Dashboard</a>.</p>
+    <!-- Secțiunea Meme Generator -->
+    <div id="memeGeneratorSection" class="section-container">
+      <h2>Meme Gen Awake</h2>
+      <p>Create viral content with truth and humor.</p>
+      <select id="memeTheme" class="input-field" aria-label="Select meme theme">
+        <option value="" disabled selected>Select a theme...</option>
+        <option value="consciousness">Trezirea Conștiinței</option>
+        <option value="freedom">Libertate</option>
+        <option value="spirituality">Spiritualitate</option>
+        <option value="humor">Umor</option>
+        <option value="ai">AI</option>
+        <option value="society">Societate</option>
+        <option value="matrix">Matrix</option>
+      </select>
+      <select id="memeStyle" class="input-field" aria-label="Select meme style">
+        <option value="" disabled selected>Select a style...</option>
+        <option value="sci-fi">Sci-Fi</option>
+        <option value="ironic">Ironic</option>
+        <option value="dark">Dark</option>
+        <option value="minimalist">Minimalist</option>
+      </select>
+      <button id="generateMeme" class="action-button" aria-label="Generate meme">Generate Meme</button>
+      <canvas id="memeCanvas" width="400" height="400"></canvas>
+      <button id="downloadMeme" class="action-button hidden" aria-label="Download generated meme">Download</button>
+      <div id="memeResponse" class="response"></div>
     </div>
   </div>
   <script src="script.js"></script>
