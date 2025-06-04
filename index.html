@@ -42,39 +42,31 @@
     </div>
   </nav>
   <div class="content">
-    <h1>MEF AI - Your Life Optimization Hub</h1>
-    <!-- Secțiunea AI Coach Personal -->
-    <div id="aiCoachSection" class="section-container">
-      <h2>AI Coach Personal</h2>
-      <p>Your daily plan to optimize mental, emotional, financial, creative life.</p>
-      <input type="text" id="coachPrompt" placeholder="e.g., 'Improve focus and save $500 this month'" class="input-field" aria-label="Enter your goal or reflection, e.g., improve focus or save money" />
-      <button id="generatePlan" class="action-button" aria-label="Generate daily plan for life optimization">Generate Daily Plan</button>
-      <div id="coachResponse" class="response"></div>
-    </div>
-    <!-- Secțiunea Meme Generator -->
-    <div id="memeGeneratorSection" class="section-container">
-      <h2>Meme Gen Awake</h2>
-      <p>Create viral content with truth and humor.</p>
-      <select id="memeTheme" class="input-field" aria-label="Select meme theme">
-        <option value="" disabled selected>Select a theme...</option>
-        <option value="freedom">Freedom</option>
-        <option value="spirituality">Spirituality</option>
-        <option value="humor">Humor</option>
-        <option value="ai">AI</option>
-        <option value="matrix">Matrix</option>
-      </select>
-      <select id="memeStyle" class="input-field" aria-label="Select meme style">
-        <option value="" disabled selected>Select a style...</option>
-        <option value="minimalist">Minimalist</option>
-        <option value="ironic">Ironic</option>
-        <option value="sci-fi">Sci-Fi</option>
-        <option value="retro">Retro</option>
-        <option value="bold">Bold</option>
-      </select>
-      <button id="generateMeme" class="action-button" aria-label="Generate meme">Generate Meme</button>
-      <canvas id="memeCanvas" width="400" height="400"></canvas>
-      <button id="downloadMeme" class="action-button hidden" aria-label="Download generated meme">Download</button>
-      <div id="memeResponse" class="response"></div>
+    <div class="hero-section-container">
+      <h1>MEF AI - Your Life Optimization Hub</h1>
+      <h2>Transform Your Life with AI-Driven Plans and Viral Memes</h2>
+      <p>Unlock mental, emotional, and financial growth with personalized daily plans. Create viral memes that spark truth and humor.</p>
+      <button id="getStarted" class="action-button" aria-label="Get started with MEF AI">Get Started</button>
+      <div class="features-list">
+        <h3 class="features-title">Why MEF AI?</h3>
+        <div class="features-grid">
+          <div class="feature-card" aria-label="Feature: AI-Powered Daily Plans">
+            <span class="feature-emoji">📈</span>
+            <h4>AI-Powered Daily Plans</h4>
+            <p>Optimize your life daily.</p>
+          </div>
+          <div class="feature-card" aria-label="Feature: Viral Meme Generator">
+            <span class="feature-emoji">😂</span>
+            <h4>Viral Meme Generator</h4>
+            <p>Create content with impact.</p>
+          </div>
+          <div class="feature-card" aria-label="Feature: Simple & Accessible">
+            <span class="feature-emoji">🚀</span>
+            <h4>Simple & Accessible</h4>
+            <p>Start your journey today.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <script src="script.js"></script>
