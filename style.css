@@ -104,7 +104,7 @@ body.dashboard-body .background-container {
   position: absolute;
   top: calc(100% + 10px);
   right: 0;
-  width: 240px;
+  width: 220px; /* Redus pentru desktop */
   background: linear-gradient(135deg, rgba(26, 37, 38, 0.95), rgba(0, 240, 255, 0.3));
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
@@ -151,8 +151,7 @@ body.dashboard-body .background-container {
 .form-container button {
   width: 90px;
   padding: 6px;
-  margin: 6px auto; /* Centrat */
-  display: block; /* Pentru a permite centrarea */
+  margin: 6px 0; /* Vertical pe desktop */
   border: none;
   border-radius: 6px;
   background: #4CAF50;
@@ -170,8 +169,7 @@ body.dashboard-body .background-container {
 
 #resetPasswordButton {
   background: #ff69b4;
-  margin: 6px auto; /* Centrat */
-  display: block; /* Pentru a permite centrarea */
+  margin: 6px 0; /* Vertical pe desktop */
 }
 
 #resetPasswordButton:hover {
@@ -544,14 +542,14 @@ body.dashboard-body .background-container {
     position: fixed;
     top: 50px; /* Imediat sub navbar */
     left: 50%;
-    transform: translateX(-50%); /* Centrat perfect pe mijloc */
+    transform: translateX(-50%); /* Centrat perfect */
     width: 90%;
-    max-width: 240px; /* Redus lățimea pentru a evita marginile */
+    max-width: 220px; /* Redus pentru a evita marginile */
     background: linear-gradient(135deg, rgba(26, 37, 38, 0.95), rgba(0, 240, 255, 0.3));
     border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 12px; /* Colturi mai rotunjite */
+    border-radius: 12px; /* Colturi rotunjite */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    padding: 15px;
+    padding: 10px; /* Redus padding */
     z-index: 1004;
     transition: opacity 0.3s ease;
     opacity: 0;
@@ -569,17 +567,17 @@ body.dashboard-body .background-container {
     align-items: center;
   }
 
+  .form-container .button-group {
+    display: flex;
+    justify-content: center;
+    gap: 5px; /* Spațiu mic între butoane */
+    width: 100%;
+  }
+
   .form-container input {
     padding: 6px;
     margin: 6px 0;
     font-size: 12px;
-  }
-
-  .form-container .button-group {
-    display: flex;
-    justify-content: center;
-    gap: 10px; /* Spațiu între butoane */
-    width: 100%;
   }
 
   .form-container button {
@@ -603,7 +601,7 @@ body.dashboard-body .background-container {
   }
 
   .content.with-auth-modal {
-    margin-top: 250px; /* Conținut ajustat */
+    margin-top: 200px; /* Ajustat pentru a fi mai natural */
   }
 
   .content h1 {
