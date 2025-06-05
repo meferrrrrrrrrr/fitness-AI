@@ -102,7 +102,7 @@ async function handleLogout() {
             localStorage.removeItem('lastEmail');
             console.log('Token cleared after logout');
             updateStatus(null);
-            window.location.href = '/';
+            window.location.href = '/index.html'; // Redirect explicit la index.html
         } else {
             showMessage(data.error, 'error', 'login');
         }
@@ -181,26 +181,42 @@ function updateStatus(token) {
     const showSignup = document.getElementById('showSignup');
     const showLogin = document.getElementById('showLogin');
     const authStatus = document.getElementById('authStatus');
+    const currentPage = window.location.pathname;
 
     if (token) {
         if (authDropdown) authDropdown.className = 'auth-dropdown hidden';
         if (showSignup) showSignup.style.display = 'none';
         if (showLogin) showLogin.style.display = 'none';
         if (authStatus) {
-            authStatus.innerHTML = `Hello, ${localStorage.getItem('lastEmail') || 'User'}! <button id="logoutButton" class="logout-btn">Logout</button>`;
-            authStatus.style.display = 'block';
+            const email = localStorage.getItem('lastEmail') || 'User';
+            authStatus.innerHTML = `Hello, ${email}! <button id="logoutButton" class="logout-btn">Logout</button>`;
+            authStatus.style.display = 'flex';
+            authStatus.style.alignItems = 'center';
+            authStatus.style.gap = '5px';
             const logoutButton = document.getElementById('logoutButton');
             if (logoutButton) logoutButton.addEventListener('click', handleLogout);
         }
+        // Protecție: Dacă e pe index.html, redirectionează la dashboard
+        if (currentPage.includes('index.html')) {
+            window.location.href = '/dashboard.html';
+        }
     } else {
         if (authDropdown) authDropdown.className = 'auth-dropdown hidden';
-        if (showSignup) showSignup.className = 'toggle-button';
-        if (showLogin) showLogin.className = 'toggle-button active';
-        if (showSignup) showSignup.style.display = 'inline-block';
-        if (showLogin) showLogin.style.display = 'inline-block';
+        if (showSignup) {
+            showSignup.className = 'toggle-button';
+            showSignup.style.display = 'inline-block';
+        }
+        if (showLogin) {
+            showLogin.className = 'toggle-button active';
+            showLogin.style.display = 'inline-block';
+        }
         if (authStatus) {
             authStatus.textContent = 'You are not logged in.';
             authStatus.style.display = 'block';
+        }
+        // Protecție: Dacă e pe dashboard.html fără token, redirectionează la index
+        if (currentPage.includes('dashboard.html')) {
+            window.location.href = '/index.html';
         }
     }
 }
@@ -269,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Protecție pentru dashboard.html
     if (window.location.pathname.includes('dashboard.html') && !authToken) {
-        window.location.href = '/';
+        window.location.href = '/index.html';
     }
 
     // Logic for navbar scroll behavior
