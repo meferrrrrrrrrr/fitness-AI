@@ -17,48 +17,72 @@
       <span class="logo-text">MEF AI</span>
     </div>
     <div class="auth-container">
-      <button id="logoutButton" class="logout-btn">Logout</button>
+      <div class="form-toggle">
+        <button id="showSignup" class="toggle-button">Sign Up</button>
+        <button id="showLogin" class="toggle-button active">Login</button>
+      </div>
+      <div id="authStatus" class="auth-status hidden"></div>
+      <div class="auth-dropdown hidden">
+        <div id="signupForm" class="form-container hidden">
+          <h2>Sign Up</h2>
+          <input type="email" id="email" placeholder="Email" />
+          <input type="password" id="password" placeholder="Password" />
+          <button id="signupButton">Sign Up</button>
+          <p id="signupMessage" class="message hidden"></p>
+        </div>
+        <div id="loginForm" class="form-container visible">
+          <h2>Login</h2>
+          <input type="email" id="loginEmail" placeholder="Email" />
+          <input type="password" id="loginPassword" placeholder="Password" />
+          <button id="loginButton">Login</button>
+          <button id="resetPasswordButton">Reset Password</button>
+          <p id="loginMessage" class="message hidden"></p>
+        </div>
+      </div>
     </div>
   </nav>
   <div class="content">
-    <div class="welcome-card" aria-label="Welcome message">
+    <div class="welcome-message" aria-label="Welcome user message">
       <span class="feature-emoji">🥳</span>
       <h1 id="welcomeMessage">Welcome, <span id="userEmail">User</span>!</h1>
     </div>
     <!-- Secțiunea AI Coach Personal -->
-    <div id="aiCoachSection" class="feature-card" aria-label="Section: AI Coach Personal">
+    <div id="aiCoachSection" class="section" aria-label="AI Coach Personal section">
       <span class="feature-emoji">📈</span>
       <h2>AI Coach Personal</h2>
       <p>Your daily plan to optimize mental, emotional, financial, and creative life.</p>
-      <input type="text" id="coachPrompt" placeholder="e.g., 'Improve focus and save $500 this month'" class="input-field" aria-label="Enter your goal or reflection, e.g., improve focus or save money" />
-      <button id="generatePlan" class="action-button" aria-label="Generate daily plan for life optimization">Generate Daily Plan</button>
+      <input type="text" id="coachPrompt" placeholder="e.g., 'Improve focus and save $500 this month'" class="input-field" aria-label="Enter your goal or reflection" />
+      <button id="generatePlan" class="action-button" aria-label="Generate daily plan">Generate Daily Plan</button>
       <div id="coachResponse" class="response"></div>
     </div>
     <!-- Secțiunea Meme Generator -->
-    <div id="memeGeneratorSection" class="feature-card" aria-label="Section: Meme Gen Awake">
+    <div id="memeGeneratorSection" class="section" aria-label="Meme Generator section">
       <span class="feature-emoji">😂</span>
       <h2>Meme Gen Awake</h2>
       <p>Create viral content with truth and humor.</p>
-      <select id="memeTheme" class="input-field" aria-label="Select meme theme">
-        <option value="" disabled selected>Select a theme...</option>
-        <option value="freedom">Freedom</option>
-        <option value="spirituality">Spirituality</option>
-        <option value="humor">Humor</option>
-        <option value="ai">AI</option>
-        <option value="matrix">Matrix</option>
-      </select>
-      <select id="memeStyle" class="input-field" aria-label="Select meme style">
-        <option value="" disabled selected>Select a style...</option>
-        <option value="minimalist">Minimalist</option>
-        <option value="ironic">Ironic</option>
-        <option value="sci-fi">Sci-Fi</option>
-        <option value="retro">Retro</option>
-        <option value="bold">Bold</option>
-      </select>
+      <div class="custom-select" data-name="memeTheme">
+        <div class="select-button" tabindex="0">Select a theme...</div>
+        <div class="select-options hidden">
+          <div class="option" data-value="freedom">Freedom</div>
+          <div class="option" data-value="spirituality">Spirituality</div>
+          <div class="option" data-value="humor">Humor</div>
+          <div class="option" data-value="ai">AI</div>
+          <div class="option" data-value="matrix">Matrix</div>
+        </div>
+      </div>
+      <div class="custom-select" data-name="memeStyle">
+        <div class="select-button" tabindex="0">Select a style...</div>
+        <div class="select-options hidden">
+          <div class="option" data-value="minimalist">Minimalist</div>
+          <div class="option" data-value="ironic">Ironic</div>
+          <div class="option" data-value="sci-fi">Sci-Fi</div>
+          <div class="option" data-value="retro">Retro</div>
+          <div class="option" data-value="bold">Bold</div>
+        </div>
+      </div>
       <button id="generateMeme" class="action-button" aria-label="Generate meme">Generate Meme</button>
       <canvas id="memeCanvas" width="400" height="400"></canvas>
       <button id="downloadMeme" class="action-button hidden" aria-label="Download generated meme">Download</button>
-      <div id="memeResponse" class="response"></div>
     </div>
   </div>
   <script src="script.js"></script>

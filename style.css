@@ -73,6 +73,9 @@ body.dashboard-body .background-container {
   position: relative;
   margin-left: auto;
   padding-right: 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .form-toggle {
@@ -99,7 +102,7 @@ body.dashboard-body .background-container {
   display: none;
   position: absolute;
   top: calc(100% + 5px);
-  right: 40px;
+  right: 0;
   width: 240px;
   background: linear-gradient(135deg, rgba(26, 37, 38, 0.6), rgba(0, 240, 255, 0.2));
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -126,12 +129,14 @@ body.dashboard-body .background-container {
 .form-container input {
   width: 100%;
   padding: 5px;
-  margin: 5px 0;
+  margin: 10px 0;
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 4px;
-  box-sizing: border-box;
   background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+  color: white;
+  box-sizing: border-box;
+  font-size: 14px;
+  transition: border-color 0.3s;
 }
 
 .form-container input::placeholder {
@@ -140,31 +145,30 @@ body.dashboard-body .background-container {
 
 .form-container button {
   width: 90px;
-  padding: 5px 8px;
+  padding: 5px;
+  margin: 5px 3px;
   border: none;
   border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  margin: 5px 3px;
-}
-
-#signupButton, #loginButton {
   background: #4CAF50;
   color: white;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-#signupButton:hover, #loginButton:hover {
+.form-container button:hover {
   background: #45a049;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
 }
 
 #resetPasswordButton {
   background: #ff69b4;
-  color: white;
 }
 
 #resetPasswordButton:hover {
   background: #ff4da6;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
 }
 
 .logout-btn {
@@ -192,6 +196,9 @@ body.dashboard-body .background-container {
   z-index: 1;
   width: 100%;
   box-sizing: border-box;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .content h1 {
@@ -219,6 +226,28 @@ body.dashboard-body .background-container {
   font-size: 18px;
   margin-bottom: 30px;
   color: #ffffff;
+}
+
+/* === Welcome Message === */
+.welcome-message {
+  text-align: center;
+  margin-bottom: 30px;
+  animation: fadeIn 0.5s ease-in;
+}
+
+.welcome-message .feature-emoji {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.welcome-message h1 {
+  font-size: 24px;
+  background: linear-gradient(to right, #ffffff, #00F0FF);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 /* === Features Styles === */
@@ -274,27 +303,37 @@ body.dashboard-body .background-container {
   color: #ffffff;
 }
 
-.welcome-card {
-  border: 1px solid rgba(0, 240, 255, 0.3);
+/* === Section Styles === */
+.section {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 8px;
   padding: 20px;
+  margin-bottom: 30px;
   text-align: center;
-  margin: 0 auto 20px;
-  max-width: 600px;
   animation: fadeIn 0.5s ease-in;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.welcome-card h1 {
+.section h2 {
   font-size: 24px;
-  background: linear-gradient(to right, #ffffff, #00F0FF);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  margin-bottom: 10px;
+  color: #ffffff;
 }
 
-/* === Section Styles === */
+.section p {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.section .feature-emoji {
+  font-size: 24px;
+  display: block;
+  margin-bottom: 10px;
+}
+
 .input-field {
   width: 100%;
   padding: 10px;
@@ -303,13 +342,59 @@ body.dashboard-body .background-container {
   border-radius: 4px;
   box-sizing: border-box;
   font-size: 16px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.2);
   color: #ffffff;
   transition: border-color 0.3s;
 }
 
-.input-field:hover {
+.custom-select {
+  position: relative;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.select-button {
+  padding: 10px;
+  background-color: #1c2526;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #ffffff;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.select-button:focus {
+  outline: none;
   border-color: #00F0FF;
+}
+
+.select-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #1c2526;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.select-options.hidden {
+  display: none;
+}
+
+.option {
+  padding: 10px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.option:hover {
+  background-color: #00F0FF;
+  color: #1c2526;
 }
 
 .action-button {
@@ -334,6 +419,10 @@ body.dashboard-body .background-container {
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.1);
   color: #ffffff;
+  min-height: 100px;
+  max-height: 200px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
 #memeGeneratorSection canvas {
@@ -350,21 +439,18 @@ body.dashboard-body .background-container {
   border-color: #00F0FF;
 }
 
-/* === Dashboard Specific Styles === */
-.dashboard-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  text-align: center;
-}
-
 /* === Utility Styles === */
 .auth-status {
   margin-top: 10px;
   color: #ffffff;
   font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.auth-status.hidden {
+  display: none;
 }
 
 .message {
@@ -507,16 +593,29 @@ body.dashboard-body .background-container {
     font-size: 24px;
   }
 
-  .welcome-card {
-    padding: 15px;
+  .welcome-message .feature-emoji {
+    font-size: 24px;
   }
 
-  .welcome-card h1 {
+  .welcome-message h1 {
     font-size: 20px;
   }
 
-  .dashboard-content {
-    padding: 10px;
+  .section {
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+
+  .section h2 {
+    font-size: 20px;
+  }
+
+  .section p {
+    font-size: 14px;
+  }
+
+  .section .feature-emoji {
+    font-size: 20px;
   }
 
   .input-field {
@@ -525,18 +624,35 @@ body.dashboard-body .background-container {
     margin: 8px 0;
   }
 
+  .custom-select {
+    margin-bottom: 8px;
+  }
+
+  .select-button {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .select-options {
+    font-size: 14px;
+  }
+
   .action-button {
     padding: 8px 16px;
     font-size: 14px;
+  }
+
+  .response {
+    max-height: 150px;
+  }
+
+  #memeGeneratorSection canvas {
+    max-width: 100%;
   }
 
   .message {
     max-width: 180px;
     font-size: 11px;
     padding: 3px 6px;
-  }
-
-  #memeGeneratorSection canvas {
-    max-width: 100%;
   }
 }

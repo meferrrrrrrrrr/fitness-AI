@@ -205,6 +205,39 @@ function updateStatus(token) {
     }
 }
 
+// Funcție pentru a gestiona dropdown-urile personalizate
+function setupCustomSelects() {
+    const selects = document.querySelectorAll('.custom-select');
+    selects.forEach(select => {
+        const button = select.querySelector('.select-button');
+        const options = select.querySelector('.select-options');
+        const optionsList = select.querySelectorAll('.option');
+
+        button.addEventListener('click', () => {
+            options.classList.toggle('hidden');
+        });
+
+        optionsList.forEach(option => {
+            option.addEventListener('click', () => {
+                button.textContent = option.textContent;
+                select.dataset.value = option.dataset.value;
+                options.classList.add('hidden');
+            });
+        });
+    });
+
+    // Închide dropdown-ul la click în afară
+    document.addEventListener('click', (event) => {
+        selects.forEach(select => {
+            const button = select.querySelector('.select-button');
+            const options = select.querySelector('.select-options');
+            if (!select.contains(event.target)) {
+                options.classList.add('hidden');
+            }
+        });
+    });
+}
+
 // Event Listener principal
 document.addEventListener('DOMContentLoaded', () => {
     const authToken = localStorage.getItem('authToken');
@@ -239,19 +272,19 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = '/';
     }
 
-    // Logic for navbar scroll behavior – înlocuim cu logica din script.js vechi
+    // Logic for navbar scroll behavior
     let lastScrollTop = 0;
     window.addEventListener('scroll', function () {
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         if (scrollTop > lastScrollTop) {
-            navbar.style.top = '-80px'; // Ascunde navbar-ul
+            navbar.style.top = '-80px';
         } else {
-            navbar.style.top = '0'; // Afișează navbar-ul
+            navbar.style.top = '0';
         }
         if (scrollTop > 50) {
-            navbar.classList.add('scrolled'); // Adaugă umbră
+            navbar.classList.add('scrolled');
         } else {
-            navbar.classList.remove('scrolled'); // Elimină umbra
+            navbar.classList.remove('scrolled');
         }
         lastScrollTop = scrollTop;
     });
@@ -285,6 +318,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const dashboardLogoutButton = document.getElementById('logoutButton');
     if (dashboardLogoutButton) dashboardLogoutButton.addEventListener('click', handleLogout);
+
+    // Inițializare dropdown-uri personalizate
+    setupCustomSelects();
 });
 
 // Expunem funcțiile pe window
