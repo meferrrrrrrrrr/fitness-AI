@@ -140,7 +140,9 @@ async function handleResetPassword() {
 
 function showSignupForm() {
     const authDropdown = document.querySelector('.auth-dropdown');
+    const content = document.querySelector('.content');
     if (authDropdown) authDropdown.className = 'auth-dropdown visible';
+    if (content) content.classList.add('with-auth-modal');
     const signupForm = document.getElementById('signupForm');
     const loginForm = document.getElementById('loginForm');
     if (signupForm) signupForm.className = 'form-container visible';
@@ -153,7 +155,9 @@ function showSignupForm() {
 
 function showLoginForm() {
     const authDropdown = document.querySelector('.auth-dropdown');
+    const content = document.querySelector('.content');
     if (authDropdown) authDropdown.className = 'auth-dropdown visible';
+    if (content) content.classList.add('with-auth-modal');
     const signupForm = document.getElementById('signupForm');
     const loginForm = document.getElementById('loginForm');
     if (signupForm) signupForm.className = 'form-container hidden';
@@ -309,6 +313,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const isClickInside = authDropdown && (authDropdown.contains(event.target) || showSignup.contains(event.target) || showLogin.contains(event.target));
         if (!isClickInside && authDropdown && authDropdown.classList.contains('visible')) {
             authDropdown.className = 'auth-dropdown hidden';
+            const content = document.querySelector('.content');
+            if (content) content.classList.remove('with-auth-modal');
         }
     });
 
