@@ -170,7 +170,7 @@ body.dashboard-body .background-container {
 
 #resetPasswordButton {
   background: #ff69b4;
-  margin: 6px auto; /* Centrat, cu spațiu pe laterale */
+  margin: 6px auto; /* Centrat */
   display: block; /* Pentru a permite centrarea */
 }
 
@@ -544,12 +544,12 @@ body.dashboard-body .background-container {
     position: fixed;
     top: 50px; /* Imediat sub navbar */
     left: 50%;
-    transform: translateX(-50%); /* Centrat pe mijloc */
+    transform: translateX(-50%); /* Centrat perfect pe mijloc */
     width: 90%;
-    max-width: 250px; /* Redus lățimea */
+    max-width: 240px; /* Redus lățimea pentru a evita marginile */
     background: linear-gradient(135deg, rgba(26, 37, 38, 0.95), rgba(0, 240, 255, 0.3));
     border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 8px;
+    border-radius: 12px; /* Colturi mai rotunjite */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     padding: 15px;
     z-index: 1004;
@@ -564,6 +564,9 @@ body.dashboard-body .background-container {
 
   .form-container {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .form-container input {
@@ -572,17 +575,24 @@ body.dashboard-body .background-container {
     font-size: 12px;
   }
 
+  .form-container .button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Spațiu între butoane */
+    width: 100%;
+  }
+
   .form-container button {
     width: 80px;
     padding: 5px;
-    margin: 5px auto; /* Centrat */
-    display: block; /* Pentru a permite centrarea */
+    margin: 0; /* Fără margine individuală */
+    display: inline-block; /* Pentru aliniere orizontală */
     font-size: 12px;
   }
 
   #resetPasswordButton {
-    margin: 5px auto; /* Centrat, cu spațiu pe laterale */
-    display: block;
+    margin: 0; /* Fără margine individuală */
+    display: inline-block; /* Pentru aliniere orizontală */
   }
 
   .content {
@@ -593,7 +603,7 @@ body.dashboard-body .background-container {
   }
 
   .content.with-auth-modal {
-    margin-top: 250px; /* Conținut mai sus, ajustat */
+    margin-top: 250px; /* Conținut ajustat */
   }
 
   .content h1 {
