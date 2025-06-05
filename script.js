@@ -211,8 +211,7 @@ function updateStatus(token) {
             showLogin.style.display = 'inline-block';
         }
         if (authStatus) {
-            authStatus.textContent = 'You are not logged in.';
-            authStatus.style.display = 'block';
+            authStatus.style.display = 'none'; // Eliminăm complet mesajul
         }
         // Protecție: Dacă e pe dashboard.html fără token, redirectionează la index
         if (currentPage.includes('dashboard.html')) {

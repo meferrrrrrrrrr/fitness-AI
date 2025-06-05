@@ -495,7 +495,7 @@ body.dashboard-body .background-container {
 /* === Media Queries === */
 @media (max-width: 768px) {
   .navbar {
-    padding: 10px 20px;
+    padding: 10px 10px;
     height: 50px;
     box-sizing: border-box;
   }
@@ -510,7 +510,8 @@ body.dashboard-body .background-container {
   }
 
   .auth-container {
-    padding-right: 20px;
+    padding-right: 10px;
+    justify-content: flex-end;
   }
 
   .form-toggle {
@@ -518,32 +519,36 @@ body.dashboard-body .background-container {
   }
 
   .toggle-button {
-    padding: 6px 10px;
-    font-size: 14px;
+    padding: 4px 8px;
+    font-size: 12px;
   }
 
   .auth-status {
     font-size: 12px;
     margin-top: 5px;
+    display: none; /* Eliminăm complet mesajul pe mobil */
   }
 
   .auth-dropdown {
-    width: 90%;
-    max-width: 200px;
-    right: 10px;
-    padding: 6px;
+    width: 100%;
+    max-width: 280px;
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+    padding: 10px;
+    top: calc(100% + 2px);
   }
 
   .form-container input {
-    padding: 4px;
-    font-size: 12px;
+    padding: 6px;
+    font-size: 14px;
   }
 
   .form-container button {
-    width: 80px;
-    padding: 4px 6px;
-    font-size: 12px;
-    margin: 4px 2px;
+    width: 90px;
+    padding: 6px;
+    font-size: 14px;
+    margin: 5px 3px;
   }
 
   .content {
