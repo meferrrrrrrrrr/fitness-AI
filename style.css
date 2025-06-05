@@ -208,7 +208,7 @@ body.dashboard-body .background-container {
 }
 
 .content.with-auth-modal {
-  margin-top: 80px; /* Fără deplasare pe mobil */
+  margin-top: 80px; /* Default pe desktop */
 }
 
 .content h1 {
@@ -537,27 +537,30 @@ body.dashboard-body .background-container {
   }
 
   .auth-dropdown {
-    position: absolute;
-    top: calc(100% + 5px);
-    right: 5px;
-    width: 200px; /* Redus pentru a fi mai compact */
-    background: linear-gradient(135deg, rgba(26, 37, 38, 0.98), rgba(0, 240, 255, 0.2));
+    display: none;
+    position: fixed;
+    top: 50px; /* Imediat sub navbar */
+    left: 50%;
+    transform: translateX(-50%); /* Centrat pe mijloc */
+    width: 90%;
+    max-width: 250px; /* Redus lățimea */
+    background: linear-gradient(135deg, rgba(26, 37, 38, 0.95), rgba(0, 240, 255, 0.3));
     border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 6px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    padding: 15px;
     z-index: 1004;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition: opacity 0.3s ease;
+    opacity: 0;
   }
 
   .auth-dropdown.visible {
-    transform: translateY(0);
+    display: block;
     opacity: 1;
   }
 
-  .auth-dropdown .form-container {
-    padding: 0;
-    width: 100%;
+  .form-container {
+    text-align: center;
   }
 
   .form-container input {
@@ -581,7 +584,7 @@ body.dashboard-body .background-container {
   }
 
   .content.with-auth-modal {
-    margin-top: 60px; /* Fără deplasare */
+    margin-top: 250px; /* Conținut mai sus, ajustat */
   }
 
   .content h1 {
