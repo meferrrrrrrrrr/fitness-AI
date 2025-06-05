@@ -109,7 +109,7 @@ body.dashboard-body .background-container {
   border-radius: 6px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   padding: 10px;
-  z-index: 1001;
+  z-index: 1003; /* Creștem z-index pentru a sta deasupra navbar-ului */
   transition: opacity 0.3s ease;
 }
 
@@ -203,7 +203,7 @@ body.dashboard-body .background-container {
 }
 
 .content.with-auth-modal {
-  margin-top: 300px; /* Ajustăm spațiul pentru modal pe mobil */
+  margin-top: 200px; /* Reducem spațiul pe mobil */
 }
 
 .content h1 {
@@ -541,7 +541,7 @@ body.dashboard-body .background-container {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.3); /* Ajustăm transparența fundalului */
     z-index: 1003;
     padding: 20px;
     box-sizing: border-box;
@@ -561,7 +561,7 @@ body.dashboard-body .background-container {
     padding: 20px;
     width: 90%;
     max-width: 300px;
-    max-height: 80%;
+    max-height: 70%; /* Reducem înălțimea maximă */
     overflow-y: auto;
   }
 
@@ -586,7 +586,7 @@ body.dashboard-body .background-container {
   }
 
   .content.with-auth-modal {
-    margin-top: 350px; /* Ajustăm spațiul pentru modal */
+    margin-top: 200px; /* Ajustăm spațiul pentru modal */
   }
 
   .content h1 {
