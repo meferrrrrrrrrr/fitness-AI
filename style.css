@@ -99,7 +99,7 @@ body.dashboard-body .background-container {
   display: none;
   position: absolute;
   top: calc(100% + 5px);
-  right: 40px;
+  right: 0;
   width: 240px;
   background: linear-gradient(135deg, rgba(26, 37, 38, 0.6), rgba(0, 240, 255, 0.2));
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -186,44 +186,91 @@ body.dashboard-body .background-container {
 
 /* === Content Styles === */
 .content {
-  margin-top: 80px;
+  margin-top: 70px; /* Redus pentru a preveni deplasarea excesivă pe desktop */
   padding: 20px;
   position: relative;
   z-index: 1;
   width: 100%;
   box-sizing: border-box;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .content-shifted {
-  margin-top: 250px; /* Deplasare în jos pentru a face loc dropdown-ului */
+  margin-top: 250px;
   transition: margin-top 0.3s ease;
 }
 
-.content h1 {
-  font-size: 32px;
-  margin-bottom: 20px;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-  color: #ffffff;
-}
-
-.hero-section-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 40px 20px;
+.welcome-section,
+.ai-coach-section,
+.meme-generator-section {
+  margin-bottom: 30px;
   text-align: center;
 }
 
-.hero-section-container h2 {
+.welcome-section h1,
+.ai-coach-section h2,
+.meme-generator-section h2 {
   font-size: 28px;
-  margin-bottom: 20px;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  margin: 0 0 10px;
   color: #ffffff;
+  text-shadow: none; /* Eliminat pentru simplitate */
 }
 
-.hero-section-container p {
-  font-size: 18px;
-  margin-bottom: 30px;
+p {
+  font-size: 16px;
+  margin: 0 0 15px;
+  color: #cccccc;
+}
+
+.input {
+  width: 100%;
+  max-width: 300px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
   color: #ffffff;
+  font-size: 16px;
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background: #4CAF50;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  box-shadow: none; /* Eliminat pentru simplitate */
+}
+
+.button:hover {
+  background: #45a049;
+}
+
+.response {
+  margin-top: 20px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font-size: 14px;
+}
+
+#memeCanvas {
+  max-width: 100%;
+  height: auto;
+  margin: 15px 0;
+  display: block;
+  border: none; /* Eliminat bordura pentru simplitate */
+  border-radius: 0; /* Eliminat rotunjirea */
 }
 
 /* === Features Styles === */
@@ -450,41 +497,60 @@ body.dashboard-body .background-container {
     position: fixed;
     top: 50px;
     left: 50%;
-    transform: translateX(-50%); /* Centrare perfectă */
+    transform: translateX(-50%);
     width: 90%;
-    max-width: 200px; /* Compact */
-    right: auto; /* Eliminăm alinierea la dreapta */
+    max-width: 200px;
     padding: 6px;
-    border-radius: 8px; /* Mai rotunjit */
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Umbră subtilă */
+    box-shadow: none; /* Eliminat umbra pentru simplitate */
   }
 
   .form-container input {
     padding: 4px;
     font-size: 12px;
-    margin: 3px 0; /* Spațiere mai mică */
+    margin: 3px 0;
   }
 
   .form-container button {
     width: 80px;
     padding: 4px 6px;
     font-size: 12px;
-    margin: 3px 2px; /* Spațiere mai mică */
+    margin: 3px 2px;
   }
 
   .content {
-    margin-top: 60px;
+    margin-top: 50px; /* Redus pentru a preveni suprapunerea pe mobil */
     padding: 10px;
-    min-height: calc(100vh - 60px);
-    box-sizing: border-box;
+    max-width: 100%;
   }
 
-  .content-shifted {
-    margin-top: 250px; /* Deplasare în jos pentru a face loc dropdown-ului */
+  .welcome-section h1,
+  .ai-coach-section h2,
+  .meme-generator-section h2 {
+    font-size: 20px;
   }
 
-  .content h1 {
-    font-size: 24px;
+  p {
+    font-size: 14px;
+  }
+
+  .input {
+    max-width: 100%;
+    padding: 6px;
+    font-size: 12px;
+  }
+
+  .button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .response {
+    font-size: 12px;
+  }
+
+  #memeCanvas {
+    width: 100%;
+    height: auto;
   }
 
   .hero-section-container {
@@ -547,12 +613,8 @@ body.dashboard-body .background-container {
   }
 
   .message {
-    max-width: 160px; /* Redus pentru subtilitate */
-    font-size: 10px; /* Mai mic */
-    padding: 3px 4px; /* Mai compact */
-  }
-
-  #memeGeneratorSection canvas {
-    max-width: 100%;
+    max-width: 160px;
+    font-size: 10px;
+    padding: 3px 4px;
   }
 }

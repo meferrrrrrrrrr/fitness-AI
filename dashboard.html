@@ -13,33 +13,31 @@
   <div class="background-container"></div>
   <nav class="navbar">
     <div class="logo-container">
-      <img src="/public/images/logo.png" alt="MEF AI logo for life optimization and meme generation" class="logo-img" />
+      <img src="/public/images/logo.png" alt="MEF AI logo" class="logo-img" />
       <span class="logo-text">MEF AI</span>
     </div>
     <div class="auth-container">
       <button id="logoutButton" class="logout-btn">Logout</button>
     </div>
   </nav>
-  <div class="content">
-    <div class="welcome-card" aria-label="Welcome message">
-      <span class="feature-emoji">🥳</span>
-      <h1 id="welcomeMessage">Welcome, <span id="userEmail">User</span>!</h1>
-    </div>
-    <!-- Secțiunea AI Coach Personal -->
-    <div id="aiCoachSection" class="feature-card" aria-label="Section: AI Coach Personal">
-      <span class="feature-emoji">📈</span>
+  <main class="content">
+    <section class="welcome-section">
+      <span class="emoji">🥳</span>
+      <h1>Welcome, <span id="userEmail">User</span>!</h1>
+    </section>
+    <section class="ai-coach-section">
+      <span class="emoji">📈</span>
       <h2>AI Coach Personal</h2>
-      <p>Your daily plan to optimize mental, emotional, financial, and creative life.</p>
-      <input type="text" id="coachPrompt" placeholder="e.g., 'Improve focus and save $500 this month'" class="input-field" aria-label="Enter your goal or reflection, e.g., improve focus or save money" />
-      <button id="generatePlan" class="action-button" aria-label="Generate daily plan for life optimization">Generate Daily Plan</button>
+      <p>Your daily plan to optimize your life.</p>
+      <input type="text" id="coachPrompt" placeholder="e.g., 'Improve focus or save money'" class="input" />
+      <button id="generatePlan" class="button">Generate Plan</button>
       <div id="coachResponse" class="response"></div>
-    </div>
-    <!-- Secțiunea Meme Generator -->
-    <div id="memeGeneratorSection" class="feature-card" aria-label="Section: Meme Gen Awake">
-      <span class="feature-emoji">😂</span>
-      <h2>Meme Gen Awake</h2>
+    </section>
+    <section class="meme-generator-section">
+      <span class="emoji">😂</span>
+      <h2>Meme Generator</h2>
       <p>Create viral content with truth and humor.</p>
-      <select id="memeTheme" class="input-field" aria-label="Select meme theme">
+      <select id="memeTheme" class="input">
         <option value="" disabled selected>Select a theme...</option>
         <option value="freedom">Freedom</option>
         <option value="spirituality">Spirituality</option>
@@ -47,7 +45,7 @@
         <option value="ai">AI</option>
         <option value="matrix">Matrix</option>
       </select>
-      <select id="memeStyle" class="input-field" aria-label="Select meme style">
+      <select id="memeStyle" class="input">
         <option value="" disabled selected>Select a style...</option>
         <option value="minimalist">Minimalist</option>
         <option value="ironic">Ironic</option>
@@ -55,12 +53,12 @@
         <option value="retro">Retro</option>
         <option value="bold">Bold</option>
       </select>
-      <button id="generateMeme" class="action-button" aria-label="Generate meme">Generate Meme</button>
+      <button id="generateMeme" class="button">Generate Meme</button>
       <canvas id="memeCanvas" width="400" height="400"></canvas>
-      <button id="downloadMeme" class="action-button hidden" aria-label="Download generated meme">Download</button>
+      <button id="downloadMeme" class="button hidden">Download</button>
       <div id="memeResponse" class="response"></div>
-    </div>
-  </div>
+    </section>
+  </main>
   <script src="script.js"></script>
 </body>
 </html>
