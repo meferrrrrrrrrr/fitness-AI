@@ -146,9 +146,9 @@ function showSignupForm() {
     const showLogin = document.getElementById('showLogin');
 
     if (authDropdown && signupForm && loginForm && showSignup && showLogin) {
-        authDropdown.className = 'auth-dropdown visible'; // Afișăm dropdown-ul
-        signupForm.className = 'form-container visible'; // Afișăm formularul de signup
-        loginForm.className = 'form-container hidden'; // Ascundem formularul de login
+        authDropdown.className = 'auth-dropdown visible'; // Afișăm doar când e activ
+        signupForm.className = 'form-container visible';
+        loginForm.className = 'form-container hidden';
         showSignup.className = 'toggle-button active';
         showLogin.className = 'toggle-button';
     }
@@ -162,9 +162,9 @@ function showLoginForm() {
     const showLogin = document.getElementById('showLogin');
 
     if (authDropdown && signupForm && loginForm && showSignup && showLogin) {
-        authDropdown.className = 'auth-dropdown visible'; // Afișăm dropdown-ul
-        loginForm.className = 'form-container visible'; // Afișăm formularul de login
-        signupForm.className = 'form-container hidden'; // Ascundem formularul de signup
+        authDropdown.className = 'auth-dropdown visible'; // Afișăm doar când e activ
+        loginForm.className = 'form-container visible';
+        signupForm.className = 'form-container hidden';
         showLogin.className = 'toggle-button active';
         showSignup.className = 'toggle-button';
     }
