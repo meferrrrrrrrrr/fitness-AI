@@ -144,13 +144,15 @@ function showSignupForm() {
     const loginForm = document.getElementById('loginForm');
     const showSignup = document.getElementById('showSignup');
     const showLogin = document.getElementById('showLogin');
+    const content = document.querySelector('.content');
 
-    if (authDropdown && signupForm && loginForm && showSignup && showLogin) {
-        authDropdown.className = 'auth-dropdown visible'; // Afișăm doar când e activ
-        signupForm.className = 'form-container visible';
-        loginForm.className = 'form-container hidden';
+    if (authDropdown && signupForm && loginForm && showSignup && showLogin && content) {
+        authDropdown.className = 'auth-dropdown visible'; // Afișăm dropdown-ul
+        signupForm.className = 'form-container visible'; // Afișăm formularul de signup
+        loginForm.className = 'form-container hidden'; // Ascundem formularul de login
         showSignup.className = 'toggle-button active';
         showLogin.className = 'toggle-button';
+        content.classList.add('content-shifted'); // Deplasăm conținutul în jos
     }
 }
 
@@ -160,13 +162,15 @@ function showLoginForm() {
     const loginForm = document.getElementById('loginForm');
     const showSignup = document.getElementById('showSignup');
     const showLogin = document.getElementById('showLogin');
+    const content = document.querySelector('.content');
 
-    if (authDropdown && signupForm && loginForm && showSignup && showLogin) {
-        authDropdown.className = 'auth-dropdown visible'; // Afișăm doar când e activ
-        loginForm.className = 'form-container visible';
-        signupForm.className = 'form-container hidden';
+    if (authDropdown && signupForm && loginForm && showSignup && showLogin && content) {
+        authDropdown.className = 'auth-dropdown visible'; // Afișăm dropdown-ul
+        loginForm.className = 'form-container visible'; // Afișăm formularul de login
+        signupForm.className = 'form-container hidden'; // Ascundem formularul de signup
         showLogin.className = 'toggle-button active';
         showSignup.className = 'toggle-button';
+        content.classList.add('content-shifted'); // Deplasăm conținutul în jos
     }
 }
 
@@ -187,6 +191,7 @@ function updateStatus(token) {
     const showSignup = document.getElementById('showSignup');
     const showLogin = document.getElementById('showLogin');
     const authStatus = document.getElementById('authStatus');
+    const content = document.querySelector('.content');
 
     if (token) {
         if (authDropdown) authDropdown.className = 'auth-dropdown hidden';
@@ -198,6 +203,7 @@ function updateStatus(token) {
             const logoutButton = document.getElementById('logoutButton');
             if (logoutButton) logoutButton.addEventListener('click', handleLogout);
         }
+        if (content) content.classList.remove('content-shifted'); // Resetăm deplasarea
     } else {
         if (authDropdown) authDropdown.className = 'auth-dropdown hidden';
         if (showSignup) showSignup.className = 'toggle-button';
@@ -208,6 +214,7 @@ function updateStatus(token) {
             authStatus.textContent = 'You are not logged in.';
             authStatus.style.display = 'block';
         }
+        if (content) content.classList.remove('content-shifted'); // Resetăm deplasarea
     }
 }
 
@@ -262,11 +269,13 @@ document.addEventListener('DOMContentLoaded', () => {
         lastScrollTop = scrollTop;
     });
 
-    // Close dropdown when clicking outside
+    // Close dropdown when clicking outside and reset content position
     document.addEventListener('click', (event) => {
         const isClickInside = authDropdown && (authDropdown.contains(event.target) || showSignup.contains(event.target) || showLogin.contains(event.target));
-        if (!isClickInside && authDropdown && authDropdown.classList.contains('visible')) {
+        const content = document.querySelector('.content');
+        if (!isClickInside && authDropdown && authDropdown.classList.contains('visible') && content) {
             authDropdown.className = 'auth-dropdown hidden';
+            content.classList.remove('content-shifted');
         }
     });
 

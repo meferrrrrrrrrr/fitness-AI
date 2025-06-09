@@ -194,6 +194,11 @@ body.dashboard-body .background-container {
   box-sizing: border-box;
 }
 
+.content-shifted {
+  margin-top: 250px; /* Deplasare în jos pentru a face loc dropdown-ului */
+  transition: margin-top 0.3s ease;
+}
+
 .content h1 {
   font-size: 32px;
   margin-bottom: 20px;
@@ -472,6 +477,10 @@ body.dashboard-body .background-container {
     padding: 10px;
     min-height: calc(100vh - 60px);
     box-sizing: border-box;
+  }
+
+  .content-shifted {
+    margin-top: 250px; /* Deplasare în jos pentru a face loc dropdown-ului */
   }
 
   .content h1 {
