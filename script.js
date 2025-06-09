@@ -102,7 +102,7 @@ async function handleLogout() {
             localStorage.removeItem('lastEmail');
             console.log('Token cleared after logout');
             updateStatus(null);
-            window.location.href = '/index.html'; // Redirect explicit la index.html
+            window.location.href = '/';
         } else {
             showMessage(data.error, 'error', 'login');
         }
@@ -140,9 +140,7 @@ async function handleResetPassword() {
 
 function showSignupForm() {
     const authDropdown = document.querySelector('.auth-dropdown');
-    const content = document.querySelector('.content');
     if (authDropdown) authDropdown.className = 'auth-dropdown visible';
-    if (content) content.classList.add('with-auth-modal');
     const signupForm = document.getElementById('signupForm');
     const loginForm = document.getElementById('loginForm');
     if (signupForm) signupForm.className = 'form-container visible';
@@ -155,9 +153,7 @@ function showSignupForm() {
 
 function showLoginForm() {
     const authDropdown = document.querySelector('.auth-dropdown');
-    const content = document.querySelector('.content');
     if (authDropdown) authDropdown.className = 'auth-dropdown visible';
-    if (content) content.classList.add('with-auth-modal');
     const signupForm = document.getElementById('signupForm');
     const loginForm = document.getElementById('loginForm');
     if (signupForm) signupForm.className = 'form-container hidden';
@@ -185,76 +181,28 @@ function updateStatus(token) {
     const showSignup = document.getElementById('showSignup');
     const showLogin = document.getElementById('showLogin');
     const authStatus = document.getElementById('authStatus');
-    const currentPage = window.location.pathname;
 
     if (token) {
         if (authDropdown) authDropdown.className = 'auth-dropdown hidden';
         if (showSignup) showSignup.style.display = 'none';
         if (showLogin) showLogin.style.display = 'none';
         if (authStatus) {
-            const email = localStorage.getItem('lastEmail') || 'User';
-            authStatus.innerHTML = `Hello, ${email}! <button id="logoutButton" class="logout-btn">Logout</button>`;
-            authStatus.style.display = 'flex';
-            authStatus.style.alignItems = 'center';
-            authStatus.style.gap = '5px';
+            authStatus.innerHTML = `Hello, ${localStorage.getItem('lastEmail') || 'User'}! <button id="logoutButton" class="logout-btn">Logout</button>`;
+            authStatus.style.display = 'block';
             const logoutButton = document.getElementById('logoutButton');
             if (logoutButton) logoutButton.addEventListener('click', handleLogout);
         }
-        // Protecție: Dacă e pe index.html, redirectionează la dashboard
-        if (currentPage.includes('index.html')) {
-            window.location.href = '/dashboard.html';
-        }
     } else {
         if (authDropdown) authDropdown.className = 'auth-dropdown hidden';
-        if (showSignup) {
-            showSignup.className = 'toggle-button';
-            showSignup.style.display = 'inline-block';
-        }
-        if (showLogin) {
-            showLogin.className = 'toggle-button active';
-            showLogin.style.display = 'inline-block';
-        }
+        if (showSignup) showSignup.className = 'toggle-button';
+        if (showLogin) showLogin.className = 'toggle-button active';
+        if (showSignup) showSignup.style.display = 'inline-block';
+        if (showLogin) showLogin.style.display = 'inline-block';
         if (authStatus) {
-            authStatus.style.display = 'none'; // Eliminăm complet mesajul
-        }
-        // Protecție: Dacă e pe dashboard.html fără token, redirectionează la index
-        if (currentPage.includes('dashboard.html')) {
-            window.location.href = '/index.html';
+            authStatus.textContent = 'You are not logged in.';
+            authStatus.style.display = 'block';
         }
     }
-}
-
-// Funcție pentru a gestiona dropdown-urile personalizate
-function setupCustomSelects() {
-    const selects = document.querySelectorAll('.custom-select');
-    selects.forEach(select => {
-        const button = select.querySelector('.select-button');
-        const options = select.querySelector('.select-options');
-        const optionsList = select.querySelectorAll('.option');
-
-        button.addEventListener('click', () => {
-            options.classList.toggle('hidden');
-        });
-
-        optionsList.forEach(option => {
-            option.addEventListener('click', () => {
-                button.textContent = option.textContent;
-                select.dataset.value = option.dataset.value;
-                options.classList.add('hidden');
-            });
-        });
-    });
-
-    // Închide dropdown-ul la click în afară
-    document.addEventListener('click', (event) => {
-        selects.forEach(select => {
-            const button = select.querySelector('.select-button');
-            const options = select.querySelector('.select-options');
-            if (!select.contains(event.target)) {
-                options.classList.add('hidden');
-            }
-        });
-    });
 }
 
 // Event Listener principal
@@ -288,22 +236,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Protecție pentru dashboard.html
     if (window.location.pathname.includes('dashboard.html') && !authToken) {
-        window.location.href = '/index.html';
+        window.location.href = '/';
     }
 
-    // Logic for navbar scroll behavior
+    // Logic for navbar scroll behavior – înlocuim cu logica din script.js vechi
     let lastScrollTop = 0;
     window.addEventListener('scroll', function () {
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         if (scrollTop > lastScrollTop) {
-            navbar.style.top = '-80px';
+            navbar.style.top = '-80px'; // Ascunde navbar-ul
         } else {
-            navbar.style.top = '0';
+            navbar.style.top = '0'; // Afișează navbar-ul
         }
         if (scrollTop > 50) {
-            navbar.classList.add('scrolled');
+            navbar.classList.add('scrolled'); // Adaugă umbră
         } else {
-            navbar.classList.remove('scrolled');
+            navbar.classList.remove('scrolled'); // Elimină umbra
         }
         lastScrollTop = scrollTop;
     });
@@ -313,8 +261,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const isClickInside = authDropdown && (authDropdown.contains(event.target) || showSignup.contains(event.target) || showLogin.contains(event.target));
         if (!isClickInside && authDropdown && authDropdown.classList.contains('visible')) {
             authDropdown.className = 'auth-dropdown hidden';
-            const content = document.querySelector('.content');
-            if (content) content.classList.remove('with-auth-modal');
         }
     });
 
@@ -339,9 +285,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const dashboardLogoutButton = document.getElementById('logoutButton');
     if (dashboardLogoutButton) dashboardLogoutButton.addEventListener('click', handleLogout);
-
-    // Inițializare dropdown-uri personalizate
-    setupCustomSelects();
 });
 
 // Expunem funcțiile pe window

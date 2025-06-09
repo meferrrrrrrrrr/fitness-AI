@@ -7,7 +7,6 @@ body {
   color: #ffffff;
   overflow-y: auto;
   overflow-x: hidden;
-  position: relative;
 }
 
 /* === Background Styles === */
@@ -36,9 +35,9 @@ body.dashboard-body .background-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 1005;
+  z-index: 1002;
   background: linear-gradient(to right, #1c2526, #00F0FF, #333);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   height: 60px;
   transition: top 0.3s;
 }
@@ -74,9 +73,6 @@ body.dashboard-body .background-container {
   position: relative;
   margin-left: auto;
   padding-right: 40px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
 .form-toggle {
@@ -102,39 +98,25 @@ body.dashboard-body .background-container {
 .auth-dropdown {
   display: none;
   position: absolute;
-  top: calc(100% + 10px);
-  right: 0;
-  width: 200px;
-  background: linear-gradient(135deg, rgba(26, 37, 38, 0.95), rgba(0, 240, 255, 0.3));
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  padding: 8px;
-  z-index: 1004;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  transform: translateY(-10px);
-  opacity: 0;
+  top: calc(100% + 5px);
+  right: 40px;
+  width: 240px;
+  background: linear-gradient(135deg, rgba(26, 37, 38, 0.6), rgba(0, 240, 255, 0.2));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  padding: 10px;
+  z-index: 1001;
+  transition: opacity 0.3s ease;
 }
 
 .auth-dropdown.visible {
   display: block;
-  transform: translateY(0);
-  opacity: 1;
 }
 
 .form-container {
   text-align: center;
   margin: 0;
-}
-
-.signup-form,
-.login-form {
-  display: none;
-}
-
-.signup-form.visible,
-.login-form.visible {
-  display: block;
 }
 
 .form-container h2 {
@@ -143,15 +125,13 @@ body.dashboard-body .background-container {
 
 .form-container input {
   width: 100%;
-  padding: 6px;
-  margin: 6px 0;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
+  padding: 5px;
+  margin: 5px 0;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
   box-sizing: border-box;
-  font-size: 12px;
-  transition: border-color 0.3s;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
 }
 
 .form-container input::placeholder {
@@ -159,39 +139,39 @@ body.dashboard-body .background-container {
 }
 
 .form-container button {
-  width: 80px;
-  padding: 5px;
-  margin: 6px 0;
+  width: 90px;
+  padding: 5px 8px;
   border: none;
-  border-radius: 6px;
-  background: #4CAF50;
-  color: white;
+  border-radius: 4px;
   cursor: pointer;
-  font-size: 12px;
-  transition: background-color 0.3s, box-shadow 0.3s;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  margin: 5px 3px;
 }
 
-.form-container button:hover {
+#signupButton, #loginButton {
+  background: #4CAF50;
+  color: white;
+}
+
+#signupButton:hover, #loginButton:hover {
   background: #45a049;
-  box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
 }
 
 #resetPasswordButton {
   background: #ff69b4;
-  margin: 6px 0;
+  color: white;
 }
 
 #resetPasswordButton:hover {
   background: #ff4da6;
-  box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
 }
 
 .logout-btn {
   background: #f44336;
   color: white;
   border: none;
-  padding: 6px 12px;
+  padding: 4px 10px;
   border-radius: 20px;
   font-weight: bold;
   font-size: 12px;
@@ -212,14 +192,6 @@ body.dashboard-body .background-container {
   z-index: 1;
   width: 100%;
   box-sizing: border-box;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-  transition: margin-top 0.3s ease;
-}
-
-.content.with-auth-modal {
-  margin-top: 80px;
 }
 
 .content h1 {
@@ -247,28 +219,6 @@ body.dashboard-body .background-container {
   font-size: 18px;
   margin-bottom: 30px;
   color: #ffffff;
-}
-
-/* === Welcome Message === */
-.welcome-message {
-  text-align: center;
-  margin-bottom: 30px;
-  animation: fadeIn 0.5s ease-in;
-}
-
-.welcome-message .feature-emoji {
-  font-size: 28px;
-  display: block;
-  margin-bottom: 10px;
-}
-
-.welcome-message h1 {
-  font-size: 24px;
-  background: linear-gradient(to right, #ffffff, #00F0FF);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 /* === Features Styles === */
@@ -324,37 +274,27 @@ body.dashboard-body .background-container {
   color: #ffffff;
 }
 
-/* === Section Styles === */
-.section {
+.welcome-card {
+  border: 1px solid rgba(0, 240, 255, 0.3);
   background: rgba(255, 255, 255, 0.05);
   border-radius: 8px;
   padding: 20px;
-  margin-bottom: 30px;
   text-align: center;
-  animation: fadeIn 0.5s ease-in;
+  margin: 0 auto 20px;
   max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+  animation: fadeIn 0.5s ease-in;
 }
 
-.section h2 {
+.welcome-card h1 {
   font-size: 24px;
-  margin-bottom: 10px;
-  color: #ffffff;
+  background: linear-gradient(to right, #ffffff, #00F0FF);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-.section p {
-  font-size: 16px;
-  margin-bottom: 20px;
-  color: #ffffff;
-}
-
-.section .feature-emoji {
-  font-size: 24px;
-  display: block;
-  margin-bottom: 10px;
-}
-
+/* === Section Styles === */
 .input-field {
   width: 100%;
   padding: 10px;
@@ -363,59 +303,13 @@ body.dashboard-body .background-container {
   border-radius: 4px;
   box-sizing: border-box;
   font-size: 16px;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
   color: #ffffff;
   transition: border-color 0.3s;
 }
 
-.custom-select {
-  position: relative;
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.select-button {
-  padding: 10px;
-  background-color: #1c2526;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  cursor: pointer;
-  color: #ffffff;
-  font-size: 16px;
-  transition: border-color 0.3s;
-}
-
-.select-button:focus {
-  outline: none;
+.input-field:hover {
   border-color: #00F0FF;
-}
-
-.select-options {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  background-color: #1c2526;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 1000;
-}
-
-.select-options.hidden {
-  display: none;
-}
-
-.option {
-  padding: 10px;
-  color: #ffffff;
-  cursor: pointer;
-}
-
-.option:hover {
-  background-color: #00F0FF;
-  color: #1c2526;
 }
 
 .action-button {
@@ -440,10 +334,6 @@ body.dashboard-body .background-container {
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.1);
   color: #ffffff;
-  min-height: 100px;
-  max-height: 200px;
-  overflow-y: auto;
-  scroll-behavior: smooth;
 }
 
 #memeGeneratorSection canvas {
@@ -460,29 +350,32 @@ body.dashboard-body .background-container {
   border-color: #00F0FF;
 }
 
-/* === Utility Styles === */
-.auth-status {
-  margin-top: 5px;
-  color: #ffffff;
-  font-size: 14px;
+/* === Dashboard Specific Styles === */
+.dashboard-content {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 5px;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
 }
 
-.auth-status.hidden {
-  display: none;
+/* === Utility Styles === */
+.auth-status {
+  margin-top: 10px;
+  color: #ffffff;
+  font-size: 14px;
 }
 
 .message {
   margin: 5px auto;
   padding: 4px 8px;
-  border-radius: 5px;
+  border-radius: 3px;
   display: none;
-  width: 90%;
-  max-width: 160px;
+  width: 100%;
+  max-width: 220px;
   text-align: center;
-  font-size: 10px;
+  font-size: 12px;
   opacity: 0.9;
   line-height: 1.2;
 }
@@ -516,7 +409,7 @@ body.dashboard-body .background-container {
 /* === Media Queries === */
 @media (max-width: 768px) {
   .navbar {
-    padding: 10px;
+    padding: 10px 20px;
     height: 50px;
     box-sizing: border-box;
   }
@@ -531,7 +424,7 @@ body.dashboard-body .background-container {
   }
 
   .auth-container {
-    padding-right: 10px;
+    padding-right: 20px;
   }
 
   .form-toggle {
@@ -539,79 +432,39 @@ body.dashboard-body .background-container {
   }
 
   .toggle-button {
-    padding: 6px 12px;
-    font-size: 12px;
+    padding: 6px 10px;
+    font-size: 14px;
   }
 
   .auth-status {
-    display: none;
+    font-size: 12px;
+    margin-top: 5px;
   }
 
   .auth-dropdown {
-    display: none;
-    position: fixed;
-    top: 50px;
-    left: 50%;
-    transform: translateX(-50%);
     width: 90%;
     max-width: 200px;
-    background: linear-gradient(135deg, rgba(26, 37, 38, 0.95), rgba(0, 240, 255, 0.3));
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    padding: 8px;
-    z-index: 1004;
-    transition: opacity 0.3s ease;
-    opacity: 0;
-  }
-
-  .auth-dropdown.visible {
-    display: block;
-    opacity: 1;
-  }
-
-  .form-container {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .form-container .button-group {
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    width: 100%;
+    right: 10px;
+    padding: 6px;
   }
 
   .form-container input {
-    padding: 5px;
-    margin: 5px 0;
-    font-size: 10px;
+    padding: 4px;
+    font-size: 12px;
   }
 
   .form-container button {
-    width: 70px;
-    padding: 4px;
-    margin: 0;
-    display: inline-block;
-    font-size: 10px;
-  }
-
-  #resetPasswordButton {
-    margin: 0;
-    display: inline-block;
+    width: 80px;
+    padding: 4px 6px;
+    font-size: 12px;
+    margin: 4px 2px;
   }
 
   .content {
     margin-top: 60px;
     padding: 10px;
     min-height: calc(100vh - 60px);
-    transition: margin-top 0.3s ease;
-  }
-
-  .content.with-auth-modal {
-    margin-top: 200px;
+    box-sizing: border-box;
   }
 
   .content h1 {
@@ -635,7 +488,7 @@ body.dashboard-body .background-container {
   }
 
   .feature-card {
-    padding: 12px;
+    padding: 10px;
   }
 
   .feature-emoji {
@@ -654,29 +507,16 @@ body.dashboard-body .background-container {
     font-size: 24px;
   }
 
-  .welcome-message .feature-emoji {
-    font-size: 24px;
-  }
-
-  .welcome-message h1 {
-    font-size: 20px;
-  }
-
-  .section {
+  .welcome-card {
     padding: 15px;
-    margin-bottom: 20px;
   }
 
-  .section h2 {
+  .welcome-card h1 {
     font-size: 20px;
   }
 
-  .section p {
-    font-size: 14px;
-  }
-
-  .section .feature-emoji {
-    font-size: 20px;
+  .dashboard-content {
+    padding: 10px;
   }
 
   .input-field {
@@ -685,35 +525,18 @@ body.dashboard-body .background-container {
     margin: 8px 0;
   }
 
-  .custom-select {
-    margin-bottom: 8px;
-  }
-
-  .select-button {
-    padding: 8px;
-    font-size: 14px;
-  }
-
-  .select-options {
-    font-size: 14px;
-  }
-
   .action-button {
     padding: 8px 16px;
     font-size: 14px;
   }
 
-  .response {
-    max-height: 150px;
+  .message {
+    max-width: 180px;
+    font-size: 11px;
+    padding: 3px 6px;
   }
 
   #memeGeneratorSection canvas {
     max-width: 100%;
-  }
-
-  .message {
-    max-width: 140px;
-    font-size: 9px;
-    padding: 3px 4px;
   }
 }
