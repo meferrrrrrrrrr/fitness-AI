@@ -186,7 +186,7 @@ body.dashboard-body .background-container {
 
 /* === Content Styles === */
 .content {
-  margin-top: 70px; /* Redus pentru a preveni deplasarea excesivă pe desktop */
+  margin-top: 70px;
   padding: 20px;
   position: relative;
   z-index: 1;
@@ -198,7 +198,7 @@ body.dashboard-body .background-container {
 }
 
 .content-shifted {
-  margin-top: 250px;
+  margin-top: 250px; /* Valoare pentru desktop */
   transition: margin-top 0.3s ease;
 }
 
@@ -215,7 +215,7 @@ body.dashboard-body .background-container {
   font-size: 28px;
   margin: 0 0 10px;
   color: #ffffff;
-  text-shadow: none; /* Eliminat pentru simplitate */
+  text-shadow: none;
 }
 
 p {
@@ -249,7 +249,7 @@ p {
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s;
-  box-shadow: none; /* Eliminat pentru simplitate */
+  box-shadow: none;
 }
 
 .button:hover {
@@ -269,8 +269,8 @@ p {
   height: auto;
   margin: 15px 0;
   display: block;
-  border: none; /* Eliminat bordura pentru simplitate */
-  border-radius: 0; /* Eliminat rotunjirea */
+  border: none;
+  border-radius: 0;
 }
 
 /* === Features Styles === */
@@ -501,7 +501,7 @@ p {
     width: 90%;
     max-width: 200px;
     padding: 6px;
-    box-shadow: none; /* Eliminat umbra pentru simplitate */
+    box-shadow: none;
   }
 
   .form-container input {
@@ -518,9 +518,14 @@ p {
   }
 
   .content {
-    margin-top: 50px; /* Redus pentru a preveni suprapunerea pe mobil */
+    margin-top: 50px;
     padding: 10px;
     max-width: 100%;
+  }
+
+  .content-shifted {
+    margin-top: 150px; /* Redus pentru mobil */
+    transition: margin-top 0.3s ease;
   }
 
   .welcome-section h1,
