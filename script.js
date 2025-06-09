@@ -140,28 +140,34 @@ async function handleResetPassword() {
 
 function showSignupForm() {
     const authDropdown = document.querySelector('.auth-dropdown');
-    if (authDropdown) authDropdown.className = 'auth-dropdown visible';
     const signupForm = document.getElementById('signupForm');
     const loginForm = document.getElementById('loginForm');
-    if (signupForm) signupForm.className = 'form-container visible';
-    if (loginForm) loginForm.className = 'form-container hidden';
     const showSignup = document.getElementById('showSignup');
     const showLogin = document.getElementById('showLogin');
-    if (showSignup) showSignup.className = 'toggle-button active';
-    if (showLogin) showLogin.className = 'toggle-button';
+
+    if (authDropdown && signupForm && loginForm && showSignup && showLogin) {
+        authDropdown.className = 'auth-dropdown visible'; // Afișăm dropdown-ul
+        signupForm.className = 'form-container visible'; // Afișăm formularul de signup
+        loginForm.className = 'form-container hidden'; // Ascundem formularul de login
+        showSignup.className = 'toggle-button active';
+        showLogin.className = 'toggle-button';
+    }
 }
 
 function showLoginForm() {
     const authDropdown = document.querySelector('.auth-dropdown');
-    if (authDropdown) authDropdown.className = 'auth-dropdown visible';
     const signupForm = document.getElementById('signupForm');
     const loginForm = document.getElementById('loginForm');
-    if (signupForm) signupForm.className = 'form-container hidden';
-    if (loginForm) loginForm.className = 'form-container visible';
     const showSignup = document.getElementById('showSignup');
     const showLogin = document.getElementById('showLogin');
-    if (showSignup) showSignup.className = 'toggle-button';
-    if (showLogin) showLogin.className = 'toggle-button active';
+
+    if (authDropdown && signupForm && loginForm && showSignup && showLogin) {
+        authDropdown.className = 'auth-dropdown visible'; // Afișăm dropdown-ul
+        loginForm.className = 'form-container visible'; // Afișăm formularul de login
+        signupForm.className = 'form-container hidden'; // Ascundem formularul de signup
+        showLogin.className = 'toggle-button active';
+        showSignup.className = 'toggle-button';
+    }
 }
 
 function showMessage(text, type, formType) {
@@ -239,19 +245,19 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = '/';
     }
 
-    // Logic for navbar scroll behavior – înlocuim cu logica din script.js vechi
+    // Logic for navbar scroll behavior
     let lastScrollTop = 0;
     window.addEventListener('scroll', function () {
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         if (scrollTop > lastScrollTop) {
-            navbar.style.top = '-80px'; // Ascunde navbar-ul
+            navbar.style.top = '-80px';
         } else {
-            navbar.style.top = '0'; // Afișează navbar-ul
+            navbar.style.top = '0';
         }
         if (scrollTop > 50) {
-            navbar.classList.add('scrolled'); // Adaugă umbră
+            navbar.classList.add('scrolled');
         } else {
-            navbar.classList.remove('scrolled'); // Elimină umbra
+            navbar.classList.remove('scrolled');
         }
         lastScrollTop = scrollTop;
     });

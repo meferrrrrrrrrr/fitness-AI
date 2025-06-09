@@ -442,10 +442,15 @@ body.dashboard-body .background-container {
   }
 
   .auth-dropdown {
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%); /* Centrare perfectă */
     width: 90%;
-    max-width: 200px;
-    right: 10px;
+    max-width: 200px; /* Compact */
+    right: auto; /* Eliminăm alinierea la dreapta */
     padding: 6px;
+    border-radius: 8px; /* Mai rotunjit */
   }
 
   .form-container input {
@@ -531,9 +536,9 @@ body.dashboard-body .background-container {
   }
 
   .message {
-    max-width: 180px;
-    font-size: 11px;
-    padding: 3px 6px;
+    max-width: 160px; /* Redus pentru subtilitate */
+    font-size: 10px; /* Mai mic */
+    padding: 3px 4px; /* Mai compact */
   }
 
   #memeGeneratorSection canvas {
