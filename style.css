@@ -402,7 +402,7 @@ p {
   padding: 10px;
   border: none;
   border-radius: 4px;
-  background: rgba(26, 37, 38, 0.8); /* Fundal mai opac */
+  background: #1a2526; /* Fundal mai închis și opac */
   color: #ffffff;
   font-size: 16px;
   cursor: pointer;
@@ -410,7 +410,7 @@ p {
 }
 
 .dropdown-header:hover {
-  background: rgba(26, 37, 38, 0.9);
+  background: #1c2e34;
 }
 
 .dropdown-options {
@@ -421,7 +421,7 @@ p {
   width: 100%;
   max-height: 200px;
   overflow-y: auto;
-  background: rgba(26, 37, 38, 0.9); /* Fundal mai opac */
+  background: #1a2526; /* Fundal mai închis și opac */
   border-radius: 4px;
   z-index: 1004; /* Prioritate mai mare */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);

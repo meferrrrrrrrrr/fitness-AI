@@ -241,12 +241,13 @@ function setupDropdowns() {
         });
 
         // Gestionare selectare opțiune
-        document.querySelectorAll('.option').forEach(option => {
-            option.addEventListener('click', () => {
-                const header = option.closest('.custom-dropdown').querySelector('.dropdown-header');
-                const options = option.closest('.dropdown-options');
-                header.textContent = option.textContent;
-                options.classList.remove('visible');
+        [themeOptions, styleOptions].forEach(options => {
+            options.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', () => {
+                    const header = option.closest('.custom-dropdown').querySelector('.dropdown-header');
+                    header.textContent = option.textContent;
+                    options.classList.remove('visible');
+                });
             });
         });
 
