@@ -195,6 +195,7 @@ body.dashboard-body .background-container {
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+  overflow: visible; /* Permite dropdown-urilor să se extindă */
 }
 
 .content-shifted {
@@ -234,6 +235,7 @@ p {
   background: rgba(255, 255, 255, 0.1);
   color: #ffffff;
   font-size: 16px;
+  overflow: visible; /* Permite dropdown-urilor să se extindă */
 }
 
 .input::placeholder {
@@ -386,6 +388,67 @@ p {
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.1);
   color: #ffffff;
+}
+
+/* === Custom Dropdown Styles === */
+.custom-dropdown {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 10px;
+}
+
+.dropdown-header {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background: rgba(26, 37, 38, 0.8); /* Fundal mai opac */
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dropdown-header:hover {
+  background: rgba(26, 37, 38, 0.9);
+}
+
+.dropdown-options {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  background: rgba(26, 37, 38, 0.9); /* Fundal mai opac */
+  border-radius: 4px;
+  z-index: 1004; /* Prioritate mai mare */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.dropdown-options.visible {
+  display: block;
+}
+
+.option {
+  padding: 8px 10px;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+.option:hover {
+  background: rgba(0, 240, 255, 0.3);
+}
+
+/* === Canvas Styles === */
+#memeCanvas {
+  max-width: 100%;
+  height: auto;
+  margin: 15px 0;
+  display: block;
+  border: none;
+  border-radius: 0;
 }
 
 #memeGeneratorSection canvas {
@@ -621,5 +684,24 @@ p {
     max-width: 160px;
     font-size: 10px;
     padding: 3px 4px;
+  }
+
+  /* Ajustări responsive pentru dropdown-uri */
+  .custom-dropdown {
+    max-width: 100%;
+  }
+
+  .dropdown-header {
+    padding: 6px;
+    font-size: 12px;
+  }
+
+  .dropdown-options {
+    max-height: 150px;
+    font-size: 12px;
+  }
+
+  .option {
+    padding: 6px 10px;
   }
 }

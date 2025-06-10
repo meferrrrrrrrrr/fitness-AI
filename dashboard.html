@@ -37,22 +37,30 @@
       <span class="emoji">😂</span>
       <h2>Meme Generator</h2>
       <p>Create viral content with truth and humor.</p>
-      <select id="memeTheme" class="input">
-        <option value="" disabled selected>Select a theme...</option>
-        <option value="freedom">Freedom</option>
-        <option value="spirituality">Spirituality</option>
-        <option value="humor">Humor</option>
-        <option value="ai">AI</option>
-        <option value="matrix">Matrix</option>
-      </select>
-      <select id="memeStyle" class="input">
-        <option value="" disabled selected>Select a style...</option>
-        <option value="minimalist">Minimalist</option>
-        <option value="ironic">Ironic</option>
-        <option value="sci-fi">Sci-Fi</option>
-        <option value="retro">Retro</option>
-        <option value="bold">Bold</option>
-      </select>
+      <!-- Dropdown personalizat pentru Theme -->
+      <div class="custom-dropdown" id="memeThemeDropdown">
+        <div class="dropdown-header input" id="memeThemeHeader">Select a theme...</div>
+        <div class="dropdown-options" id="memeThemeOptions">
+          <div class="option" data-value="">Select a theme...</div>
+          <div class="option" data-value="freedom">Freedom</div>
+          <div class="option" data-value="spirituality">Spirituality</div>
+          <div class="option" data-value="humor">Humor</div>
+          <div class="option" data-value="ai">AI</div>
+          <div class="option" data-value="matrix">Matrix</div>
+        </div>
+      </div>
+      <!-- Dropdown personalizat pentru Style -->
+      <div class="custom-dropdown" id="memeStyleDropdown">
+        <div class="dropdown-header input" id="memeStyleHeader">Select a style...</div>
+        <div class="dropdown-options" id="memeStyleOptions">
+          <div class="option" data-value="">Select a style...</div>
+          <div class="option" data-value="minimalist">Minimalist</div>
+          <div class="option" data-value="ironic">Ironic</div>
+          <div class="option" data-value="sci-fi">Sci-Fi</div>
+          <div class="option" data-value="retro">Retro</div>
+          <div class="option" data-value="bold">Bold</div>
+        </div>
+      </div>
       <button id="generateMeme" class="button">Generate Meme</button>
       <canvas id="memeCanvas" width="400" height="400"></canvas>
       <button id="downloadMeme" class="button hidden">Download</button>

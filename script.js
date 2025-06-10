@@ -147,12 +147,12 @@ function showSignupForm() {
     const content = document.querySelector('.content');
 
     if (authDropdown && signupForm && loginForm && showSignup && showLogin && content) {
-        authDropdown.className = 'auth-dropdown visible'; // Afișăm dropdown-ul
-        signupForm.className = 'form-container visible'; // Afișăm formularul de signup
-        loginForm.className = 'form-container hidden'; // Ascundem formularul de login
+        authDropdown.className = 'auth-dropdown visible';
+        signupForm.className = 'form-container visible';
+        loginForm.className = 'form-container hidden';
         showSignup.className = 'toggle-button active';
         showLogin.className = 'toggle-button';
-        content.classList.add('content-shifted'); // Deplasăm conținutul în jos
+        content.classList.add('content-shifted');
     }
 }
 
@@ -165,12 +165,12 @@ function showLoginForm() {
     const content = document.querySelector('.content');
 
     if (authDropdown && signupForm && loginForm && showSignup && showLogin && content) {
-        authDropdown.className = 'auth-dropdown visible'; // Afișăm dropdown-ul
-        loginForm.className = 'form-container visible'; // Afișăm formularul de login
-        signupForm.className = 'form-container hidden'; // Ascundem formularul de signup
+        authDropdown.className = 'auth-dropdown visible';
+        loginForm.className = 'form-container visible';
+        signupForm.className = 'form-container hidden';
         showLogin.className = 'toggle-button active';
         showSignup.className = 'toggle-button';
-        content.classList.add('content-shifted'); // Deplasăm conținutul în jos
+        content.classList.add('content-shifted');
     }
 }
 
@@ -203,7 +203,7 @@ function updateStatus(token) {
             const logoutButton = document.getElementById('logoutButton');
             if (logoutButton) logoutButton.addEventListener('click', handleLogout);
         }
-        if (content) content.classList.remove('content-shifted'); // Resetăm deplasarea
+        if (content) content.classList.remove('content-shifted');
     } else {
         if (authDropdown) authDropdown.className = 'auth-dropdown hidden';
         if (showSignup) showSignup.className = 'toggle-button';
@@ -214,7 +214,49 @@ function updateStatus(token) {
             authStatus.textContent = 'You are not logged in.';
             authStatus.style.display = 'block';
         }
-        if (content) content.classList.remove('content-shifted'); // Resetăm deplasarea
+        if (content) content.classList.remove('content-shifted');
+    }
+}
+
+// Funcționalitate pentru dropdown-urile personalizate
+function setupDropdowns() {
+    const themeDropdown = document.getElementById('memeThemeDropdown');
+    const styleDropdown = document.getElementById('memeStyleDropdown');
+
+    if (themeDropdown && styleDropdown) {
+        const themeHeader = document.getElementById('memeThemeHeader');
+        const themeOptions = document.getElementById('memeThemeOptions');
+        const styleHeader = document.getElementById('memeStyleHeader');
+        const styleOptions = document.getElementById('memeStyleOptions');
+
+        // Gestionare click pe header pentru a afișa/opri opțiunile
+        themeHeader.addEventListener('click', () => {
+            themeOptions.classList.toggle('visible');
+            styleOptions.classList.remove('visible'); // Închide celălalt dropdown
+        });
+
+        styleHeader.addEventListener('click', () => {
+            styleOptions.classList.toggle('visible');
+            themeOptions.classList.remove('visible'); // Închide celălalt dropdown
+        });
+
+        // Gestionare selectare opțiune
+        document.querySelectorAll('.option').forEach(option => {
+            option.addEventListener('click', () => {
+                const header = option.closest('.custom-dropdown').querySelector('.dropdown-header');
+                const options = option.closest('.dropdown-options');
+                header.textContent = option.textContent;
+                options.classList.remove('visible');
+            });
+        });
+
+        // Închide dropdown-urile la click în afara lor
+        document.addEventListener('click', (event) => {
+            if (!themeDropdown.contains(event.target) && !styleDropdown.contains(event.target)) {
+                themeOptions.classList.remove('visible');
+                styleOptions.classList.remove('visible');
+            }
+        });
     }
 }
 
@@ -300,6 +342,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const dashboardLogoutButton = document.getElementById('logoutButton');
     if (dashboardLogoutButton) dashboardLogoutButton.addEventListener('click', handleLogout);
+
+    // Inițializare dropdown-uri
+    setupDropdowns();
 });
 
 // Expunem funcțiile pe window
