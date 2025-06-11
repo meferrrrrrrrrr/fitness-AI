@@ -274,29 +274,36 @@ function setupDropdowns() {
 }
 
 // Funcționalitate pentru AI Coach
-document.getElementById('generatePlan')?.addEventListener('click', () => {
+document.getElementById('generatePlan')?.addEventListener('click', async () => {
     const coachPrompt = document.getElementById('coachPrompt').value;
     const moodHeader = document.getElementById('moodHeader');
     const coachResponse = document.getElementById('coachResponse');
+    const authToken = localStorage.getItem('authToken');
 
     const mood = moodHeader.textContent.toLowerCase();
     if (!coachPrompt && mood === 'select your mood...') {
-        coachResponse.textContent = 'Please enter a goal or select a mood!';
+        coachResponse.innerHTML = 'Please enter a goal or select a mood!';
         return;
     }
 
-    let plan = '';
-    if (mood === 'exhausted') {
-        plan = `You're exhausted! Take a 15-minute break, then focus on "${coachPrompt}" with 2 easy tasks.`;
-    } else if (mood === 'motivated') {
-        plan = `You're motivated! Tackle "${coachPrompt}" with 3 high-energy tasks today.`;
-    } else if (mood === 'stressed') {
-        plan = `You're stressed! Break "${coachPrompt}" into 1 small step and relax afterward.`;
-    } else {
-        plan = `Plan for "${coachPrompt}": Set 2 balanced tasks for today.`;
+    try {
+        const response = await fetch('/api/ai/coach', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+            },
+            body: JSON.stringify({ mood, prompt: coachPrompt })
+        });
+        const data = await response.json();
+        if (response.ok) {
+            coachResponse.innerHTML = data.plan.replace(/\n/g, '<br>');
+        } else {
+            coachResponse.innerHTML = `Error: ${data.error}`;
+        }
+    } catch (error) {
+        coachResponse.innerHTML = `Connection error: ${error.message}`;
     }
-
-    coachResponse.textContent = plan;
 });
 
 // Event Listener principal
