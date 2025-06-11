@@ -222,26 +222,37 @@ function updateStatus(token) {
 function setupDropdowns() {
     const themeDropdown = document.getElementById('memeThemeDropdown');
     const styleDropdown = document.getElementById('memeStyleDropdown');
+    const moodDropdown = document.getElementById('moodDropdown');
 
-    if (themeDropdown && styleDropdown) {
+    if (themeDropdown && styleDropdown && moodDropdown) {
         const themeHeader = document.getElementById('memeThemeHeader');
         const themeOptions = document.getElementById('memeThemeOptions');
         const styleHeader = document.getElementById('memeStyleHeader');
         const styleOptions = document.getElementById('memeStyleOptions');
+        const moodHeader = document.getElementById('moodHeader');
+        const moodOptions = document.getElementById('moodOptions');
 
         // Gestionare click pe header pentru a afișa/opri opțiunile
         themeHeader.addEventListener('click', () => {
             themeOptions.classList.toggle('visible');
-            styleOptions.classList.remove('visible'); // Închide celălalt dropdown
+            styleOptions.classList.remove('visible');
+            moodOptions.classList.remove('visible');
         });
 
         styleHeader.addEventListener('click', () => {
             styleOptions.classList.toggle('visible');
-            themeOptions.classList.remove('visible'); // Închide celălalt dropdown
+            themeOptions.classList.remove('visible');
+            moodOptions.classList.remove('visible');
+        });
+
+        moodHeader.addEventListener('click', () => {
+            moodOptions.classList.toggle('visible');
+            themeOptions.classList.remove('visible');
+            styleOptions.classList.remove('visible');
         });
 
         // Gestionare selectare opțiune
-        [themeOptions, styleOptions].forEach(options => {
+        [themeOptions, styleOptions, moodOptions].forEach(options => {
             options.querySelectorAll('.option').forEach(option => {
                 option.addEventListener('click', () => {
                     const header = option.closest('.custom-dropdown').querySelector('.dropdown-header');
@@ -253,13 +264,40 @@ function setupDropdowns() {
 
         // Închide dropdown-urile la click în afara lor
         document.addEventListener('click', (event) => {
-            if (!themeDropdown.contains(event.target) && !styleDropdown.contains(event.target)) {
+            if (!themeDropdown.contains(event.target) && !styleDropdown.contains(event.target) && !moodDropdown.contains(event.target)) {
                 themeOptions.classList.remove('visible');
                 styleOptions.classList.remove('visible');
+                moodOptions.classList.remove('visible');
             }
         });
     }
 }
+
+// Funcționalitate pentru AI Coach
+document.getElementById('generatePlan')?.addEventListener('click', () => {
+    const coachPrompt = document.getElementById('coachPrompt').value;
+    const moodHeader = document.getElementById('moodHeader');
+    const coachResponse = document.getElementById('coachResponse');
+
+    const mood = moodHeader.textContent.toLowerCase();
+    if (!coachPrompt && mood === 'select your mood...') {
+        coachResponse.textContent = 'Please enter a goal or select a mood!';
+        return;
+    }
+
+    let plan = '';
+    if (mood === 'exhausted') {
+        plan = `You're exhausted! Take a 15-minute break, then focus on "${coachPrompt}" with 2 easy tasks.`;
+    } else if (mood === 'motivated') {
+        plan = `You're motivated! Tackle "${coachPrompt}" with 3 high-energy tasks today.`;
+    } else if (mood === 'stressed') {
+        plan = `You're stressed! Break "${coachPrompt}" into 1 small step and relax afterward.`;
+    } else {
+        plan = `Plan for "${coachPrompt}": Set 2 balanced tasks for today.`;
+    }
+
+    coachResponse.textContent = plan;
+});
 
 // Event Listener principal
 document.addEventListener('DOMContentLoaded', () => {

@@ -30,6 +30,14 @@
       <h2>AI Coach Personal</h2>
       <p>Your daily plan to optimize your life.</p>
       <input type="text" id="coachPrompt" placeholder="e.g., 'Improve focus or save money'" class="input" />
+      <div class="custom-dropdown" id="moodDropdown">
+        <div class="dropdown-header input" id="moodHeader">Select your mood...</div>
+        <div class="dropdown-options" id="moodOptions">
+          <div class="option" data-value="exhausted">Exhausted</div>
+          <div class="option" data-value="motivated">Motivated</div>
+          <div class="option" data-value="stressed">Stressed</div>
+        </div>
+      </div>
       <button id="generatePlan" class="button">Generate Plan</button>
       <div id="coachResponse" class="response"></div>
     </section>
