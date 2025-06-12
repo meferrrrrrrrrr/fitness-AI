@@ -289,15 +289,15 @@ document.getElementById('generatePlan')?.addEventListener('click', async () => {
     // Afișăm spinner-ul specific AI Coach
     coachResponse.innerHTML = '<div class="ai-coach-spinner"></div>';
 
-    // Detectare limbă folosind franc și reguli simple
+    // Detectare limbă bazată doar pe cuvinte-cheie
     let language = 'en'; // Default language
-    if (coachPrompt && typeof franc === 'function') { // Verificăm dacă franc e disponibil
-        const langCode = franc(coachPrompt) || 'und'; // 'und' = undetermined
-        if (langCode === 'ron' || coachPrompt.toLowerCase().includes('ajuta') || coachPrompt.toLowerCase().includes('economisesc')) {
+    if (coachPrompt) {
+        if (coachPrompt.toLowerCase().includes('ajuta') || coachPrompt.toLowerCase().includes('economisesc')) {
             language = 'ro';
-        } else if (langCode === 'eng' || coachPrompt.toLowerCase().includes('save') || coachPrompt.toLowerCase().includes('help')) {
+        } else if (coachPrompt.toLowerCase().includes('save') || coachPrompt.toLowerCase().includes('help')) {
             language = 'en';
         }
+        console.log('Detected language based on keywords:', language);
     }
 
     try {
