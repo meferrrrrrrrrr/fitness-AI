@@ -286,6 +286,9 @@ document.getElementById('generatePlan')?.addEventListener('click', async () => {
         return;
     }
 
+    // Afișăm spinner-ul specific AI Coach
+    coachResponse.innerHTML = '<div class="ai-coach-spinner"></div>';
+
     try {
         const response = await fetch('/api/ai/coach', {
             method: 'POST',

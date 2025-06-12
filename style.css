@@ -264,6 +264,7 @@ p {
   background: rgba(255, 255, 255, 0.1);
   color: #ffffff;
   font-size: 14px;
+  position: relative; /* Asigurăm context pentru poziționarea absolută a spinner-ului */
 }
 
 #memeCanvas {
@@ -388,6 +389,7 @@ p {
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.1);
   color: #ffffff;
+  position: relative; /* Context pentru spinner */
 }
 
 /* === Custom Dropdown Styles === */
@@ -513,6 +515,26 @@ p {
 
 .visible {
   display: block;
+}
+
+/* === Spinner Styles === */
+.ai-coach-spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid #F5F5F5;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 1.2s linear infinite;
+  opacity: 0.8;
+  position: absolute;
+  top: 10px; /* Ajustare pentru a fi sub marginea de sus a #coachResponse */
+  left: 50%;
+  transform: translateX(-50%); /* Centrare orizontală, fără ajustare verticală */
+}
+
+@keyframes spin {
+  0% { transform: translateX(-50%) rotate(0deg); }
+  100% { transform: translateX(-50%) rotate(360deg); }
 }
 
 /* === Animations === */
@@ -703,5 +725,12 @@ p {
 
   .option {
     padding: 6px 10px;
+  }
+
+  /* Ajustări responsive pentru spinner */
+  .ai-coach-spinner {
+    width: 16px;
+    height: 16px;
+    border-width: 1.5px;
   }
 }
