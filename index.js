@@ -108,18 +108,24 @@ app.get('/api/auth/user', async (req, res) => {
 
 // Endpoint pentru AI Coach
 app.post('/api/ai/coach', async (req, res) => {
-  const { mood, prompt } = req.body;
+  const { mood, prompt, language = 'en' } = req.body; // Default language is 'en' if not provided
   if (!mood || !prompt) return res.status(400).json({ error: 'Mood and prompt are required.' });
 
   const openaiApiKey = process.env.OPENAI_API_KEY;
   if (!openaiApiKey) return res.status(500).json({ error: 'Open AI API key is missing.' });
+
+  // Define prompts for both languages
+  const prompts = {
+    en: `You are a unique AI coach named MEF AI, with a motivating, practical tone and a dash of subtle humor. Create a 3-step daily plan for a user who feels ${mood} and wants to ${prompt}. Tailor the plan to a regular routine (e.g., morning, afternoon, evening) with specific, clear, and feasible steps. Add an inspiring closing that reflects the user’s mood. Respond concisely, under 150 words, without excessive formatting. Ensure the plan is complete and properly concluded.`,
+    ro: `Ești un coach AI unic numit MEF AI, cu un ton motivant, practic și un strop de umor subtil. Creează un plan zilnic de 3 pași pentru un utilizator care se simte ${mood} și dorește să ${prompt}. Adaptează planul la o rutină obișnuită (ex. dimineață, după-amiază, seară), cu pași specifici, clari și fezabili. Adaugă o încheiere inspiratoare care să reflecte starea utilizatorului. Răspunde concis, sub 150 de cuvinte, fără formatare excesivă. Asigură-te că planul e complet și încheiat corespunzător.`
+  };
 
   try {
     const response = await axios.post('https://api.openai.com/v1/chat/completions', {
       model: 'gpt-4',
       messages: [{
         role: 'user',
-        content: `Ești un coach AI unic numit MEF AI, cu un ton motivant, practic și un strop de umor subtil. Creează un plan zilnic de 3 pași pentru un utilizator care se simte ${mood} și dorește să ${prompt}. Adaptează planul la o rutină obișnuită (ex. dimineață, după-amiază, seară), cu pași specifici, clari și fezabili. Adaugă o încheiere inspiratoare care să reflecte starea utilizatorului. Răspunde concis, sub 150 de cuvinte, fără formatare excesivă. Asigură-te că planul e complet și încheiat corespunzător.`
+        content: prompts[language] || prompts['en'] // Fallback to English if language is unsupported
       }],
       max_tokens: 300,
     }, {

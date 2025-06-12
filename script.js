@@ -289,6 +289,17 @@ document.getElementById('generatePlan')?.addEventListener('click', async () => {
     // Afișăm spinner-ul specific AI Coach
     coachResponse.innerHTML = '<div class="ai-coach-spinner"></div>';
 
+    // Detectare limbă folosind franc și reguli simple
+    let language = 'en'; // Default language
+    if (coachPrompt && typeof franc === 'function') { // Verificăm dacă franc e disponibil
+        const langCode = franc(coachPrompt) || 'und'; // 'und' = undetermined
+        if (langCode === 'ron' || coachPrompt.toLowerCase().includes('ajuta') || coachPrompt.toLowerCase().includes('economisesc')) {
+            language = 'ro';
+        } else if (langCode === 'eng' || coachPrompt.toLowerCase().includes('save') || coachPrompt.toLowerCase().includes('help')) {
+            language = 'en';
+        }
+    }
+
     try {
         const response = await fetch('/api/ai/coach', {
             method: 'POST',
@@ -296,7 +307,7 @@ document.getElementById('generatePlan')?.addEventListener('click', async () => {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${authToken}`
             },
-            body: JSON.stringify({ mood, prompt: coachPrompt })
+            body: JSON.stringify({ mood, prompt: coachPrompt, language })
         });
         const data = await response.json();
         if (response.ok) {
