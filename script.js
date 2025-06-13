@@ -146,6 +146,8 @@ function showSignupForm() {
     const showLogin = document.getElementById('showLogin');
     const content = document.querySelector('.content');
 
+    console.log('showSignupForm called'); // Depanare
+
     if (authDropdown && signupForm && loginForm && showSignup && showLogin && content) {
         authDropdown.className = 'auth-dropdown visible';
         signupForm.className = 'form-container visible';
@@ -323,6 +325,7 @@ document.getElementById('generatePlan')?.addEventListener('click', async () => {
 
 // Funcționalitate pentru butonul Get Started
 document.getElementById('getStarted')?.addEventListener('click', () => {
+    console.log('Get Started clicked'); // Depanare
     showSignupForm();
 });
 
