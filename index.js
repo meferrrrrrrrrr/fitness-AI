@@ -9,6 +9,13 @@ const app = express();
 // Parsăm body-ul cererilor JSON
 app.use(express.json());
 
+// Middleware pentru CORS (opțional, activează dacă e necesar)
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*'); // Ajustează pentru producție
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  next();
+});
+
 // Servim fișierele statice din rădăcina proiectului (HTML, JS, CSS)
 app.use(express.static(path.join(__dirname, '.'), {
   index: 'index.html',
@@ -20,6 +27,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // Middleware pentru gestionarea erorilor
 app.use((err, req, res, next) => {
+  console.error('Error:', err.message); // Log erorile pentru debug
   res.status(500).json({ error: 'An internal error occurred', details: err.message });
 });
 
@@ -76,9 +84,7 @@ app.post('/api/auth/reset-password', async (req, res) => {
   if (!email) return res.status(400).json({ error: 'Email is required.' });
   if (!firebaseApp) return res.status(500).json({ error: 'Firebase app is not initialized.' });
   try {
-    // Verificăm dacă emailul există
     await admin.auth().getUserByEmail(email);
-    // Dacă ajunge aici, emailul există – trimitem emailul de resetare
     const auth = getAuth(firebaseApp);
     await sendPasswordResetEmail(auth, email);
     res.status(200).json({ message: 'Password reset email has been sent!' });
@@ -108,13 +114,12 @@ app.get('/api/auth/user', async (req, res) => {
 
 // Endpoint pentru AI Coach
 app.post('/api/ai/coach', async (req, res) => {
-  const { mood, prompt, language = 'en' } = req.body; // Default language is 'en' if not provided
+  const { mood, prompt, language = 'en' } = req.body;
   if (!mood || !prompt) return res.status(400).json({ error: 'Mood and prompt are required.' });
 
   const openaiApiKey = process.env.OPENAI_API_KEY;
   if (!openaiApiKey) return res.status(500).json({ error: 'Open AI API key is missing.' });
 
-  // Define prompts for both languages
   const prompts = {
     en: `You are a unique AI coach named MEF AI, with a motivating, practical tone and a dash of subtle humor. Create a 3-step daily plan for a user who feels ${mood} and wants to ${prompt}. Tailor the plan to a regular routine (e.g., morning, afternoon, evening) with specific, clear, and feasible steps. Add an inspiring closing that reflects the user’s mood. Respond concisely, under 150 words, without excessive formatting. Ensure the plan is complete and properly concluded.`,
     ro: `Ești un coach AI unic numit MEF AI, cu un ton motivant, practic și un strop de umor subtil. Creează un plan zilnic de 3 pași pentru un utilizator care se simte ${mood} și dorește să ${prompt}. Adaptează planul la o rutină obișnuită (ex. dimineață, după-amiază, seară), cu pași specifici, clari și fezabili. Adaugă o încheiere inspiratoare care să reflecte starea utilizatorului. Răspunde concis, sub 150 de cuvinte, fără formatare excesivă. Asigură-te că planul e complet și încheiat corespunzător.`
@@ -125,7 +130,7 @@ app.post('/api/ai/coach', async (req, res) => {
       model: 'gpt-4',
       messages: [{
         role: 'user',
-        content: prompts[language] || prompts['en'] // Fallback to English if language is unsupported
+        content: prompts[language] || prompts['en']
       }],
       max_tokens: 300,
     }, {
