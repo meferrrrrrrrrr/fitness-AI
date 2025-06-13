@@ -224,7 +224,8 @@ function setupDropdowns() {
     const styleDropdown = document.getElementById('memeStyleDropdown');
     const moodDropdown = document.getElementById('moodDropdown');
 
-    if (themeDropdown && styleDropdown && moodDropdown) {
+    // Inițializare doar dacă suntem pe dashboard.html
+    if (window.location.pathname.includes('dashboard.html') && themeDropdown && styleDropdown && moodDropdown) {
         const themeHeader = document.getElementById('memeThemeHeader');
         const themeOptions = document.getElementById('memeThemeOptions');
         const styleHeader = document.getElementById('memeStyleHeader');
@@ -318,6 +319,11 @@ document.getElementById('generatePlan')?.addEventListener('click', async () => {
     } catch (error) {
         coachResponse.innerHTML = `Connection error: ${error.message}`;
     }
+});
+
+// Funcționalitate pentru butonul Get Started
+document.getElementById('getStarted')?.addEventListener('click', () => {
+    showSignupForm();
 });
 
 // Event Listener principal
