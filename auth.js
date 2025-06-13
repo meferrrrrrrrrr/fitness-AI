@@ -17,6 +17,7 @@ const firebaseConfig = {
 const requiredFields = ['apiKey', 'authDomain', 'projectId', 'storageBucket', 'messagingSenderId', 'appId'];
 const missingFields = requiredFields.filter(field => !firebaseConfig[field]);
 if (missingFields.length > 0) {
+  console.error(`Configurația Firebase este invalidă. Lipsesc câmpurile: ${missingFields.join(', ')}.`);
   throw new Error(`Configurația Firebase este invalidă. Lipsesc câmpurile: ${missingFields.join(', ')}.`);
 }
 
@@ -35,6 +36,7 @@ const serviceAccount = {
 
 // Verificăm dacă variabilele pentru serviceAccount sunt definite
 if (!serviceAccount.projectId || !serviceAccount.privateKey || !serviceAccount.clientEmail) {
+  console.error('Configurația Firebase Admin este invalidă. Verifică variabilele de mediu pentru projectId, privateKey și clientEmail.');
   throw new Error('Configurația Firebase Admin este invalidă. Verifică variabilele de mediu pentru projectId, privateKey și clientEmail.');
 }
 
