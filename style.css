@@ -106,12 +106,14 @@ body.dashboard-body .background-container {
   border-radius: 6px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   padding: 10px;
-  z-index: 1001;
+  z-index: 1003; /* Creștem z-index-ul pentru a fi deasupra conținutului */
+  opacity: 0;
   transition: opacity 0.3s ease;
 }
 
 .auth-dropdown.visible {
   display: block;
+  opacity: 1;
 }
 
 .form-container {
@@ -587,6 +589,12 @@ p {
     max-width: 200px;
     padding: 6px;
     box-shadow: none;
+    z-index: 1003; /* Menținem z-index-ul ridicat */
+    opacity: 0;
+  }
+
+  .auth-dropdown.visible {
+    opacity: 1;
   }
 
   .form-container input {
