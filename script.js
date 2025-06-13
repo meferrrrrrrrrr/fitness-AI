@@ -323,6 +323,53 @@ document.getElementById('generatePlan')?.addEventListener('click', async () => {
     }
 });
 
+// Funcționalitate pentru generarea memelor
+document.getElementById('generateMeme')?.addEventListener('click', async () => {
+    const memeCanvas = document.getElementById('memeCanvas');
+    const memeResponse = document.getElementById('memeResponse');
+    const downloadMeme = document.getElementById('downloadMeme');
+    const themeHeader = document.getElementById('memeThemeHeader');
+    const styleHeader = document.getElementById('memeStyleHeader');
+    const authToken = localStorage.getItem('authToken');
+
+    const theme = themeHeader.textContent.toLowerCase();
+    const style = styleHeader.textContent.toLowerCase();
+
+    if (theme === 'select a theme...' || style === 'select a style...') {
+        memeResponse.textContent = 'Please select a theme and a style!';
+        return;
+    }
+
+    // Afișăm spinner-ul (simulăm procesul)
+    memeResponse.innerHTML = '<div class="ai-coach-spinner"></div>'; // Reutilizăm spinner-ul existent
+
+    try {
+        // Simulăm generarea meme-ului (placeholder)
+        const ctx = memeCanvas.getContext('2d');
+        ctx.clearRect(0, 0, memeCanvas.width, memeCanvas.height);
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(0, 0, memeCanvas.width, memeCanvas.height);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '30px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText(`${theme} ${style} Meme`, memeCanvas.width / 2, memeCanvas.height / 2);
+
+        // Afișăm mesajul de succes și activăm butonul de download
+        memeResponse.textContent = 'Meme generated successfully!';
+        downloadMeme.classList.remove('hidden');
+
+        // Adăugăm funcționalitate pentru download
+        downloadMeme.onclick = () => {
+            const link = document.createElement('a');
+            link.download = `meme_${theme}_${style}.png`;
+            link.href = memeCanvas.toDataURL('image/png');
+            link.click();
+        };
+    } catch (error) {
+        memeResponse.textContent = `Error generating meme: ${error.message}`;
+    }
+});
+
 // Funcționalitate pentru butonul Get Started
 document.getElementById('getStarted')?.addEventListener('click', () => {
     console.log('Get Started clicked'); // Depanare
