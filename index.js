@@ -142,6 +142,47 @@ app.post('/api/ai/coach', async (req, res) => {
   }
 });
 
+// Endpoint pentru generarea memelor cu DALL-E
+app.post('/api/ai/meme', async (req, res) => {
+  const { theme, style } = req.body;
+  if (!theme || !style) return res.status(400).json({ error: 'Theme and style are required.' });
+
+  const openaiApiKey = process.env.OPENAI_API_KEY;
+  if (!openaiApiKey) return res.status(500).json({ error: 'Open AI API key is missing.' });
+
+  // Șabloane dinamice pentru prompturi bazate pe stil
+  const promptTemplates = {
+    minimalist: "A minimalist meme about {theme}, using 2-3 colors, clean lines, humorous twist with a subtle visual joke.",
+    ironic: "An ironic meme about {theme}, with a sarcastic caption and {style} elements, funny and unexpected.",
+    sciFi: "A sci-fi meme about {theme}, with neon lights, futuristic {style} design, and a humorous sci-fi twist.",
+    retro: "A retro pixel art meme about {theme}, 16-bit style, vintage {style} colors, playful with a nostalgic joke.",
+    bold: "A bold meme about {theme}, with strong outlines, vibrant {style} colors, and a hilarious visual punchline."
+  };
+
+  // Generăm promptul dinamic
+  const prompt = promptTemplates[style.toLowerCase()].replace('{theme}', theme.toLowerCase()).replace('{style}', style.toLowerCase());
+
+  try {
+    const response = await axios.post(
+      'https://api.openai.com/v1/images/generations',
+      {
+        model: 'dall-e-3',
+        prompt: prompt,
+        n: 1,
+        size: '1024x1024',
+        response_format: 'url',
+      },
+      {
+        headers: { 'Authorization': `Bearer ${openaiApiKey}` },
+      }
+    );
+    const imageUrl = response.data.data[0].url;
+    res.status(200).json({ imageUrl });
+  } catch (error) {
+    res.status(500).json({ error: 'Error generating meme: ' + error.message });
+  }
+});
+
 // Pornim serverul
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
