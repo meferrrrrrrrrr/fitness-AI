@@ -11,7 +11,7 @@ app.use(express.json());
 
 // Middleware pentru CORS (opțional, activează dacă e necesar)
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*'); // Ajustează pentru producție
+  res.header('Access-Control-Allow-Origin', '*'); // Permite toate originile (ajustăm în producție)
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   next();
 });
@@ -142,7 +142,7 @@ app.post('/api/ai/coach', async (req, res) => {
   }
 });
 
-// Endpoint pentru generarea memelor cu DALL-E
+// Endpoint pentru generarea memelor cu DALL-E (cu proxy pentru CORS)
 app.post('/api/ai/meme', async (req, res) => {
   const { theme, style } = req.body;
   if (!theme || !style) return res.status(400).json({ error: 'Theme and style are required.' });
@@ -163,7 +163,7 @@ app.post('/api/ai/meme', async (req, res) => {
   const prompt = promptTemplates[style.toLowerCase()].replace('{theme}', theme.toLowerCase()).replace('{style}', style.toLowerCase());
 
   try {
-    const response = await axios.post(
+    const dalleResponse = await axios.post(
       'https://api.openai.com/v1/images/generations',
       {
         model: 'dall-e-3',
@@ -176,8 +176,15 @@ app.post('/api/ai/meme', async (req, res) => {
         headers: { 'Authorization': `Bearer ${openaiApiKey}` },
       }
     );
-    const imageUrl = response.data.data[0].url;
-    res.status(200).json({ imageUrl });
+    const imageUrl = dalleResponse.data.data[0].url;
+
+    // Descarcă imaginea și returnează-o ca buffer
+    const imageResponse = await axios.get(imageUrl, {
+      responseType: 'arraybuffer',
+    });
+    res.set('Content-Type', 'image/png');
+    res.set('Access-Control-Allow-Origin', '*'); // Permite CORS pentru imagine
+    res.send(imageResponse.data);
   } catch (error) {
     res.status(500).json({ error: 'Error generating meme: ' + error.message });
   }

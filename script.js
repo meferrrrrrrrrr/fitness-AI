@@ -340,33 +340,43 @@ document.getElementById('generateMeme')?.addEventListener('click', async () => {
         return;
     }
 
-    // Afișăm spinner-ul (simulăm procesul)
-    memeResponse.innerHTML = '<div class="ai-coach-spinner"></div>'; // Reutilizăm spinner-ul existent
+    // Afișăm spinner-ul
+    memeResponse.innerHTML = '<div class="ai-coach-spinner"></div>';
 
     try {
-        // Simulăm generarea meme-ului (placeholder)
-        const ctx = memeCanvas.getContext('2d');
-        ctx.clearRect(0, 0, memeCanvas.width, memeCanvas.height);
-        ctx.fillStyle = '#000000';
-        ctx.fillRect(0, 0, memeCanvas.width, memeCanvas.height);
-        ctx.fillStyle = '#ffffff';
-        ctx.font = '30px Arial';
-        ctx.textAlign = 'center';
-        ctx.fillText(`${theme} ${style} Meme`, memeCanvas.width / 2, memeCanvas.height / 2);
+        const response = await fetch('/api/ai/meme', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+            },
+            body: JSON.stringify({ theme, style })
+        });
+        if (response.ok) {
+            const blob = await response.blob();
+            const ctx = memeCanvas.getContext('2d');
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.onload = () => {
+                ctx.clearRect(0, 0, memeCanvas.width, memeCanvas.height);
+                ctx.drawImage(img, 0, 0, memeCanvas.width, memeCanvas.height);
+                memeResponse.textContent = 'Meme generated successfully!';
+                downloadMeme.classList.remove('hidden');
 
-        // Afișăm mesajul de succes și activăm butonul de download
-        memeResponse.textContent = 'Meme generated successfully!';
-        downloadMeme.classList.remove('hidden');
-
-        // Adăugăm funcționalitate pentru download
-        downloadMeme.onclick = () => {
-            const link = document.createElement('a');
-            link.download = `meme_${theme}_${style}.png`;
-            link.href = memeCanvas.toDataURL('image/png');
-            link.click();
-        };
+                downloadMeme.onclick = () => {
+                    const link = document.createElement('a');
+                    link.download = `meme_${theme}_${style}.png`;
+                    link.href = memeCanvas.toDataURL('image/png');
+                    link.click();
+                };
+            };
+            img.src = URL.createObjectURL(blob);
+        } else {
+            const errorText = await response.text();
+            memeResponse.textContent = `Error: ${errorText}`;
+        }
     } catch (error) {
-        memeResponse.textContent = `Error generating meme: ${error.message}`;
+        memeResponse.textContent = `Connection error: ${error.message}`;
     }
 });
 
