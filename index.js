@@ -150,13 +150,13 @@ app.post('/api/ai/meme', async (req, res) => {
   const openaiApiKey = process.env.OPENAI_API_KEY;
   if (!openaiApiKey) return res.status(500).json({ error: 'Open AI API key is missing.' });
 
-  // Șabloane dinamice pentru prompturi bazate pe stil
+  // Șabloane dinamice pentru prompturi bazate pe stil, cu instrucțiuni clare pentru text
   const promptTemplates = {
-    minimalist: "A minimalist meme about {theme}, using 2-3 colors, clean lines, humorous twist with a subtle visual joke.",
-    ironic: "An ironic meme about {theme}, with a sarcastic caption and {style} elements, funny and unexpected.",
-    sciFi: "A sci-fi meme about {theme}, with neon lights, futuristic {style} design, and a humorous sci-fi twist.",
-    retro: "A retro pixel art meme about {theme}, 16-bit style, vintage {style} colors, playful with a nostalgic joke.",
-    bold: "A bold meme about {theme}, with strong outlines, vibrant {style} colors, and a hilarious visual punchline."
+    minimalist: "A minimalist meme about {theme}, using 2-3 colors, clean lines, with a clear humorous caption (max 5 words) and a subtle visual joke, ensuring text is legible and grammatically correct.",
+    ironic: "An ironic meme about {theme}, with a sarcastic caption (max 5 words), clear and grammatically correct text, and {style} elements, funny and unexpected.",
+    sciFi: "A sci-fi meme about {theme}, with neon lights, futuristic {style} design, a clear humorous caption (max 5 words), and a sci-fi twist, ensuring legible text.",
+    retro: "A retro pixel art meme about {theme}, 16-bit style, vintage {style} colors, with a clear nostalgic caption (max 5 words), playful and legible.",
+    bold: "A bold meme about {theme}, with strong outlines, vibrant {style} colors, a clear hilarious caption (max 5 words), and a visual punchline, ensuring readable text."
   };
 
   // Generăm promptul dinamic
