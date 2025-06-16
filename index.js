@@ -144,7 +144,7 @@ app.post('/api/ai/coach', async (req, res) => {
 
 // Endpoint pentru generarea memelor cu DALL-E (cu proxy pentru CORS)
 app.post('/api/ai/meme', async (req, res) => {
-  const { theme, style } = req.body;
+  const { theme, style, customText } = req.body;
   if (!theme || !style) return res.status(400).json({ error: 'Theme and style are required.' });
 
   const openaiApiKey = process.env.OPENAI_API_KEY;
@@ -152,15 +152,18 @@ app.post('/api/ai/meme', async (req, res) => {
 
   // Șabloane dinamice pentru prompturi bazate pe stil, cu instrucțiuni clare pentru text
   const promptTemplates = {
-    minimalist: "A minimalist meme about {theme}, using 2-3 colors, clean lines, with a clear humorous caption (max 5 words) and a subtle visual joke, ensuring text is legible and grammatically correct.",
-    ironic: "An ironic meme about {theme}, with a sarcastic caption (max 5 words), clear and grammatically correct text, and {style} elements, funny and unexpected.",
-    sciFi: "A sci-fi meme about {theme}, with neon lights, futuristic {style} design, a clear humorous caption (max 5 words), and a sci-fi twist, ensuring legible text.",
-    retro: "A retro pixel art meme about {theme}, 16-bit style, vintage {style} colors, with a clear nostalgic caption (max 5 words), playful and legible.",
-    bold: "A bold meme about {theme}, with strong outlines, vibrant {style} colors, a clear hilarious caption (max 5 words), and a visual punchline, ensuring readable text."
+    minimalist: "A minimalist meme about {theme}, using 2-3 colors, clean lines, with a clear humorous caption (max 20 words) and a subtle visual joke, ensuring text is legible and grammatically correct.",
+    ironic: "An ironic meme about {theme}, with a sarcastic caption (max 20 words), clear and grammatically correct text, and {style} elements, funny and unexpected.",
+    sciFi: "A sci-fi meme about {theme}, with neon lights, futuristic {style} design, a clear humorous caption (max 20 words), and a sci-fi twist, ensuring legible text.",
+    retro: "A retro pixel art meme about {theme}, 16-bit style, vintage {style} colors, with a clear nostalgic caption (max 20 words), playful and legible.",
+    bold: "A bold meme about {theme}, with strong outlines, vibrant {style} colors, a clear hilarious caption (max 20 words), and a visual punchline, ensuring readable text."
   };
 
-  // Generăm promptul dinamic
-  const prompt = promptTemplates[style.toLowerCase()].replace('{theme}', theme.toLowerCase()).replace('{style}', style.toLowerCase());
+  // Generăm promptul dinamic, integrând customText dacă există
+  let prompt = promptTemplates[style.toLowerCase()].replace('{theme}', theme.toLowerCase()).replace('{style}', style.toLowerCase());
+  if (customText && customText.trim().length > 0) {
+    prompt += ` Using the custom text: "${customText.trim()}" as the caption, ensuring it fits within 20 words and is legible.`;
+  }
 
   try {
     const dalleResponse = await axios.post(
