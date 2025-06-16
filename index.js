@@ -159,14 +159,16 @@ app.post('/api/ai/meme', async (req, res) => {
     bold: "A bold meme about {theme}, with strong outlines, vibrant {style} colors, a clear hilarious caption (max 20 words), and a visual punchline, ensuring readable text."
   };
 
-  // Generăm promptul dinamic, integrând customText dacă există
-  let prompt = promptTemplates[style.toLowerCase()].replace('{theme}', theme.toLowerCase()).replace('{style}', style.toLowerCase());
+  // Validare și generare prompt dinamic
+  const styleLower = style.toLowerCase();
+  let prompt = promptTemplates[styleLower] || promptTemplates['minimalist']; // Fallback la 'minimalist' dacă stilul e invalid
+  prompt = prompt.replace('{theme}', theme.toLowerCase()).replace('{style}', styleLower);
   if (customText && customText.trim().length > 0) {
     prompt += ` Using the custom text: "${customText.trim()}" as the caption, ensuring it fits within 20 words and is legible.`;
   }
 
   // Funcție de retry pentru cererea către DALL-E
-  const retryRequest = async (url, config, maxRetries = 3, delayMs = 2000) => {
+  const retryRequest = async (url, config, maxRetries = 4, delayMs = 3000) => {
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
         const response = await axios(url, config);
