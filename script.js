@@ -342,6 +342,11 @@ document.getElementById('generateMeme')?.addEventListener('click', async () => {
         return;
     }
 
+    // Ajustare dimensiune canvas bazată pe ecran
+    const screenWidth = window.innerWidth;
+    memeCanvas.width = screenWidth > 480 ? 400 : Math.min(300, screenWidth * 0.8); // 400px pe desktop, 80% din lățime pe mobil (max 300px)
+    memeCanvas.height = memeCanvas.width;
+
     // Afișăm spinner-ul
     memeResponse.innerHTML = '<div class="ai-coach-spinner"></div>';
 

@@ -190,7 +190,7 @@ app.post('/api/ai/meme', async (req, res) => {
           model: 'dall-e-3',
           prompt: prompt,
           n: 1,
-          size: '1024x1024',
+          size: '512x512', // Schimbat de la 1024x1024
           response_format: 'url',
         },
         headers: { 'Authorization': `Bearer ${openaiApiKey}` },
