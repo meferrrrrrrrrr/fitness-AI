@@ -98,7 +98,7 @@ body.dashboard-body .background-container {
 .auth-dropdown {
   display: none;
   position: absolute;
-  top: calc(100% + 10px); /* Creștem spațiul pentru a evita suprapunerea cu navbar-ul */
+  top: calc(100% + 15px); /* Păstrăm spațiul pentru desktop */
   right: 0;
   width: 240px;
   background: linear-gradient(135deg, rgba(26, 37, 38, 0.6), rgba(0, 240, 255, 0.2));
@@ -551,7 +551,7 @@ p {
 
   .auth-dropdown {
     position: fixed;
-    top: calc(100% + 5px); /* Ajustăm pentru navbar-ul de 50px pe mobil */
+    top: calc(50px + 20px); /* Păstrăm spațiul sub navbar */
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
@@ -585,7 +585,7 @@ p {
   }
 
   .content-shifted {
-    margin-top: 150px;
+    margin-top: 250px; /* Creștem spațiul pentru a evita suprapunerea cu dropdown și mesaje */
     transition: margin-top 0.3s ease;
   }
 
@@ -718,6 +718,6 @@ p {
   }
 
   .content-shifted {
-    margin-top: 120px;
+    margin-top: 250px; /* Ajustăm și pentru ecrane foarte mici */
   }
 }
