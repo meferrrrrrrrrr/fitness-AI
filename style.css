@@ -579,7 +579,7 @@ p {
   }
 
   .content {
-    margin-top: 50px;
+    margin-top: 70px; /* Creștem spațiul sub navbar pe mobil */
     padding: 10px;
     max-width: 100%;
   }
