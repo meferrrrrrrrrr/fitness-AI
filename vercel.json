@@ -50,10 +50,5 @@
         }
       ]
     }
-  ],
-  "functions": {
-    "api/*.js": {
-      "timeout": 30
-    }
-  }
+  ]
 }
