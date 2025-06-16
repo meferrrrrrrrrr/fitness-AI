@@ -142,7 +142,7 @@ app.post('/api/ai/coach', async (req, res) => {
   }
 });
 
-// Endpoint pentru generarea memelor cu DALL-E (cu proxy pentru CORS)
+// Endpoint pentru generarea memelor cu DALL-E (cu proxy pentru CORS și retry)
 app.post('/api/ai/meme', async (req, res) => {
   const { theme, style, customText } = req.body;
   if (!theme || !style) return res.status(400).json({ error: 'Theme and style are required.' });
@@ -165,17 +165,32 @@ app.post('/api/ai/meme', async (req, res) => {
     prompt += ` Using the custom text: "${customText.trim()}" as the caption, ensuring it fits within 20 words and is legible.`;
   }
 
+  // Funcție de retry pentru cererea către DALL-E
+  const retryRequest = async (url, config, maxRetries = 3, delayMs = 2000) => {
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        const response = await axios(url, config);
+        return response;
+      } catch (error) {
+        if (attempt === maxRetries) throw error;
+        console.log(`Attempt ${attempt} failed, retrying in ${delayMs / 1000} seconds...`, error.message);
+        await new Promise(resolve => setTimeout(resolve, delayMs));
+      }
+    }
+  };
+
   try {
-    const dalleResponse = await axios.post(
+    const dalleResponse = await retryRequest(
       'https://api.openai.com/v1/images/generations',
       {
-        model: 'dall-e-3',
-        prompt: prompt,
-        n: 1,
-        size: '1024x1024',
-        response_format: 'url',
-      },
-      {
+        method: 'post',
+        data: {
+          model: 'dall-e-3',
+          prompt: prompt,
+          n: 1,
+          size: '1024x1024',
+          response_format: 'url',
+        },
         headers: { 'Authorization': `Bearer ${openaiApiKey}` },
       }
     );
