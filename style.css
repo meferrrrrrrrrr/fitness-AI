@@ -46,6 +46,11 @@ body.dashboard-body .background-container {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.navbar.hidden {
+  opacity: 0;
+  transform: translateY(-100%);
+}
+
 .logo-container {
   display: flex;
   align-items: center;
@@ -93,7 +98,7 @@ body.dashboard-body .background-container {
 .auth-dropdown {
   display: none;
   position: absolute;
-  top: calc(100% + 5px);
+  top: calc(100% + 10px); /* Creștem spațiul pentru a evita suprapunerea cu navbar-ul */
   right: 0;
   width: 240px;
   background: linear-gradient(135deg, rgba(26, 37, 38, 0.6), rgba(0, 240, 255, 0.2));
@@ -101,7 +106,7 @@ body.dashboard-body .background-container {
   border-radius: 6px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   padding: 10px;
-  z-index: 1003;
+  z-index: 1004;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -546,13 +551,13 @@ p {
 
   .auth-dropdown {
     position: fixed;
-    top: 50px;
+    top: calc(100% + 5px); /* Ajustăm pentru navbar-ul de 50px pe mobil */
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
     max-width: 200px;
     padding: 6px;
-    z-index: 1003;
+    z-index: 1004;
     opacity: 0;
   }
 
@@ -612,7 +617,7 @@ p {
   #memeCanvas {
     width: 100%;
     height: auto;
-    max-width: 400px; /* Limitare maximă pentru a preveni oversizing */
+    max-width: 400px;
     margin: 10px auto;
   }
 
@@ -708,11 +713,11 @@ p {
 
 @media (max-width: 480px) {
   #memeCanvas {
-    max-width: 90%; /* Mai flexibil pe ecrane foarte mici */
+    max-width: 90%;
     margin: 5px auto;
   }
 
   .content-shifted {
-    margin-top: 120px; /* Reducem mai mult pentru ecrane mici */
+    margin-top: 120px;
   }
 }
