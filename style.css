@@ -46,11 +46,6 @@ body.dashboard-body .background-container {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.navbar.hidden {
-  opacity: 0;
-  transform: translateY(-100%);
-}
-
 .logo-container {
   display: flex;
   align-items: center;
@@ -106,7 +101,7 @@ body.dashboard-body .background-container {
   border-radius: 6px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   padding: 10px;
-  z-index: 1003; /* Creștem z-index-ul pentru a fi deasupra conținutului */
+  z-index: 1003;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -197,11 +192,11 @@ body.dashboard-body .background-container {
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
-  overflow: visible; /* Permite dropdown-urilor să se extindă */
+  overflow: visible;
 }
 
 .content-shifted {
-  margin-top: 250px; /* Valoare pentru desktop */
+  margin-top: 250px;
   transition: margin-top 0.3s ease;
 }
 
@@ -218,7 +213,6 @@ body.dashboard-body .background-container {
   font-size: 28px;
   margin: 0 0 10px;
   color: #ffffff;
-  text-shadow: none;
 }
 
 p {
@@ -237,7 +231,6 @@ p {
   background: rgba(255, 255, 255, 0.1);
   color: #ffffff;
   font-size: 16px;
-  overflow: visible; /* Permite dropdown-urilor să se extindă */
 }
 
 .input::placeholder {
@@ -253,7 +246,6 @@ p {
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s;
-  box-shadow: none;
 }
 
 .button:hover {
@@ -266,16 +258,22 @@ p {
   background: rgba(255, 255, 255, 0.1);
   color: #ffffff;
   font-size: 14px;
-  position: relative; /* Asigurăm context pentru poziționarea absolută a spinner-ului */
+  position: relative;
 }
 
+/* === Canvas Styles === */
 #memeCanvas {
   max-width: 100%;
   height: auto;
   margin: 15px 0;
   display: block;
-  border: none;
-  border-radius: 0;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  transition: border-color 0.3s;
+}
+
+#memeCanvas:hover {
+  border-color: #00F0FF;
 }
 
 /* === Features Styles === */
@@ -385,15 +383,6 @@ p {
   box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
 }
 
-.response {
-  margin-top: 20px;
-  padding: 10px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-  position: relative; /* Context pentru spinner */
-}
-
 /* === Custom Dropdown Styles === */
 .custom-dropdown {
   position: relative;
@@ -406,7 +395,7 @@ p {
   padding: 10px;
   border: none;
   border-radius: 4px;
-  background: #1a2526; /* Fundal mai închis și opac */
+  background: #1a2526;
   color: #ffffff;
   font-size: 16px;
   cursor: pointer;
@@ -425,9 +414,9 @@ p {
   width: 100%;
   max-height: 200px;
   overflow-y: auto;
-  background: #1a2526; /* Fundal mai închis și opac */
+  background: #1a2526;
   border-radius: 4px;
-  z-index: 1004; /* Prioritate mai mare */
+  z-index: 1004;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
@@ -443,30 +432,6 @@ p {
 
 .option:hover {
   background: rgba(0, 240, 255, 0.3);
-}
-
-/* === Canvas Styles === */
-#memeCanvas {
-  max-width: 100%;
-  height: auto;
-  margin: 15px 0;
-  display: block;
-  border: none;
-  border-radius: 0;
-}
-
-#memeGeneratorSection canvas {
-  max-width: 100%;
-  height: auto;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin: 10px auto;
-  display: block;
-  transition: border-color 0.3s;
-}
-
-#memeGeneratorSection canvas:hover {
-  border-color: #00F0FF;
 }
 
 /* === Dashboard Specific Styles === */
@@ -529,9 +494,9 @@ p {
   animation: spin 1.2s linear infinite;
   opacity: 0.8;
   position: absolute;
-  top: 10px; /* Ajustare pentru a fi sub marginea de sus a #coachResponse */
+  top: 10px;
   left: 50%;
-  transform: translateX(-50%); /* Centrare orizontală, fără ajustare verticală */
+  transform: translateX(-50%);
 }
 
 @keyframes spin {
@@ -550,7 +515,6 @@ p {
   .navbar {
     padding: 10px 20px;
     height: 50px;
-    box-sizing: border-box;
   }
 
   .logo-img {
@@ -588,8 +552,7 @@ p {
     width: 90%;
     max-width: 200px;
     padding: 6px;
-    box-shadow: none;
-    z-index: 1003; /* Menținem z-index-ul ridicat */
+    z-index: 1003;
     opacity: 0;
   }
 
@@ -617,7 +580,7 @@ p {
   }
 
   .content-shifted {
-    margin-top: 150px; /* Redus pentru mobil */
+    margin-top: 150px;
     transition: margin-top 0.3s ease;
   }
 
@@ -649,6 +612,8 @@ p {
   #memeCanvas {
     width: 100%;
     height: auto;
+    max-width: 400px; /* Limitare maximă pentru a preveni oversizing */
+    margin: 10px auto;
   }
 
   .hero-section-container {
@@ -716,7 +681,6 @@ p {
     padding: 3px 4px;
   }
 
-  /* Ajustări responsive pentru dropdown-uri */
   .custom-dropdown {
     max-width: 100%;
   }
@@ -735,10 +699,20 @@ p {
     padding: 6px 10px;
   }
 
-  /* Ajustări responsive pentru spinner */
   .ai-coach-spinner {
     width: 16px;
     height: 16px;
     border-width: 1.5px;
+  }
+}
+
+@media (max-width: 480px) {
+  #memeCanvas {
+    max-width: 90%; /* Mai flexibil pe ecrane foarte mici */
+    margin: 5px auto;
+  }
+
+  .content-shifted {
+    margin-top: 120px; /* Reducem mai mult pentru ecrane mici */
   }
 }
