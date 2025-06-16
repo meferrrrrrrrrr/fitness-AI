@@ -330,10 +330,12 @@ document.getElementById('generateMeme')?.addEventListener('click', async () => {
     const downloadMeme = document.getElementById('downloadMeme');
     const themeHeader = document.getElementById('memeThemeHeader');
     const styleHeader = document.getElementById('memeStyleHeader');
+    const customTextInput = document.getElementById('customText');
     const authToken = localStorage.getItem('authToken');
 
     const theme = themeHeader.textContent.toLowerCase();
     const style = styleHeader.textContent.toLowerCase();
+    const customText = customTextInput.value.trim();
 
     if (theme === 'select a theme...' || style === 'select a style...') {
         memeResponse.textContent = 'Please select a theme and a style!';
@@ -350,7 +352,7 @@ document.getElementById('generateMeme')?.addEventListener('click', async () => {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${authToken}`
             },
-            body: JSON.stringify({ theme, style })
+            body: JSON.stringify({ theme, style, customText })
         });
         if (response.ok) {
             const blob = await response.blob();
@@ -365,7 +367,7 @@ document.getElementById('generateMeme')?.addEventListener('click', async () => {
 
                 downloadMeme.onclick = () => {
                     const link = document.createElement('a');
-                    link.download = `meme_${theme}_${style}.png`;
+                    link.download = `meme_${theme}_${style}${customText ? `_${customText.replace(/[^a-zA-Z0-9]/g, '_')}` : ''}.png`;
                     link.href = memeCanvas.toDataURL('image/png');
                     link.click();
                 };
