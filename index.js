@@ -9,25 +9,23 @@ const app = express();
 // Parsăm body-ul cererilor JSON
 app.use(express.json());
 
-// Middleware pentru CORS (opțional, activează dacă e necesar)
+// Middleware pentru CORS
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*'); // Permite toate originile (ajustăm în producție)
+  res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   next();
 });
 
-// Servim fișierele statice din rădăcina proiectului (HTML, JS, CSS)
+// Servim fișierele statice
 app.use(express.static(path.join(__dirname, '.'), {
   index: 'index.html',
   extensions: ['html', 'js', 'css']
 }));
-
-// Servim fișierele statice din folderul public (imagini, etc.)
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // Middleware pentru gestionarea erorilor
 app.use((err, req, res, next) => {
-  console.error('Error:', err.message); // Log erorile pentru debug
+  console.error('Error:', err.message);
   res.status(500).json({ error: 'An internal error occurred', details: err.message });
 });
 
@@ -128,10 +126,7 @@ app.post('/api/ai/coach', async (req, res) => {
   try {
     const response = await axios.post('https://api.openai.com/v1/chat/completions', {
       model: 'gpt-4',
-      messages: [{
-        role: 'user',
-        content: prompts[language] || prompts['en']
-      }],
+      messages: [{ role: 'user', content: prompts[language] || prompts['en'] }],
       max_tokens: 300,
     }, {
       headers: { 'Authorization': `Bearer ${openaiApiKey}` },
@@ -142,7 +137,7 @@ app.post('/api/ai/coach', async (req, res) => {
   }
 });
 
-// Endpoint pentru generarea memelor cu DALL-E (cu proxy pentru CORS și retry)
+// Endpoint pentru generarea memelor cu DALL-E
 app.post('/api/ai/meme', async (req, res) => {
   const { theme, style, customText } = req.body;
   if (!theme || !style) return res.status(400).json({ error: 'Theme and style are required.' });
@@ -150,24 +145,26 @@ app.post('/api/ai/meme', async (req, res) => {
   const openaiApiKey = process.env.OPENAI_API_KEY;
   if (!openaiApiKey) return res.status(500).json({ error: 'Open AI API key is missing.' });
 
-  // Șabloane dinamice pentru prompturi bazate pe stil, cu instrucțiuni clare pentru text
   const promptTemplates = {
-    minimalist: "A minimalist meme about {theme}, using 2-3 colors, clean lines, with a clear humorous caption (max 20 words) and a subtle visual joke, ensuring text is legible and grammatically correct.",
-    ironic: "An ironic meme about {theme}, with a sarcastic caption (max 20 words), clear and grammatically correct text, and {style} elements, funny and unexpected.",
-    sciFi: "A sci-fi meme about {theme}, with neon lights, futuristic {style} design, a clear humorous caption (max 20 words), and a sci-fi twist, ensuring legible text.",
-    retro: "A retro pixel art meme about {theme}, 16-bit style, vintage {style} colors, with a clear nostalgic caption (max 20 words), playful and legible.",
-    bold: "A bold meme about {theme}, with strong outlines, vibrant {style} colors, a clear hilarious caption (max 20 words), and a visual punchline, ensuring readable text."
+    minimalist: "A minimalist meme about {theme}, using 2-3 colors, clean lines, with a clear humorous caption (max 20 words) and a subtle visual joke.",
+    ironic: "An ironic meme about {theme}, with a sarcastic caption (max 20 words) and unexpected elements.",
+    sciFi: "A sci-fi meme about {theme}, with neon lights, futuristic design, and a humorous caption (max 20 words).",
+    retro: "A retro pixel art meme about {theme}, 16-bit style, vintage colors, with a nostalgic caption (max 20 words).",
+    bold: "A bold meme about {theme}, with strong outlines, vibrant colors, and a hilarious caption (max 20 words)."
   };
 
-  // Validare și generare prompt dinamic
   const styleLower = style.toLowerCase();
-  let prompt = promptTemplates[styleLower] || promptTemplates['minimalist']; // Fallback la 'minimalist' dacă stilul e invalid
-  prompt = prompt.replace('{theme}', theme.toLowerCase()).replace('{style}', styleLower);
+  let prompt = promptTemplates[styleLower] || promptTemplates['minimalist'];
+  prompt = prompt.replace('{theme}', theme.toLowerCase());
+
   if (customText && customText.trim().length > 0) {
-    prompt += ` Using the custom text: "${customText.trim()}" as the caption, ensuring it fits within 20 words and is legible.`;
+    const words = customText.trim().split(/\s+/);
+    if (words.length > 20) return res.status(400).json({ error: 'Custom text must be 20 words or fewer.' });
+    prompt += ` Using caption: "${customText.trim()}" (max 20 words).`;
   }
 
-  // Funcție de retry pentru cererea către DALL-E
+  console.log('Sending prompt to DALL-E:', prompt); // Log pentru debug
+
   const retryRequest = async (url, config, maxRetries = 4, delayMs = 3000) => {
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
@@ -190,7 +187,7 @@ app.post('/api/ai/meme', async (req, res) => {
           model: 'dall-e-3',
           prompt: prompt,
           n: 1,
-          size: '512x512', // Schimbat de la 1024x1024
+          size: '1024x1024', // Revenit la 1024x1024
           response_format: 'url',
         },
         headers: { 'Authorization': `Bearer ${openaiApiKey}` },
@@ -198,15 +195,17 @@ app.post('/api/ai/meme', async (req, res) => {
     );
     const imageUrl = dalleResponse.data.data[0].url;
 
-    // Descarcă imaginea și returnează-o ca buffer
-    const imageResponse = await axios.get(imageUrl, {
-      responseType: 'arraybuffer',
-    });
+    const imageResponse = await axios.get(imageUrl, { responseType: 'arraybuffer' });
     res.set('Content-Type', 'image/png');
-    res.set('Access-Control-Allow-Origin', '*'); // Permite CORS pentru imagine
+    res.set('Access-Control-Allow-Origin', '*');
     res.send(imageResponse.data);
   } catch (error) {
-    res.status(500).json({ error: 'Error generating meme: ' + error.message });
+    console.error('DALL-E error details:', error.response?.data || error.message);
+    if (error.response?.status === 400) {
+      res.status(400).json({ error: 'Invalid request to DALL-E: ' + (error.response?.data?.error?.message || error.message) });
+    } else {
+      res.status(500).json({ error: 'Error generating meme: ' + error.message });
+    }
   }
 });
 
