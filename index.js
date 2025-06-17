@@ -139,29 +139,11 @@ app.post('/api/ai/coach', async (req, res) => {
 
 // Endpoint pentru generarea memelor cu DALL-E
 app.post('/api/ai/meme', async (req, res) => {
-  const { theme, style, customText } = req.body;
-  if (!theme || !style) return res.status(400).json({ error: 'Theme and style are required.' });
+  const { prompt } = req.body;
+  if (!prompt) return res.status(400).json({ error: 'Prompt is required.' });
 
   const openaiApiKey = process.env.OPENAI_API_KEY;
   if (!openaiApiKey) return res.status(500).json({ error: 'Open AI API key is missing.' });
-
-  const promptTemplates = {
-    minimalist: "A minimalist meme about {theme}, using 2-3 colors, clean lines, with a clear humorous caption (max 20 words) and a subtle visual joke.",
-    ironic: "An ironic meme about {theme}, with a sarcastic caption (max 20 words) and unexpected elements.",
-    sciFi: "A sci-fi meme about {theme}, with neon lights, futuristic design, and a humorous caption (max 20 words).",
-    retro: "A retro pixel art meme about {theme}, 16-bit style, vintage colors, with a nostalgic caption (max 20 words).",
-    bold: "A bold meme about {theme}, with strong outlines, vibrant colors, and a hilarious caption (max 20 words)."
-  };
-
-  const styleLower = style.toLowerCase();
-  let prompt = promptTemplates[styleLower] || promptTemplates['minimalist'];
-  prompt = prompt.replace('{theme}', theme.toLowerCase());
-
-  if (customText && customText.trim().length > 0) {
-    const words = customText.trim().split(/\s+/);
-    if (words.length > 20) return res.status(400).json({ error: 'Custom text must be 20 words or fewer.' });
-    prompt += ` Using caption: "${customText.trim()}" (max 20 words).`;
-  }
 
   console.log('Sending prompt to DALL-E:', prompt); // Log pentru debug
 
@@ -187,7 +169,7 @@ app.post('/api/ai/meme', async (req, res) => {
           model: 'dall-e-3',
           prompt: prompt,
           n: 1,
-          size: '1024x1024', // Revenit la 1024x1024
+          size: '1024x1024',
           response_format: 'url',
         },
         headers: { 'Authorization': `Bearer ${openaiApiKey}` },
