@@ -357,7 +357,7 @@ document.getElementById('generateMeme')?.addEventListener('click', async () => {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${authToken}`
             },
-            body: JSON.stringify({ theme, style, customText })
+            body: JSON.stringify({ theme, style, customText: customText || 'random meme', prompt: `${customText || 'random meme'} based on ${theme} theme and ${style} style` })
         });
         if (response.ok) {
             const blob = await response.blob();
