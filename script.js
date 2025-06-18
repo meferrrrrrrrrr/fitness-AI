@@ -350,6 +350,17 @@ document.getElementById('generateMeme')?.addEventListener('click', async () => {
     // Afișăm spinner-ul
     memeResponse.innerHTML = '<div class="ai-coach-spinner"></div>';
 
+    // Detectare limbă bazată doar pe cuvinte-cheie
+    let language = 'en'; // Default language
+    if (customText) {
+        if (customText.toLowerCase().includes('ajuta') || customText.toLowerCase().includes('economisesc')) {
+            language = 'ro';
+        } else if (customText.toLowerCase().includes('save') || customText.toLowerCase().includes('help')) {
+            language = 'en';
+        }
+        console.log('Detected language based on keywords for meme:', language);
+    }
+
     try {
         const response = await fetch('/api/ai/meme', {
             method: 'POST',
@@ -357,7 +368,7 @@ document.getElementById('generateMeme')?.addEventListener('click', async () => {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${authToken}`
             },
-            body: JSON.stringify({ theme, style, customText: customText || 'random meme', prompt: `${customText || 'random meme'} based on ${theme} theme and ${style} style` })
+            body: JSON.stringify({ theme, style, customText: customText || 'random meme', prompt: `${customText || 'random meme'} based on ${theme} theme and ${style} style`, language })
         });
         if (response.ok) {
             const blob = await response.blob();
