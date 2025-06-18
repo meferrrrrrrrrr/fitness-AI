@@ -289,8 +289,8 @@ document.getElementById('generatePlan')?.addEventListener('click', async () => {
         return;
     }
 
-    // Afișăm spinner-ul specific AI Coach
-    coachResponse.innerHTML = '<div class="ai-coach-spinner"></div>';
+    // Afișăm spinner-ul și mesajul temporar
+    coachResponse.innerHTML = '<div class="ai-coach-spinner"></div> Generating plan...';
 
     // Detectare limbă bazată doar pe cuvinte-cheie
     let language = 'en'; // Default language
