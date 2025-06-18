@@ -98,7 +98,7 @@ body.dashboard-body .background-container {
 .auth-dropdown {
   display: none;
   position: absolute;
-  top: calc(100% + 15px); /* Păstrăm spațiul pentru desktop */
+  top: calc(100% + 15px);
   right: 0;
   width: 240px;
   background: linear-gradient(135deg, rgba(26, 37, 38, 0.6), rgba(0, 240, 255, 0.2));
@@ -231,7 +231,7 @@ p {
   max-width: 300px;
   padding: 10px;
   margin-bottom: 10px;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.1);
   color: #ffffff;
@@ -264,6 +264,7 @@ p {
   color: #ffffff;
   font-size: 14px;
   position: relative;
+  animation: fadeIn 0.5s ease-in;
 }
 
 /* === Canvas Styles === */
@@ -494,9 +495,9 @@ p {
   width: 24px;
   height: 24px;
   border: 2px solid #F5F5F5;
-  border-top: 2px solid transparent;
+  border-top: 2px solid #00F0FF;
   border-radius: 50%;
-  animation: spin 1.2s linear infinite;
+  animation: spin 1s linear infinite;
   opacity: 0.8;
   position: absolute;
   top: 10px;
@@ -513,6 +514,23 @@ p {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* === Section Styles === */
+.ai-coach-section {
+  background: linear-gradient(135deg, rgba(0, 15, 36, 0.2), rgba(0, 240, 255, 0.1));
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.ai-coach-section .emoji {
+  font-size: 28px;
+}
+
+.ai-coach-section h2 {
+  font-size: 30px;
+  margin-bottom: 5px;
 }
 
 /* === Media Queries === */
@@ -551,7 +569,7 @@ p {
 
   .auth-dropdown {
     position: fixed;
-    top: calc(50px + 20px); /* Păstrăm spațiul sub navbar */
+    top: calc(50px + 20px);
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
@@ -579,13 +597,13 @@ p {
   }
 
   .content {
-    margin-top: 70px; /* Creștem spațiul sub navbar pe mobil */
+    margin-top: 70px;
     padding: 10px;
     max-width: 100%;
   }
 
   .content-shifted {
-    margin-top: 250px; /* Creștem spațiul pentru a evita suprapunerea cu dropdown și mesaje */
+    margin-top: 250px;
     transition: margin-top 0.3s ease;
   }
 
@@ -599,7 +617,7 @@ p {
     font-size: 14px;
   }
 
-  .input {
+  .input, .custom-dropdown {
     max-width: 100%;
     padding: 6px;
     font-size: 12px;
@@ -704,6 +722,18 @@ p {
     padding: 6px 10px;
   }
 
+  .ai-coach-section {
+    padding: 10px;
+  }
+
+  .ai-coach-section .emoji {
+    font-size: 24px;
+  }
+
+  .ai-coach-section h2 {
+    font-size: 20px;
+  }
+
   .ai-coach-spinner {
     width: 16px;
     height: 16px;
@@ -718,6 +748,15 @@ p {
   }
 
   .content-shifted {
-    margin-top: 250px; /* Ajustăm și pentru ecrane foarte mici */
+    margin-top: 250px;
+  }
+
+  .ai-coach-section {
+    padding: 8px;
+  }
+
+  .response {
+    font-size: 12px;
+    padding: 8px;
   }
 }
