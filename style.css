@@ -60,6 +60,12 @@ body.dashboard-body .background-container {
 .logo-img {
   width: 40px;
   height: 40px;
+  object-fit: contain; /* Asigură că logo-ul se redimensionează proporțional */
+  transition: transform 0.3s ease; /* Adaugă o tranziție ușoară */
+}
+
+.logo-img:hover {
+  transform: scale(1.1); /* Mic efect de hover pentru logo */
 }
 
 .logo-text {
