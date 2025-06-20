@@ -440,13 +440,23 @@ p {
 }
 
 .option {
-  padding: 8px 10px;
+  padding: 6px 10px; /* Redus padding pentru aliniere cu dropdown-header */
   cursor: pointer;
   color: #ffffff;
+  font-size: 12px; /* Uniformizat cu dropdown-header */
+  line-height: 1.2; /* Optional, pentru compactare */
 }
 
 .option:hover {
   background: rgba(0, 240, 255, 0.3);
+}
+
+@media (min-width: 769px) {
+  .option {
+    padding: 6px 10px; /* Asigurăm consistență pe desktop */
+    font-size: 12px; /* Forțăm dimensiunea pe desktop */
+    line-height: 1.2; /* Compactare opțională */
+  }
 }
 
 /* === Dashboard Specific Styles === */
