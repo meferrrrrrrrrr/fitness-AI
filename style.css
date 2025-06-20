@@ -5,11 +5,9 @@ body {
   padding: 0;
   min-height: 100vh;
   color: #ffffff;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: hidden; /* Previne scroll orizontal */
 }
 
-/* === Background Styles === */
 .background-container {
   position: fixed;
   top: 0;
@@ -609,6 +607,7 @@ p {
     margin-top: 70px;
     padding: 10px;
     max-width: 100%;
+    overflow-x: hidden; /* Previne scroll orizontal */
   }
 
   .content-shifted {
@@ -624,21 +623,52 @@ p {
 
   p {
     font-size: 14px;
+    word-wrap: break-word; /* Asigură că textul lung se rupe */
   }
 
   .input {
     max-width: 100%;
-    padding: 6px;
-    font-size: 12px;
+    padding: 8px;
+    font-size: 14px;
   }
 
   .button {
-    padding: 6px 12px;
-    font-size: 12px;
+    padding: 8px 16px;
+    font-size: 14px;
   }
 
   .response {
     font-size: 12px;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr; /* Stiva cardurile vertical */
+    gap: 15px;
+  }
+
+  .feature-card {
+    padding: 10px;
+  }
+
+  .feature-emoji {
+    font-size: 20px;
+  }
+
+  .feature-card h4 {
+    font-size: 16px;
+  }
+
+  .feature-card p {
+    font-size: 12px;
+  }
+
+  .welcome-card {
+    padding: 15px;
+    max-width: 90%;
+  }
+
+  .welcome-card h1 {
+    font-size: 20px;
   }
 
   .ai-coach-section,
@@ -661,8 +691,8 @@ p {
   }
 
   .dropdown-header {
-    padding: 6px;
-    font-size: 12px;
+    padding: 8px;
+    font-size: 14px;
   }
 
   .dropdown-options {
@@ -680,12 +710,66 @@ p {
     padding: 8px;
   }
 
-  .response {
-    padding: 8px;
+  .navbar {
+    padding: 5px 10px;
+  }
+
+  .logo-img {
+    width: 25px;
+    height: 25px;
+  }
+
+  .logo-text {
+    font-size: 16px;
+  }
+
+  .auth-container {
+    padding-right: 10px;
+  }
+
+  .toggle-button {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+
+  .form-container button {
+    width: 70px;
+    padding: 3px 5px;
+    font-size: 10px;
   }
 
   .input {
-    padding: 4px;
+    padding: 6px;
+    font-size: 12px;
+  }
+
+  .button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .response {
+    padding: 6px;
+    font-size: 10px;
+  }
+
+  .features-title {
+    font-size: 20px;
+  }
+
+  .feature-card {
+    padding: 8px;
+  }
+
+  .feature-emoji {
+    font-size: 18px;
+  }
+
+  .feature-card h4 {
+    font-size: 14px;
+  }
+
+  .feature-card p {
     font-size: 10px;
   }
 }
