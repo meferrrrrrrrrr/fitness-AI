@@ -25,8 +25,8 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // Middleware pentru gestionarea erorilor
 app.use((err, req, res, next) => {
-  console.error('Error:', err.message);
-  res.status(500).json({ error: 'An internal error occurred', details: err.message });
+  console.error('Error:', err.stack);
+  res.status(500).json({ error: 'An internal server error occurred', details: err.message });
 });
 
 // Endpoint pentru signup
@@ -40,7 +40,7 @@ app.post('/api/auth/signup', async (req, res) => {
     const user = userCredential.user;
     res.status(201).json({ message: 'Account created successfully!', userId: user.uid });
   } catch (error) {
-    res.status(400).json({ error: 'Error creating account: ' + error.message });
+    res.status(400).json({ error: `Error creating account: ${error.message}` });
   }
 });
 
@@ -56,7 +56,7 @@ app.post('/api/auth/login', async (req, res) => {
     const idToken = await user.getIdToken();
     res.status(200).json({ message: 'Login successful!', userId: user.uid, token: idToken });
   } catch (error) {
-    res.status(400).json({ error: 'Error logging in: ' + error.message });
+    res.status(400).json({ error: `Error logging in: ${error.message}` });
   }
 });
 
@@ -72,7 +72,7 @@ app.post('/api/auth/logout', async (req, res) => {
     await signOut(auth);
     res.status(200).json({ message: 'Logout successful!' });
   } catch (error) {
-    res.status(400).json({ error: 'Error logging out: ' + error.message });
+    res.status(400).json({ error: `Error logging out: ${error.message}` });
   }
 });
 
@@ -90,7 +90,7 @@ app.post('/api/auth/reset-password', async (req, res) => {
     if (error.code === 'auth/user-not-found') {
       return res.status(404).json({ error: 'Email is not registered.' });
     }
-    res.status(400).json({ error: 'Error sending password reset email: ' + error.message });
+    res.status(400).json({ error: `Error sending password reset email: ${error.message}` });
   }
 });
 
@@ -106,21 +106,21 @@ app.get('/api/auth/user', async (req, res) => {
     if (!email) return res.status(401).json({ error: 'User is not authenticated.' });
     res.status(200).json({ email });
   } catch (error) {
-    res.status(401).json({ error: 'Invalid or expired token: ' + error.message });
+    res.status(401).json({ error: `Invalid or expired token: ${error.message}` });
   }
 });
 
 // Endpoint pentru AI Coach
 app.post('/api/ai/coach', async (req, res) => {
-  const { mood, prompt, language = 'en' } = req.body;
-  if (!mood || !prompt) return res.status(400).json({ error: 'Mood and prompt are required.' });
+  const { goal, prompt, language = 'en' } = req.body;
+  if (!goal) return res.status(400).json({ error: 'Goal is required.' });
 
   const openaiApiKey = process.env.OPENAI_API_KEY;
   if (!openaiApiKey) return res.status(500).json({ error: 'Open AI API key is missing.' });
 
   const prompts = {
-    en: `You are a unique AI coach named MEF AI, with a motivating, practical tone and a dash of subtle humor. Create a 3-step daily plan for a user who feels ${mood} and wants to ${prompt}. Tailor the plan to a regular routine (e.g., morning, afternoon, evening) with specific, clear, and feasible steps. Add an inspiring closing that reflects the user’s mood. Respond concisely, under 150 words, without excessive formatting. Ensure the plan is complete and properly concluded.`,
-    ro: `Ești un coach AI unic numit MEF AI, cu un ton motivant, practic și un strop de umor subtil. Creează un plan zilnic de 3 pași pentru un utilizator care se simte ${mood} și dorește să ${prompt}. Adaptează planul la o rutină obișnuită (ex. dimineață, după-amiază, seară), cu pași specifici, clari și fezabili. Adaugă o încheiere inspiratoare care să reflecte starea utilizatorului. Răspunde concis, sub 150 de cuvinte, fără formatare excesivă. Asigură-te că planul e complet și încheiat corespunzător.`
+    en: `You are a unique AI coach named MEF AI, with a motivating, practical tone and a dash of subtle humor. Create a 3-step daily plan for a user aiming for ${goal}. ${prompt ? `Incorporate the user's input: ${prompt}.` : ''} Tailor the plan to a regular routine (e.g., morning, afternoon, evening) with specific, clear, and feasible steps. Add an inspiring closing. Respond concisely, under 150 words, without excessive formatting. Ensure the plan is complete and properly concluded.`,
+    ro: `Ești un coach AI unic numit MEF AI, cu un ton motivant, practic și un strop de umor subtil. Creează un plan zilnic de 3 pași pentru un utilizator care își dorește ${goal}. ${prompt ? `Incorporează inputul utilizatorului: ${prompt}.` : ''} Adaptează planul la o rutină obișnuită (ex. dimineață, după-amiază, seară), cu pași specifici, clari și fezabili. Adaugă o încheiere inspiratoare. Răspunde concis, sub 150 de cuvinte, fără formatare excesivă. Asigură-te că planul e complet și încheiat corespunzător.`
   };
 
   try {
@@ -131,10 +131,19 @@ app.post('/api/ai/coach', async (req, res) => {
     }, {
       headers: { 'Authorization': `Bearer ${openaiApiKey}` },
     });
-    res.status(200).json({ plan: response.data.choices[0].message.content });
+    res.status(200).json({ plan: response.data.choices[0].message.content.trim() });
   } catch (error) {
-    res.status(500).json({ error: 'Error generating plan: ' + error.message });
+    console.error('AI Coach error:', error.response?.data || error.message);
+    res.status(500).json({ error: `Error generating plan: ${error.message}` });
   }
+});
+
+// Endpoint pentru Plan Nutrițional (Placeholder)
+app.post('/api/ai/nutrition', async (req, res) => {
+  const { goal, prompt, language = 'en' } = req.body;
+  if (!goal || !prompt) return res.status(400).json({ error: 'Goal and prompt are required.' });
+
+  res.status(501).json({ error: 'Nutrition plan generation is not implemented yet.' });
 });
 
 // Endpoint pentru generarea memelor cu DALL-E
@@ -184,9 +193,9 @@ app.post('/api/ai/meme', async (req, res) => {
   } catch (error) {
     console.error('DALL-E error details:', error.response?.data || error.message);
     if (error.response?.status === 400) {
-      res.status(400).json({ error: 'Invalid request to DALL-E: ' + (error.response?.data?.error?.message || error.message) });
+      res.status(400).json({ error: `Invalid request to DALL-E: ${error.response?.data?.error?.message || error.message}` });
     } else {
-      res.status(500).json({ error: 'Error generating meme: ' + error.message });
+      res.status(500).json({ error: `Error generating meme: ${error.message}` });
     }
   }
 });

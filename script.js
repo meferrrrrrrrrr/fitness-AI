@@ -1,7 +1,7 @@
 // Funcții globale
 async function handleSignup() {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    const email = document.getElementById('email')?.value || '';
+    const password = document.getElementById('password')?.value || '';
 
     if (!email || !password) {
         showMessage('Email and password are required.', 'error', 'signup');
@@ -33,19 +33,19 @@ async function handleSignup() {
                 updateStatus(loginData.token);
                 window.location.href = '/dashboard.html';
             } else {
-                showMessage('Account created, but auto-login failed: ' + loginData.error, 'error', 'signup');
+                showMessage(`Account created, but auto-login failed: ${loginData.error}`, 'error', 'signup');
             }
         } else {
-            showMessage(data.error, 'error', 'signup');
+            showMessage(`Signup failed: ${data.error}`, 'error', 'signup');
         }
     } catch (error) {
-        showMessage('Connection error: ' + error.message, 'error', 'signup');
+        showMessage(`Connection error during signup: ${error.message}`, 'error', 'signup');
     }
 }
 
 async function handleLogin() {
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
+    const email = document.getElementById('loginEmail')?.value || '';
+    const password = document.getElementById('loginPassword')?.value || '';
 
     if (!email || !password) {
         showMessage('Email and password are required.', 'error', 'login');
@@ -69,11 +69,11 @@ async function handleLogin() {
             updateStatus(data.token);
             window.location.href = '/dashboard.html';
         } else {
-            const errorMessage = data.error.includes('auth/invalid-credential') ? 'Invalid credentials.' : data.error;
+            const errorMessage = data.error.includes('auth/invalid-credential') ? 'Invalid credentials.' : `Login failed: ${data.error}`;
             showMessage(errorMessage, 'error', 'login');
         }
     } catch (error) {
-        showMessage('Connection error: ' + error.message, 'error', 'login');
+        showMessage(`Connection error during login: ${error.message}`, 'error', 'login');
     }
 }
 
@@ -104,15 +104,15 @@ async function handleLogout() {
             updateStatus(null);
             window.location.href = '/';
         } else {
-            showMessage(data.error, 'error', 'login');
+            showMessage(`Logout failed: ${data.error}`, 'error', 'login');
         }
     } catch (error) {
-        showMessage('Logout error: ' + error.message, 'error', 'login');
+        showMessage(`Connection error during logout: ${error.message}`, 'error', 'login');
     }
 }
 
 async function handleResetPassword() {
-    const email = document.getElementById('loginEmail').value;
+    const email = document.getElementById('loginEmail')?.value || '';
 
     if (!email) {
         showMessage('Email is required.', 'error', 'login');
@@ -131,10 +131,10 @@ async function handleResetPassword() {
         if (response.ok) {
             showMessage(data.message, 'success', 'login');
         } else {
-            showMessage(data.error, 'error', 'login');
+            showMessage(`Password reset failed: ${data.error}`, 'error', 'login');
         }
     } catch (error) {
-        showMessage('Connection error: ' + error.message, 'error', 'login');
+        showMessage(`Connection error during password reset: ${error.message}`, 'error', 'login');
     }
 }
 
@@ -182,7 +182,7 @@ function showMessage(text, type, formType) {
         messageDiv.textContent = text;
         messageDiv.className = `message ${type} visible`;
         setTimeout(() => {
-            if (messageDiv) messageDiv.className = `message ${type} hidden`;
+            messageDiv.className = `message ${type} hidden`;
         }, 3000);
     }
 }
@@ -194,114 +194,106 @@ function updateStatus(token) {
     const showLogin = document.getElementById('showLogin');
     const authStatus = document.getElementById('authStatus');
     const content = document.querySelector('.content');
+    const logoutButton = document.getElementById('logoutButton');
 
     if (token) {
         if (authDropdown) authDropdown.className = 'auth-dropdown hidden';
         if (showSignup) showSignup.style.display = 'none';
         if (showLogin) showLogin.style.display = 'none';
         if (authStatus) {
-            authStatus.innerHTML = `Hello, ${localStorage.getItem('lastEmail') || 'User'}! <button id="logoutButton" class="logout-btn">Logout</button>`;
+            authStatus.innerHTML = `Hello, ${localStorage.getItem('lastEmail') || 'User'}!`;
             authStatus.style.display = 'block';
-            const logoutButton = document.getElementById('logoutButton');
-            if (logoutButton) logoutButton.addEventListener('click', handleLogout);
         }
+        if (logoutButton) logoutButton.style.display = 'inline-block';
         if (content) content.classList.remove('content-shifted');
     } else {
         if (authDropdown) authDropdown.className = 'auth-dropdown hidden';
-        if (showSignup) showSignup.className = 'toggle-button';
-        if (showLogin) showLogin.className = 'toggle-button active';
-        if (showSignup) showSignup.style.display = 'inline-block';
-        if (showLogin) showLogin.style.display = 'inline-block';
+        if (showSignup) {
+            showSignup.className = 'toggle-button';
+            showSignup.style.display = 'inline-block';
+        }
+        if (showLogin) {
+            showLogin.className = 'toggle-button active';
+            showLogin.style.display = 'inline-block';
+        }
         if (authStatus) {
             authStatus.textContent = 'You are not logged in.';
             authStatus.style.display = 'block';
         }
+        if (logoutButton) logoutButton.style.display = 'none';
         if (content) content.classList.remove('content-shifted');
     }
 }
 
 // Funcționalitate pentru dropdown-urile personalizate
-function setupDropdowns() {
-    const themeDropdown = document.getElementById('memeThemeDropdown');
-    const styleDropdown = document.getElementById('memeStyleDropdown');
-    const moodDropdown = document.getElementById('moodDropdown');
+function setupCustomDropdowns() {
+    const trainingDropdown = document.getElementById('trainingGoalDropdown');
+    const nutritionDropdown = document.getElementById('nutritionGoalDropdown');
 
-    // Inițializare doar dacă suntem pe dashboard.html
-    if (window.location.pathname.includes('dashboard.html') && themeDropdown && styleDropdown && moodDropdown) {
-        const themeHeader = document.getElementById('memeThemeHeader');
-        const themeOptions = document.getElementById('memeThemeOptions');
-        const styleHeader = document.getElementById('memeStyleHeader');
-        const styleOptions = document.getElementById('memeStyleOptions');
-        const moodHeader = document.getElementById('moodHeader');
-        const moodOptions = document.getElementById('moodOptions');
+    if (window.location.pathname.includes('dashboard.html') && trainingDropdown && nutritionDropdown) {
+        const trainingHeader = document.getElementById('trainingGoalHeader');
+        const trainingOptions = document.getElementById('trainingGoalOptions');
+        const nutritionHeader = document.getElementById('nutritionGoalHeader');
+        const nutritionOptions = document.getElementById('nutritionGoalOptions');
 
-        // Gestionare click pe header pentru a afișa/opri opțiunile
-        themeHeader.addEventListener('click', () => {
-            themeOptions.classList.toggle('visible');
-            styleOptions.classList.remove('visible');
-            moodOptions.classList.remove('visible');
-        });
-
-        styleHeader.addEventListener('click', () => {
-            styleOptions.classList.toggle('visible');
-            themeOptions.classList.remove('visible');
-            moodOptions.classList.remove('visible');
-        });
-
-        moodHeader.addEventListener('click', () => {
-            moodOptions.classList.toggle('visible');
-            themeOptions.classList.remove('visible');
-            styleOptions.classList.remove('visible');
-        });
-
-        // Gestionare selectare opțiune
-        [themeOptions, styleOptions, moodOptions].forEach(options => {
-            options.querySelectorAll('.option').forEach(option => {
-                option.addEventListener('click', () => {
-                    const header = option.closest('.custom-dropdown').querySelector('.dropdown-header');
-                    header.textContent = option.textContent;
-                    options.classList.remove('visible');
-                });
+        if (trainingHeader && trainingOptions) {
+            trainingHeader.addEventListener('click', () => {
+                trainingOptions.classList.toggle('visible');
+                if (nutritionOptions) nutritionOptions.classList.remove('visible');
             });
+        }
+
+        if (nutritionHeader && nutritionOptions) {
+            nutritionHeader.addEventListener('click', () => {
+                nutritionOptions.classList.toggle('visible');
+                if (trainingOptions) trainingOptions.classList.remove('visible');
+            });
+        }
+
+        [trainingOptions, nutritionOptions].forEach(options => {
+            if (options) {
+                options.querySelectorAll('.option').forEach(option => {
+                    option.addEventListener('click', () => {
+                        const header = option.closest('.custom-dropdown')?.querySelector('.dropdown-header');
+                        if (header) {
+                            header.textContent = option.textContent;
+                            options.classList.remove('visible');
+                        }
+                    });
+                });
+            }
         });
 
-        // Închide dropdown-urile la click în afara lor
         document.addEventListener('click', (event) => {
-            if (!themeDropdown.contains(event.target) && !styleDropdown.contains(event.target) && !moodDropdown.contains(event.target)) {
-                themeOptions.classList.remove('visible');
-                styleOptions.classList.remove('visible');
-                moodOptions.classList.remove('visible');
+            if (trainingDropdown && !trainingDropdown.contains(event.target) && nutritionDropdown && !nutritionDropdown.contains(event.target)) {
+                if (trainingOptions) trainingOptions.classList.remove('visible');
+                if (nutritionOptions) nutritionOptions.classList.remove('visible');
             }
         });
     }
 }
 
-// Funcționalitate pentru AI Coach
+// Funcționalitate pentru AI Coach (Plan Antrenament)
 document.getElementById('generatePlan')?.addEventListener('click', async () => {
-    const coachPrompt = document.getElementById('coachPrompt').value;
-    const moodHeader = document.getElementById('moodHeader');
+    const coachPrompt = document.getElementById('coachPrompt')?.value || '';
+    const trainingGoalHeader = document.getElementById('trainingGoalHeader')?.textContent.toLowerCase() || 'Alege obiectivul tău...';
     const coachResponse = document.getElementById('coachResponse');
     const authToken = localStorage.getItem('authToken');
 
-    const mood = moodHeader.textContent.toLowerCase();
-    if (!coachPrompt && mood === 'select your mood...') {
-        coachResponse.innerHTML = 'Please enter a goal or select a mood!';
+    if (trainingGoalHeader === 'Alege obiectivul tău...') {
+        if (coachResponse) coachResponse.innerHTML = 'Please select a training objective!';
         return;
     }
 
-    // Afișăm spinner-ul și mesajul temporar
-    coachResponse.innerHTML = '<div class="ai-coach-spinner"></div> Generating plan...';
+    if (coachResponse) coachResponse.innerHTML = '<div class="ai-coach-spinner"></div> Generating training plan...';
 
-    // Detectare limbă bazată doar pe cuvinte-cheie
-    let language = 'en'; // Default language
-    if (coachPrompt) {
-        if (coachPrompt.toLowerCase().includes('ajuta') || coachPrompt.toLowerCase().includes('economisesc')) {
-            language = 'ro';
-        } else if (coachPrompt.toLowerCase().includes('save') || coachPrompt.toLowerCase().includes('help')) {
-            language = 'en';
-        }
-        console.log('Detected language based on keywords:', language);
+    let language = 'en';
+    if (coachPrompt && (coachPrompt.toLowerCase().includes('ajuta') || coachPrompt.toLowerCase().includes('economisesc'))) {
+        language = 'ro';
+    } else if (coachPrompt && (coachPrompt.toLowerCase().includes('save') || coachPrompt.toLowerCase().includes('help'))) {
+        language = 'en';
     }
+    console.log('Detected language for training plan:', language);
 
     try {
         const response = await fetch('/api/ai/coach', {
@@ -310,91 +302,58 @@ document.getElementById('generatePlan')?.addEventListener('click', async () => {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${authToken}`
             },
-            body: JSON.stringify({ mood, prompt: coachPrompt, language })
+            body: JSON.stringify({ goal: trainingGoalHeader, prompt: coachPrompt, language })
         });
         const data = await response.json();
-        if (response.ok) {
+        if (coachResponse && response.ok) {
             coachResponse.innerHTML = data.plan.replace(/\n/g, '<br>');
-        } else {
-            coachResponse.innerHTML = `Error: ${data.error}`;
+        } else if (coachResponse) {
+            coachResponse.innerHTML = `Error generating training plan: ${data.error}`;
         }
     } catch (error) {
-        coachResponse.innerHTML = `Connection error: ${error.message}`;
+        if (coachResponse) coachResponse.innerHTML = `Connection error: ${error.message}`;
     }
 });
 
-// Funcționalitate pentru generarea memelor
-document.getElementById('generateMeme')?.addEventListener('click', async () => {
-    const memeCanvas = document.getElementById('memeCanvas');
-    const memeResponse = document.getElementById('memeResponse');
-    const downloadMeme = document.getElementById('downloadMeme');
-    const themeHeader = document.getElementById('memeThemeHeader');
-    const styleHeader = document.getElementById('memeStyleHeader');
-    const customTextInput = document.getElementById('customText');
+// Funcționalitate pentru Plan Nutrițional
+document.getElementById('generateNutritionPlan')?.addEventListener('click', async () => {
+    const customText = document.getElementById('customText')?.value || '';
+    const nutritionGoalHeader = document.getElementById('nutritionGoalHeader')?.textContent.toLowerCase() || 'Alege obiectivul tău...';
+    const nutritionResponse = document.getElementById('nutritionResponse');
     const authToken = localStorage.getItem('authToken');
 
-    const theme = themeHeader.textContent.toLowerCase();
-    const style = styleHeader.textContent.toLowerCase();
-    const customText = customTextInput.value.trim();
-
-    if (theme === 'select a theme...' || style === 'select a style...') {
-        memeResponse.textContent = 'Please select a theme and a style!';
+    if (nutritionGoalHeader === 'Alege obiectivul tău...') {
+        if (nutritionResponse) nutritionResponse.textContent = 'Please select a nutrition goal!';
         return;
     }
 
-    // Ajustare dimensiune canvas bazată pe ecran
-    const screenWidth = window.innerWidth;
-    memeCanvas.width = screenWidth > 480 ? 400 : Math.min(300, screenWidth * 0.8); // 400px pe desktop, 80% din lățime pe mobil (max 300px)
-    memeCanvas.height = memeCanvas.width;
+    if (nutritionResponse) nutritionResponse.innerHTML = '<div class="ai-coach-spinner"></div> Generating nutrition plan...';
 
-    // Afișăm spinner-ul
-    memeResponse.innerHTML = '<div class="ai-coach-spinner"></div>';
-
-    // Detectare limbă bazată doar pe cuvinte-cheie
-    let language = 'en'; // Default language
-    if (customText) {
-        if (customText.toLowerCase().includes('ajuta') || customText.toLowerCase().includes('economisesc')) {
-            language = 'ro';
-        } else if (customText.toLowerCase().includes('save') || customText.toLowerCase().includes('help')) {
-            language = 'en';
-        }
-        console.log('Detected language based on keywords for meme:', language);
+    let language = 'en';
+    if (customText && (customText.toLowerCase().includes('ajuta') || customText.toLowerCase().includes('economisesc'))) {
+        language = 'ro';
+    } else if (customText && (customText.toLowerCase().includes('save') || customText.toLowerCase().includes('help'))) {
+        language = 'en';
     }
+    console.log('Detected language for nutrition plan:', language);
 
     try {
-        const response = await fetch('/api/ai/meme', {
+        const response = await fetch('/api/ai/nutrition', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${authToken}`
             },
-            body: JSON.stringify({ theme, style, customText: customText || 'random meme', prompt: `${customText || 'random meme'} based on ${theme} theme and ${style} style`, language })
+            body: JSON.stringify({ goal: nutritionGoalHeader, prompt: customText, language })
         });
-        if (response.ok) {
-            const blob = await response.blob();
-            const ctx = memeCanvas.getContext('2d');
-            const img = new Image();
-            img.crossOrigin = 'anonymous';
-            img.onload = () => {
-                ctx.clearRect(0, 0, memeCanvas.width, memeCanvas.height);
-                ctx.drawImage(img, 0, 0, memeCanvas.width, memeCanvas.height);
-                memeResponse.textContent = 'Meme generated successfully!';
-                downloadMeme.classList.remove('hidden');
-
-                downloadMeme.onclick = () => {
-                    const link = document.createElement('a');
-                    link.download = `meme_${theme}_${style}${customText ? `_${customText.replace(/[^a-zA-Z0-9]/g, '_')}` : ''}.png`;
-                    link.href = memeCanvas.toDataURL('image/png');
-                    link.click();
-                };
-            };
-            img.src = URL.createObjectURL(blob);
-        } else {
-            const errorText = await response.text();
-            memeResponse.textContent = `Error: ${errorText}`;
+        const data = await response.json();
+        if (nutritionResponse && response.ok) {
+            nutritionResponse.innerHTML = data.plan.replace(/\n/g, '<br>');
+        } else if (nutritionResponse) {
+            nutritionResponse.innerHTML = `Error generating nutrition plan: ${data.error}`;
         }
     } catch (error) {
-        memeResponse.textContent = `Connection error: ${error.message}`;
+        if (nutritionResponse) nutritionResponse.innerHTML = `Connection error: ${error.message}`;
     }
 });
 
@@ -452,7 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             navbar.classList.remove('scrolled');
         }
-        lastScrollTop = scrollTop;
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Previne valori negative
     });
 
     // Close dropdown when clicking outside and reset content position
@@ -488,7 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (dashboardLogoutButton) dashboardLogoutButton.addEventListener('click', handleLogout);
 
     // Inițializare dropdown-uri
-    setupDropdowns();
+    setupCustomDropdowns();
 });
 
 // Expunem funcțiile pe window
