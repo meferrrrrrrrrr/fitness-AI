@@ -250,15 +250,16 @@ p {
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
-  background: #4CAF50;
-  color: white;
+  background: linear-gradient(to right, #1c2526, #00F0FF); /* Gradient albastru ca navbar */
+  color: #ffffff;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .button:hover {
-  background: #45a049;
+  background: linear-gradient(to right, #00a3c4, #1c2526); /* Gradient invers pe hover */
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
 }
 
 .response {
@@ -381,15 +382,16 @@ p {
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
-  background: #4CAF50;
-  color: white;
+  background: linear-gradient(to right, #1c2526, #00F0FF); /* Gradient albastru ca navbar */
+  color: #ffffff;
+  font-size: 16px;
   cursor: pointer;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .action-button:hover {
-  background: #45a049;
+  background: linear-gradient(to right, #00a3c4, #1c2526); /* Gradient invers pe hover */
   box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
 }
 
@@ -466,8 +468,9 @@ p {
 
 .ai-coach-section .input-field,
 .meme-generator-section .input-field {
-  max-width: 80%; /* Reducem lățimea pe mobil */
-  margin: 0 auto 10px; /* Centrăm și adăugăm spațiu */
+  max-width: 50%; /* Redus la jumătate pentru a se încadra */
+  margin: 0 auto 10px; /* Centrăm și păstrăm spațiul */
+  padding: 6px; /* Reducem padding-ul */
 }
 
 .ai-coach-section .emoji,
@@ -640,8 +643,8 @@ p {
   }
 
   .button {
-    padding: 8px 16px;
-    font-size: 14px;
+    padding: 6px 12px;
+    font-size: 12px;
   }
 
   .response {
@@ -714,8 +717,9 @@ p {
   /* Ajustări specifice pentru dashboard pe mobil */
   .ai-coach-section .input-field,
   .meme-generator-section .input-field {
-    max-width: 60%; /* Reducem lățimea pe mobil pentru a se încadra */
+    max-width: 50%; /* Redus la jumătate pentru a se încadra */
     padding: 6px; /* Reducem padding-ul */
+    font-size: 12px;
   }
 
   .ai-coach-section .button,
@@ -764,8 +768,8 @@ p {
   }
 
   .button {
-    padding: 6px 12px;
-    font-size: 12px;
+    padding: 4px 10px;
+    font-size: 10px;
   }
 
   .response {
@@ -796,7 +800,7 @@ p {
   /* Ajustări specifice pentru dashboard pe mobil la 480px */
   .ai-coach-section .input-field,
   .meme-generator-section .input-field {
-    max-width: 50%; /* Mai mică lățime pentru ecrane foarte mici */
+    max-width: 50%; /* Menținem la jumătate */
     padding: 4px;
     font-size: 10px;
   }
