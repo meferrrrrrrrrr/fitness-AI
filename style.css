@@ -461,6 +461,13 @@ p {
   padding: 15px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   margin-bottom: 30px;
+  position: relative; /* Pentru aliniere */
+}
+
+.ai-coach-section .input-field,
+.meme-generator-section .input-field {
+  max-width: 80%; /* Reducem lățimea pe mobil */
+  margin: 0 auto 10px; /* Centrăm și adăugăm spațiu */
 }
 
 .ai-coach-section .emoji,
@@ -703,6 +710,19 @@ p {
   .option {
     padding: 6px 10px;
   }
+
+  /* Ajustări specifice pentru dashboard pe mobil */
+  .ai-coach-section .input-field,
+  .meme-generator-section .input-field {
+    max-width: 60%; /* Reducem lățimea pe mobil pentru a se încadra */
+    padding: 6px; /* Reducem padding-ul */
+  }
+
+  .ai-coach-section .button,
+  .meme-generator-section .button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -770,6 +790,20 @@ p {
   }
 
   .feature-card p {
+    font-size: 10px;
+  }
+
+  /* Ajustări specifice pentru dashboard pe mobil la 480px */
+  .ai-coach-section .input-field,
+  .meme-generator-section .input-field {
+    max-width: 50%; /* Mai mică lățime pentru ecrane foarte mici */
+    padding: 4px;
+    font-size: 10px;
+  }
+
+  .ai-coach-section .button,
+  .meme-generator-section .button {
+    padding: 4px 10px;
     font-size: 10px;
   }
 }
