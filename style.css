@@ -363,12 +363,13 @@ p {
 /* === Section Styles === */
 .input-field {
   width: 100%;
-  padding: 10px;
+  max-width: 50%; /* Forțăm la 50% pentru a se încadra pe mobil */
+  padding: 6px;
   margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
-  font-size: 16px;
+  font-size: 12px;
   background: rgba(255, 255, 255, 0.1);
   color: #ffffff;
   transition: border-color 0.3s;
@@ -399,19 +400,21 @@ p {
 .custom-dropdown {
   position: relative;
   width: 100%;
-  max-width: 300px;
+  max-width: 50%; /* Alinează cu input-field pe mobil */
   margin-bottom: 10px;
 }
 
 .dropdown-header {
-  padding: 10px;
+  padding: 6px;
   border: none;
   border-radius: 4px;
   background: #1a2526;
   color: #ffffff;
-  font-size: 16px;
+  font-size: 12px;
   cursor: pointer;
   transition: background-color 0.3s;
+  width: 100%; /* Asigurăm că ocupă tot max-width */
+  box-sizing: border-box;
 }
 
 .dropdown-header:hover {
@@ -697,12 +700,12 @@ p {
   }
 
   .custom-dropdown {
-    max-width: 100%;
+    max-width: 50%; /* Forțăm la 50% pe mobil */
   }
 
   .dropdown-header {
-    padding: 8px;
-    font-size: 14px;
+    padding: 6px;
+    font-size: 12px;
   }
 
   .dropdown-options {
@@ -720,6 +723,8 @@ p {
     max-width: 50%; /* Redus la jumătate pentru a se încadra */
     padding: 6px; /* Reducem padding-ul */
     font-size: 12px;
+    width: 100%; /* Forțăm lățimea completă a containerului */
+    box-sizing: border-box;
   }
 
   .ai-coach-section .button,
@@ -803,6 +808,8 @@ p {
     max-width: 50%; /* Menținem la jumătate */
     padding: 4px;
     font-size: 10px;
+    width: 100%; /* Forțăm lățimea completă a containerului */
+    box-sizing: border-box;
   }
 
   .ai-coach-section .button,
