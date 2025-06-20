@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ro">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="MEF AI Dashboard: Your hub for AI-driven daily plans and viral meme creation." />
-  <title>MEF AI - Dashboard</title>
+  <meta name="description" content="Gestionează-ți antrenamentele și nutriția cu planuri AI de elită." />
+  <title>MEF AI - Panoul Tău de Fitness</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" type="image/x-icon" href="/public/images/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="/public/images/apple-touch-icon.png" />
@@ -13,64 +13,48 @@
   <div class="background-container"></div>
   <nav class="navbar">
     <div class="logo-container">
-      <img src="/public/images/logo.png" alt="MEF AI logo" class="logo-img" />
+      <img src="/public/images/logo.png" alt="MEF AI Logo" class="logo-img" />
       <span class="logo-text">MEF AI</span>
     </div>
     <div class="auth-container">
-      <button id="logoutButton" class="logout-btn">Logout</button>
+      <button id="logoutButton" class="logout-btn">Deconectare</button>
     </div>
   </nav>
   <main class="content">
     <section class="welcome-section">
-      <h1>Welcome, <span id="userEmail">User</span>!</h1>
+      <h1>Bine ai venit, <span id="userEmail"></span>! Hai să-ți amplificăm potențialul!</h1>
     </section>
     <section class="ai-coach-section">
       <span class="emoji">📈</span>
-      <h2>AI Coach Personal</h2>
-      <p>Your daily plan to optimize your life.</p>
-      <input type="text" id="coachPrompt" placeholder="e.g., 'Improve focus or save money'" class="input" />
-      <div class="custom-dropdown" id="moodDropdown">
-        <div class="dropdown-header input" id="moodHeader">Select your mood...</div>
-        <div class="dropdown-options" id="moodOptions">
-          <div class="option" data-value="exhausted">Exhausted</div>
-          <div class="option" data-value="motivated">Motivated</div>
-          <div class="option" data-value="stressed">Stressed</div>
+      <h2>Antrenamente Personalizate</h2>
+      <p>Planul tău zilnic pentru a-ți atinge obiectivele fitness.</p>
+      <div class="custom-dropdown" id="trainingGoalDropdown">
+        <div class="dropdown-header input" id="trainingGoalHeader">Alege obiectivul tău...</div>
+        <div class="dropdown-options" id="trainingGoalOptions">
+          <div class="option" data-value="masa_musculara">Creștere în masă musculară</div>
+          <div class="option" data-value="slabire">Slăbire</div>
+          <div class="option" data-value="definire">Definire</div>
         </div>
       </div>
-      <button id="generatePlan" class="button">Generate Plan</button>
+      <input type="text" id="coachPrompt" placeholder="Adaugă preferințe (ex. focus pe picioare)" class="input" />
+      <button id="generatePlan" class="button">Generează Planul Meu</button>
       <div id="coachResponse" class="response"></div>
     </section>
     <section class="meme-generator-section">
-      <span class="emoji">😂</span>
-      <h2>Meme Generator</h2>
-      <p>Create viral content with truth and humor.</p>
-      <div class="custom-dropdown" id="memeThemeDropdown">
-        <div class="dropdown-header input" id="memeThemeHeader">Select a theme...</div>
-        <div class="dropdown-options" id="memeThemeOptions">
-          <div class="option" data-value="freedom">Freedom</div>
-          <div class="option" data-value="spirituality">Spirituality</div>
-          <div class="option" data-value="humor">Humor</div>
-          <div class="option" data-value="ai">AI</div>
-          <div class="option" data-value="matrix">Matrix</div>
+      <span class="emoji">🍎</span>
+      <h2>Planificator Nutrițional</h2>
+      <p>Creează meniuri de elită pentru succesul tău în fitness.</p>
+      <div class="custom-dropdown" id="nutritionGoalDropdown">
+        <div class="dropdown-header input" id="nutritionGoalHeader">Alege obiectivul tău...</div>
+        <div class="dropdown-options" id="nutritionGoalOptions">
+          <div class="option" data-value="masa_musculara">Creștere în masă musculară</div>
+          <div class="option" data-value="slabire">Slăbire</div>
+          <div class="option" data-value="definire">Definire</div>
         </div>
-        <p class="theme-hint">freedom: true stories of liberty with a funny twist | spirituality: real insights with humor | humor: funny true stories | ai: truthful tech moments with laughs | matrix: real code life with a humorous spin</p>
       </div>
-      <div class="custom-dropdown" id="memeStyleDropdown">
-        <div class="dropdown-header input" id="memeStyleHeader">Select a style...</div>
-        <div class="dropdown-options" id="memeStyleOptions">
-          <div class="option" data-value="minimalist">Minimalist</div>
-          <div class="option" data-value="ironic">Ironic</div>
-          <div class="option" data-value="sci-fi">Sci-Fi</div>
-          <div class="option" data-value="retro">Retro</div>
-          <div class="option" data-value="bold">Bold</div>
-        </div>
-        <p class="style-hint">minimalist: simple true humor | ironic: sarcastic true twists | sci-fi: futuristic true laughs | retro: classic true fun | bold: striking true comedy</p>
-      </div>
-      <input type="text" id="customText" placeholder="Enter your idea (up to 50 words)..." class="input" maxlength="250" />
-      <button id="generateMeme" class="button">Generate Meme</button>
-      <canvas id="memeCanvas" width="400" height="400"></canvas>
-      <button id="downloadMeme" class="button hidden">Download</button>
-      <div id="memeResponse" class="response"></div>
+      <input type="text" id="customText" placeholder="Adaugă preferințe (ex. fără gluten)" class="input" maxlength="250" />
+      <button id="generateMeme" class="button">Generează Meniul Meu</button>
+      <div id="nutritionResponse" class="response"></div>
     </section>
   </main>
   <script src="script.js"></script>
