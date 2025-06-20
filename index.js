@@ -138,12 +138,32 @@ app.post('/api/ai/coach', async (req, res) => {
   }
 });
 
-// Endpoint pentru Plan Nutrițional (Placeholder)
+// Endpoint pentru Plan Nutrițional
 app.post('/api/ai/nutrition', async (req, res) => {
   const { goal, prompt, language = 'en' } = req.body;
-  if (!goal || !prompt) return res.status(400).json({ error: 'Goal and prompt are required.' });
+  if (!goal) return res.status(400).json({ error: 'Goal is required.' });
 
-  res.status(501).json({ error: 'Nutrition plan generation is not implemented yet.' });
+  const openaiApiKey = process.env.OPENAI_API_KEY;
+  if (!openaiApiKey) return res.status(500).json({ error: 'Open AI API key is missing.' });
+
+  const prompts = {
+    en: `You are a unique AI nutritionist named MEF AI, with a practical, encouraging tone and a hint of humor. Create a 3-meal daily nutrition plan for a user aiming for ${goal}. ${prompt ? `Incorporate the user's input: ${prompt}.` : ''} Tailor the plan to a balanced diet (e.g., breakfast, lunch, dinner) with specific, healthy, and feasible meal ideas. Add a motivating closing. Respond concisely, under 150 words, without excessive formatting. Ensure the plan is complete and properly concluded.`,
+    ro: `Ești un nutriționist AI unic numit MEF AI, cu un ton practic, încurajator și un strop de umor. Creează un plan zilnic de 3 mese pentru un utilizator care își dorește ${goal}. ${prompt ? `Incorporează inputul utilizatorului: ${prompt}.` : ''} Adaptează planul la o dietă echilibrată (ex. mic dejun, prânz, cină), cu idei de mese sănătoase și fezabile. Adaugă o încheiere motivantă. Răspunde concis, sub 150 de cuvinte, fără formatare excesivă. Asigură-te că planul e complet și încheiat corespunzător.`
+  };
+
+  try {
+    const response = await axios.post('https://api.openai.com/v1/chat/completions', {
+      model: 'gpt-4',
+      messages: [{ role: 'user', content: prompts[language] || prompts['en'] }],
+      max_tokens: 300,
+    }, {
+      headers: { 'Authorization': `Bearer ${openaiApiKey}` },
+    });
+    res.status(200).json({ plan: response.data.choices[0].message.content.trim() });
+  } catch (error) {
+    console.error('AI Nutrition error:', error.response?.data || error.message);
+    res.status(500).json({ error: `Error generating nutrition plan: ${error.message}` });
+  }
 });
 
 // Endpoint pentru generarea memelor cu DALL-E

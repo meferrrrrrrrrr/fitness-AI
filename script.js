@@ -317,6 +317,7 @@ document.getElementById('generatePlan')?.addEventListener('click', async () => {
 
 // Funcționalitate pentru Plan Nutrițional
 document.getElementById('generateNutritionPlan')?.addEventListener('click', async () => {
+    console.log('Nutrition plan button clicked'); // Debug
     const customText = document.getElementById('customText')?.value || '';
     const nutritionGoalHeader = document.getElementById('nutritionGoalHeader')?.textContent.toLowerCase() || 'Alege obiectivul tău...';
     const nutritionResponse = document.getElementById('nutritionResponse');
@@ -334,6 +335,8 @@ document.getElementById('generateNutritionPlan')?.addEventListener('click', asyn
         language = 'ro';
     } else if (customText && (customText.toLowerCase().includes('save') || customText.toLowerCase().includes('help'))) {
         language = 'en';
+    } else if (!customText) {
+        language = navigator.language.split('-')[0] === 'ro' ? 'ro' : 'en'; // Default language if no prompt
     }
     console.log('Detected language for nutrition plan:', language);
 
@@ -344,7 +347,7 @@ document.getElementById('generateNutritionPlan')?.addEventListener('click', asyn
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${authToken}`
             },
-            body: JSON.stringify({ goal: nutritionGoalHeader, prompt: customText, language })
+            body: JSON.stringify({ goal: nutritionGoalHeader, prompt: customText || '', language })
         });
         const data = await response.json();
         if (nutritionResponse && response.ok) {
