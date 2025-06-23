@@ -166,60 +166,6 @@ app.post('/api/ai/nutrition', async (req, res) => {
   }
 });
 
-// Endpoint pentru generarea memelor cu DALL-E
-app.post('/api/ai/meme', async (req, res) => {
-  const { prompt } = req.body;
-  if (!prompt) return res.status(400).json({ error: 'Prompt is required.' });
-
-  const openaiApiKey = process.env.OPENAI_API_KEY;
-  if (!openaiApiKey) return res.status(500).json({ error: 'Open AI API key is missing.' });
-
-  console.log('Sending prompt to DALL-E:', prompt); // Log pentru debug
-
-  const retryRequest = async (url, config, maxRetries = 4, delayMs = 3000) => {
-    for (let attempt = 1; attempt <= maxRetries; attempt++) {
-      try {
-        const response = await axios(url, config);
-        return response;
-      } catch (error) {
-        if (attempt === maxRetries) throw error;
-        console.log(`Attempt ${attempt} failed, retrying in ${delayMs / 1000} seconds...`, error.message);
-        await new Promise(resolve => setTimeout(resolve, delayMs));
-      }
-    }
-  };
-
-  try {
-    const dalleResponse = await retryRequest(
-      'https://api.openai.com/v1/images/generations',
-      {
-        method: 'post',
-        data: {
-          model: 'dall-e-3',
-          prompt: prompt,
-          n: 1,
-          size: '1024x1024',
-          response_format: 'url',
-        },
-        headers: { 'Authorization': `Bearer ${openaiApiKey}` },
-      }
-    );
-    const imageUrl = dalleResponse.data.data[0].url;
-
-    const imageResponse = await axios.get(imageUrl, { responseType: 'arraybuffer' });
-    res.set('Content-Type', 'image/png');
-    res.set('Access-Control-Allow-Origin', '*');
-    res.send(imageResponse.data);
-  } catch (error) {
-    console.error('DALL-E error details:', error.response?.data || error.message);
-    if (error.response?.status === 400) {
-      res.status(400).json({ error: `Invalid request to DALL-E: ${error.response?.data?.error?.message || error.message}` });
-    } else {
-      res.status(500).json({ error: `Error generating meme: ${error.message}` });
-    }
-  }
-});
-
 // Pornim serverul
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
