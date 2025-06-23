@@ -32,10 +32,6 @@
       "destination": "/public/$1"
     },
     {
-      "source": "/dashboard.html",
-      "destination": "/dashboard.html"
-    },
-    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
@@ -46,7 +42,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' /public/ data: blob: https://fitness-ai-beta.vercel.app/api/; connect-src 'self' https://fitness-ai-beta.vercel.app;"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' /public/ data: blob: https://fitness-ai.vercel.app/api/; connect-src 'self' https://fitness-ai.vercel.app;"
         }
       ]
     }
