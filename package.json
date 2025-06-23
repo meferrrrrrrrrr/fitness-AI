@@ -12,7 +12,7 @@
     "firebase",
     "express"
   ],
-  "author": "Your Name",
+  "author": "mefbydesign",
   "license": "ISC",
   "description": "A fitness AI application with Firebase authentication",
   "dependencies": {
