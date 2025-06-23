@@ -211,14 +211,14 @@ body.dashboard-body .background-container {
 
 .welcome-section,
 .ai-coach-section,
-.meme-generator-section {
+.nutrition-section {
   margin-bottom: 30px;
   text-align: center;
 }
 
 .welcome-section h1,
 .ai-coach-section h2,
-.meme-generator-section h2 {
+.nutrition-section h2 {
   font-size: 28px;
   margin: 0 0 10px;
   color: #ffffff;
@@ -270,21 +270,6 @@ p {
   font-size: 14px;
   position: relative;
   animation: fadeIn 0.5s ease-in;
-}
-
-/* === Canvas Styles === */
-#memeCanvas {
-  max-width: 100%;
-  height: auto;
-  margin: 15px 0;
-  display: block;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 4px;
-  transition: border-color 0.3s;
-}
-
-#memeCanvas:hover {
-  border-color: #00F0FF;
 }
 
 /* === Features Styles === */
@@ -470,7 +455,7 @@ p {
 }
 
 .ai-coach-section,
-.meme-generator-section {
+.nutrition-section {
   background: linear-gradient(135deg, rgba(0, 15, 36, 0.2), rgba(0, 240, 255, 0.1));
   border-radius: 8px;
   padding: 15px;
@@ -480,19 +465,19 @@ p {
 }
 
 .ai-coach-section .input-field,
-.meme-generator-section .input-field {
+.nutrition-section .input-field {
   max-width: 50%; /* Redus la jumătate pentru a se încadra */
   margin: 0 auto 10px; /* Centrăm și păstrăm spațiul */
   padding: 6px; /* Reducem padding-ul */
 }
 
 .ai-coach-section .emoji,
-.meme-generator-section .emoji {
+.nutrition-section .emoji {
   font-size: 28px;
 }
 
 .ai-coach-section h2,
-.meme-generator-section h2 {
+.nutrition-section h2 {
   font-size: 30px;
   margin-bottom: 5px;
 }
@@ -640,7 +625,7 @@ p {
 
   .welcome-section h1,
   .ai-coach-section h2,
-  .meme-generator-section h2 {
+  .nutrition-section h2 {
     font-size: 20px;
   }
 
@@ -695,17 +680,17 @@ p {
   }
 
   .ai-coach-section,
-  .meme-generator-section {
+  .nutrition-section {
     padding: 10px;
   }
 
   .ai-coach-section .emoji,
-  .meme-generator-section .emoji {
+  .nutrition-section .emoji {
     font-size: 24px;
   }
 
   .ai-coach-section h2,
-  .meme-generator-section h2 {
+  .nutrition-section h2 {
     font-size: 20px;
   }
 
@@ -729,7 +714,7 @@ p {
 
   /* Ajustări specifice pentru dashboard pe mobil */
   .ai-coach-section .input-field,
-  .meme-generator-section .input-field {
+  .nutrition-section .input-field {
     max-width: 50%; /* Redus la jumătate pentru a se încadra */
     padding: 6px; /* Reducem padding-ul */
     font-size: 12px;
@@ -738,7 +723,7 @@ p {
   }
 
   .ai-coach-section .button,
-  .meme-generator-section .button {
+  .nutrition-section .button {
     padding: 6px 12px;
     font-size: 12px;
   }
@@ -814,7 +799,7 @@ p {
 
   /* Ajustări specifice pentru dashboard pe mobil la 480px */
   .ai-coach-section .input-field,
-  .meme-generator-section .input-field {
+  .nutrition-section .input-field {
     max-width: 50%; /* Menținem la jumătate */
     padding: 4px;
     font-size: 10px;
@@ -823,7 +808,7 @@ p {
   }
 
   .ai-coach-section .button,
-  .meme-generator-section .button {
+  .nutrition-section .button {
     padding: 4px 10px;
     font-size: 10px;
   }
