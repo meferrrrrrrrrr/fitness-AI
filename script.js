@@ -324,7 +324,7 @@ document.getElementById('generateNutritionPlan')?.addEventListener('click', asyn
     const authToken = localStorage.getItem('authToken');
 
     if (nutritionGoalHeader === 'Alege obiectivul tău...') {
-        if (nutritionResponse) nutritionResponse.textContent = 'Please select a nutrition goal!';
+        if (nutritionResponse) nutritionResponse.innerHTML = 'Please select a nutrition goal!'; // Uniformizat cu innerHTML
         return;
     }
 
