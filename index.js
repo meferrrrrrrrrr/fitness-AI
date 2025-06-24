@@ -112,22 +112,59 @@ app.get('/api/auth/user', async (req, res) => {
 
 // Endpoint pentru AI Coach
 app.post('/api/ai/coach', async (req, res) => {
-  const { goal, prompt, language = 'en' } = req.body;
-  if (!goal) return res.status(400).json({ error: 'Goal is required.' });
+  const { goal, level, prompt, language = 'en' } = req.body;
+  if (!goal || !level) return res.status(400).json({ error: 'Goal and level are required.' });
 
   const openaiApiKey = process.env.OPENAI_API_KEY;
   if (!openaiApiKey) return res.status(500).json({ error: 'Open AI API key is missing.' });
 
+  // Detectăm limba din input (goal sau prompt)
+  const isRomanian = goal.toLowerCase().includes('creștere') || goal.toLowerCase().includes('slăbire') || goal.toLowerCase().includes('definire') || 
+                    (prompt && prompt.toLowerCase().includes('ajuta'));
+  const detectedLanguage = isRomanian ? 'ro' : 'en';
+
   const prompts = {
-    en: `You are a unique AI coach named MEF AI, with a motivating, practical tone and a dash of subtle humor. Create a 3-step daily plan for a user aiming for ${goal}. ${prompt ? `Incorporate the user's input: ${prompt}.` : ''} Tailor the plan to a regular routine (e.g., morning, afternoon, evening) with specific, clear, and feasible steps. Add an inspiring closing. Respond concisely, under 150 words, without excessive formatting. Ensure the plan is complete and properly concluded.`,
-    ro: `Ești un coach AI unic numit MEF AI, cu un ton motivant, practic și un strop de umor subtil. Creează un plan zilnic de 3 pași pentru un utilizator care își dorește ${goal}. ${prompt ? `Incorporează inputul utilizatorului: ${prompt}.` : ''} Adaptează planul la o rutină obișnuită (ex. dimineață, după-amiază, seară), cu pași specifici, clari și fezabili. Adaugă o încheiere inspiratoare. Răspunde concis, sub 150 de cuvinte, fără formatare excesivă. Asigură-te că planul e complet și încheiat corespunzător.`
+    en: `You are an elite AI coach, part of MEF AI, designed to revolutionize fitness with smart plans. Create a daily workout plan for a user with this profile:
+    - **Goal**: ${goal}
+    - **Level**: ${level}
+    - **Preferences**: ${prompt || 'none'}
+    - **Language**: English
+
+    Plan must include:
+    - Warm-up: Note to do a 5-10 minute warm-up.
+    - Main workout: List 4-5 well-known exercises tailored to the preference, with dynamic sets and reps for level and goal (2-3 sets, 10-12 reps for first two; 3-4 sets, 8-12 reps for next).
+    - Cool-down: Note to do 5 minutes of stretching.
+
+    Adjust difficulty smartly:
+    - **Beginner**: Start with lower reps, increase gradually.
+    - **Intermediate**: Balance intensity with volume.
+    - **Advanced**: Push limits with higher sets/reps.
+
+    Keep it short, energetic, and motivating with MEF AI vibe. End with a humorous, inspiring close. Ignore nutrition and skip exercise details!`,
+    ro: `Ești un antrenor AI de elită, parte a MEF AI, conceput să revoluționeze fitness-ul cu planuri de antrenament inteligente. Creează un plan de antrenament zilnic pentru un utilizator cu acest profil:
+    - **Obiectiv**: ${goal}
+    - **Nivel**: ${level}
+    - **Preferințe**: ${prompt || 'niciuna'}
+    - **Limbă**: Română
+
+    Planul trebuie să includă:
+    - Încălzire: Notă să faci o încălzire de 5-10 minute.
+    - Antrenament principal: Listează 4-5 exerciții bine cunoscute adaptate preferinței, cu serii și repetări dinamice pentru nivel și obiectiv (2-3 serii, 10-12 repetări pentru primii doi; 3-4 serii, 8-12 repetări pentru următorii).
+    - Răcire: Notă să faci 5 minute de stretching.
+
+    Ajustează dificultatea inteligent:
+    - **Începător**: Începe cu repetări mai mici, crește treptat.
+    - **Intermediar**: Echilibrează intensitatea cu volumul.
+    - **Avansat**: Împinge limitele cu seturi/repetări mai mari.
+
+    Fii scurt, energic și motivant, cu vibe MEF AI. Termină cu o încheiere amuzantă și inspiratoare. Ignoră nutriția și evită detaliile exercițiilor!`
   };
 
   try {
     const response = await axios.post('https://api.openai.com/v1/chat/completions', {
       model: 'gpt-4',
-      messages: [{ role: 'user', content: prompts[language] || prompts['en'] }],
-      max_tokens: 300,
+      messages: [{ role: 'user', content: prompts[detectedLanguage] }],
+      max_tokens: 600,
     }, {
       headers: { 'Authorization': `Bearer ${openaiApiKey}` },
     });
@@ -138,32 +175,9 @@ app.post('/api/ai/coach', async (req, res) => {
   }
 });
 
-// Endpoint pentru Plan Nutrițional
+// Endpoint pentru Plan Nutrițional (temporar ignorat)
 app.post('/api/ai/nutrition', async (req, res) => {
-  const { goal, prompt, language = 'en' } = req.body;
-  if (!goal) return res.status(400).json({ error: 'Goal is required.' });
-
-  const openaiApiKey = process.env.OPENAI_API_KEY;
-  if (!openaiApiKey) return res.status(500).json({ error: 'Open AI API key is missing.' });
-
-  const prompts = {
-    en: `You are a unique AI nutritionist named MEF AI, with a practical, encouraging tone and a hint of humor. Create a 3-meal daily nutrition plan for a user aiming for ${goal}. ${prompt ? `Incorporate the user's input: ${prompt}.` : ''} Tailor the plan to a balanced diet (e.g., breakfast, lunch, dinner) with specific, healthy, and feasible meal ideas. Add a motivating closing. Respond concisely, under 150 words, without excessive formatting. Ensure the plan is complete and properly concluded.`,
-    ro: `Ești un nutriționist AI unic numit MEF AI, cu un ton practic, încurajator și un strop de umor. Creează un plan zilnic de 3 mese pentru un utilizator care își dorește ${goal}. ${prompt ? `Incorporează inputul utilizatorului: ${prompt}.` : ''} Adaptează planul la o dietă echilibrată (ex. mic dejun, prânz, cină), cu idei de mese sănătoase și fezabile. Adaugă o încheiere motivantă. Răspunde concis, sub 150 de cuvinte, fără formatare excesivă. Asigură-te că planul e complet și încheiat corespunzător.`
-  };
-
-  try {
-    const response = await axios.post('https://api.openai.com/v1/chat/completions', {
-      model: 'gpt-4',
-      messages: [{ role: 'user', content: prompts[language] || prompts['en'] }],
-      max_tokens: 300,
-    }, {
-      headers: { 'Authorization': `Bearer ${openaiApiKey}` },
-    });
-    res.status(200).json({ plan: response.data.choices[0].message.content.trim() });
-  } catch (error) {
-    console.error('AI Nutrition error:', error.response?.data || error.message);
-    res.status(500).json({ error: `Error generating nutrition plan: ${error.message}` });
-  }
+  res.status(403).json({ error: 'Nutrition endpoint is currently disabled.' });
 });
 
 // Pornim serverul
