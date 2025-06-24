@@ -482,6 +482,24 @@ p {
   margin-bottom: 5px;
 }
 
+/* === Goal and Level Container === */
+.goal-level-container {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .goal-level-container {
+    flex-direction: column;
+    gap: 5px;
+  }
+  .custom-dropdown {
+    max-width: 100%; /* Ocupă tot spațiul pe mobil */
+  }
+}
+
 /* === Utility Styles === */
 .auth-status {
   margin-top: 10px;
@@ -695,7 +713,7 @@ p {
   }
 
   .custom-dropdown {
-    max-width: 50%; /* Forțăm la 50% pe mobil */
+    max-width: 100%; /* Ocupă tot spațiul pe mobil */
   }
 
   .dropdown-header {
@@ -715,7 +733,7 @@ p {
   /* Ajustări specifice pentru dashboard pe mobil */
   .ai-coach-section .input-field,
   .nutrition-section .input-field {
-    max-width: 50%; /* Redus la jumătate pentru a se încadra */
+    max-width: 100%; /* Redus la 100% pentru a se încadra pe mobil */
     padding: 6px; /* Reducem padding-ul */
     font-size: 12px;
     width: 100%; /* Forțăm lățimea completă a containerului */
@@ -800,7 +818,7 @@ p {
   /* Ajustări specifice pentru dashboard pe mobil la 480px */
   .ai-coach-section .input-field,
   .nutrition-section .input-field {
-    max-width: 50%; /* Menținem la jumătate */
+    max-width: 100%; /* Menținem la 100% */
     padding: 4px;
     font-size: 10px;
     width: 100%; /* Forțăm lățimea completă a containerului */

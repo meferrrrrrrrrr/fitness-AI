@@ -28,12 +28,22 @@
       <span class="emoji">📈</span>
       <h2>Antrenamente Personalizate</h2>
       <p>Planul tău zilnic pentru a-ți atinge obiectivele fitness.</p>
-      <div class="custom-dropdown" id="trainingGoalDropdown">
-        <div class="dropdown-header input-field" id="trainingGoalHeader">Alege obiectivul tău...</div>
-        <div class="dropdown-options" id="trainingGoalOptions">
-          <div class="option" data-value="masa_musculara">Creștere în masă musculară</div>
-          <div class="option" data-value="slabire">Slăbire</div>
-          <div class="option" data-value="definire">Definire</div>
+      <div class="goal-level-container">
+        <div class="custom-dropdown" id="trainingGoalDropdown">
+          <div class="dropdown-header input-field" id="trainingGoalHeader">Alege obiectivul tău...</div>
+          <div class="dropdown-options" id="trainingGoalOptions">
+            <div class="option" data-value="masa_musculara">Creștere în masă musculară</div>
+            <div class="option" data-value="slabire">Slăbire</div>
+            <div class="option" data-value="definire">Definire</div>
+          </div>
+        </div>
+        <div class="custom-dropdown" id="trainingLevelDropdown">
+          <div class="dropdown-header input-field" id="trainingLevelHeader">Alege nivelul tău...</div>
+          <div class="dropdown-options" id="trainingLevelOptions">
+            <div class="option" data-value="incepator">Începător</div>
+            <div class="option" data-value="intermediar">Intermediar</div>
+            <div class="option" data-value="avansat">Avansat</div>
+          </div>
         </div>
       </div>
       <input type="text" id="coachPrompt" placeholder="Adaugă preferințe (ex. focus pe picioare)" class="input-field" />
