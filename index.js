@@ -181,7 +181,7 @@ app.post('/api/ai/nutrition', async (req, res) => {
   const openaiApiKey = process.env.OPENAI_API_KEY;
   if (!openaiApiKey) return res.status(500).json({ error: 'Open AI API key is missing.' });
 
-  const isRomanian = prompt && /oferă|dieta|proteine|legume|slăbire|creștere|mănâncă/i.test(prompt.toLowerCase());
+  const isRomanian = prompt && /oferă|dieta|proteine|legume|slăbire|creștere|mănâncă|meniu|fără/i.test(prompt.toLowerCase());
   const detectedLanguage = isRomanian ? 'ro' : 'en';
 
   const prompts = {
