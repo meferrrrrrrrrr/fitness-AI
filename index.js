@@ -118,7 +118,6 @@ app.post('/api/ai/coach', async (req, res) => {
   const openaiApiKey = process.env.OPENAI_API_KEY;
   if (!openaiApiKey) return res.status(500).json({ error: 'Open AI API key is missing.' });
 
-  // Detectăm limba din prompt (default engleză dacă e gol)
   const isRomanian = prompt && /picioare|spate|brațe|abdomene|antrenament|creștere/i.test(prompt.toLowerCase());
   const detectedLanguage = isRomanian ? 'ro' : 'en';
 
@@ -174,9 +173,67 @@ app.post('/api/ai/coach', async (req, res) => {
   }
 });
 
-// Endpoint pentru Plan Nutrițional (temporar ignorat)
+// Endpoint pentru AI Nutrition
 app.post('/api/ai/nutrition', async (req, res) => {
-  res.status(403).json({ error: 'Nutrition endpoint is currently disabled.' });
+  const { goal, prompt, language = 'en' } = req.body;
+  if (!goal) return res.status(400).json({ error: 'Goal is required.' });
+
+  const openaiApiKey = process.env.OPENAI_API_KEY;
+  if (!openaiApiKey) return res.status(500).json({ error: 'Open AI API key is missing.' });
+
+  const isRomanian = prompt && /oferă|dieta|proteine|legume|slăbire|creștere|mănâncă/i.test(prompt.toLowerCase());
+  const detectedLanguage = isRomanian ? 'ro' : 'en';
+
+  const prompts = {
+    en: `You are an elite AI nutritionist, part of MEF AI, delivering flawless meal plans. Create a daily meal plan for:
+    - **Goal**: ${goal}
+    - **Preferences**: ${prompt || 'none'}
+    - **Language**: English
+
+    Plan must include:
+    - Note: Hydrate with 2-3L water daily; eat 100-150g fruit 30min before meals.
+    - Breakfast: List meal with precise, balanced grams (protein, carbs, fats).
+    - Lunch: List meal with precise, balanced grams (protein, carbs, fats, veggies).
+    - Dinner: List meal with precise, balanced grams (protein, carbs, fats, veggies).
+
+    Adjust for goal:
+    - **Growth**: High-calorie (200-250g protein, 100-150g carbs, 20-30g fats).
+    - **Loss**: Low-calorie (150g protein, 50-80g carbs, 10-15g fats, 150-200g veggies).
+    - **Define**: Balanced (150-200g protein, 50-80g carbs, 15-20g fats).
+
+    Ensure logical grams, no errors, aligned with fitness goals. Keep it concise, precise, motivating. Use one witty, encouraging close only at end. Skip details!`,
+    ro: `Ești un nutriționist AI de elită, parte a MEF AI, conceput să livreze planuri de masă perfecte. Creează un plan de masă zilnic pentru:
+    - **Obiectiv**: ${goal}
+    - **Preferințe**: ${prompt || 'none'}
+    - **Limbă**: Română
+
+    Planul trebuie să includă:
+    - Notă: Hidratează-te cu 2-3L apă zilnic; mănâncă 100-150g fructe cu 30min înainte de mese.
+    - Mic dejun: Listează masă cu grame precise și echilibrate (proteine, carbohidrați, grăsimi).
+    - Prânz: Listează masă cu grame precise și echilibrate (proteine, carbohidrați, grăsimi, legume).
+    - Cină: Listează masă cu grame precise și echilibrate (proteine, carbohidrați, grăsimi, legume).
+
+    Ajustează pentru obiectiv:
+    - **Creștere**: Calorii mari (200-250g proteine, 100-150g carbohidrați, 20-30g grăsimi).
+    - **Slăbire**: Calorii reduse (150g proteine, 50-80g carbohidrați, 10-15g grăsimi, 150-200g legume).
+    - **Definire**: Echilibrat (150-200g proteine, 50-80g carbohidrați, 15-20g grăsimi).
+
+    Asigură grame logice, fără erori, aliniate cu obiectivele fitness. Fii scurt, precis, motivant. Folosește o singură încheiere ingenioasă și încurajatoare la final. Ignoră detaliile!`
+  };
+
+  try {
+    const response = await axios.post('https://api.openai.com/v1/chat/completions', {
+      model: 'gpt-4',
+      messages: [{ role: 'user', content: prompts[detectedLanguage] }],
+      max_tokens: 600,
+    }, {
+      headers: { 'Authorization': `Bearer ${openaiApiKey}` },
+    });
+    res.status(200).json({ plan: response.data.choices[0].message.content.trim() });
+  } catch (error) {
+    console.error('AI Nutrition error:', error.response?.data || error.message);
+    res.status(500).json({ error: `Error generating plan: ${error.message}` });
+  }
 });
 
 // Pornim serverul
