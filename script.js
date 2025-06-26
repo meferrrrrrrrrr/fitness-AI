@@ -280,16 +280,27 @@ document.getElementById('generateNutritionPlan')?.addEventListener('click', asyn
 
     if (nutritionResponse) nutritionResponse.innerHTML = '<div class="ai-coach-spinner"></div> Generating nutrition plan...';
 
-    let language = 'en';
-    if (customText && (customText.toLowerCase().includes('ajuta') || customText.toLowerCase().includes('economisesc'))) language = 'ro';
-    else if (customText && (customText.toLowerCase().includes('save') || customText.toLowerCase().includes('help'))) language = 'en';
-    else if (!customText) language = navigator.language.split('-')[0] === 'ro' ? 'ro' : 'en';
+    // Detectare îmbunătățită a limbii, priorizând româna din <html lang="ro">
+    let language = 'ro'; // Implicit română, bazat pe <html lang="ro">
+    if (customText) {
+        if (/[ăâî]|meniu|mănânc|fără|carne|zi|să|conțin|slăbire|creștere/i.test(customText.toLowerCase())) {
+            language = 'ro'; // Confirmă româna
+        } else if (/save|help|menu|eat|without|meat|day|loss|growth/i.test(customText.toLowerCase())) {
+            language = 'en'; // Schimbă la engleză dacă detectăm engleză
+        }
+    } else {
+        language = navigator.language.split('-')[0] === 'ro' ? 'ro' : 'en'; // Fallback la navigator
+    }
     console.log('Detected language for nutrition plan:', language);
 
     try {
         const response = await fetch('/api/ai/nutrition', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
+            headers: { 
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${authToken}`, 
+                'X-Language': language
+            },
             body: JSON.stringify({ goal: nutritionGoalHeader, prompt: customText || '', language })
         });
         const data = await response.json();

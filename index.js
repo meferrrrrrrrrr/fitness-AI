@@ -4,6 +4,18 @@ const { app: firebaseApp, admin } = require('./auth');
 const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } = require('firebase/auth');
 const axios = require('axios');
 
+// Tentativă de import a franc (cu fallback explicit)
+let franc, langs;
+try {
+  franc = require('franc');
+  langs = require('langs');
+  console.log('franc and langs loaded successfully');
+} catch (e) {
+  franc = null;
+  langs = null;
+  console.warn('franc or langs not installed, using regex fallback:', e.message);
+}
+
 const app = express();
 
 // Parsăm body-ul cererilor JSON
@@ -12,7 +24,7 @@ app.use(express.json());
 // Middleware pentru CORS
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Language');
   next();
 });
 
@@ -118,8 +130,10 @@ app.post('/api/ai/coach', async (req, res) => {
   const openaiApiKey = process.env.OPENAI_API_KEY;
   if (!openaiApiKey) return res.status(500).json({ error: 'Open AI API key is missing.' });
 
+  // Prioritizează header-ul X-Language, apoi prompt-ul
+  const clientLanguage = req.headers['x-language'] || language;
   const isRomanian = prompt && /picioare|spate|brațe|abdomene|antrenament|creștere/i.test(prompt.toLowerCase());
-  const detectedLanguage = isRomanian ? 'ro' : 'en';
+  const detectedLanguage = clientLanguage === 'ro' || (isRomanian && !/save|help/i.test(prompt.toLowerCase())) ? 'ro' : 'en';
 
   const prompts = {
     en: `You are an elite AI coach, part of MEF AI, delivering perfect fitness plans. Create a daily workout plan for:
@@ -181,8 +195,29 @@ app.post('/api/ai/nutrition', async (req, res) => {
   const openaiApiKey = process.env.OPENAI_API_KEY;
   if (!openaiApiKey) return res.status(500).json({ error: 'Open AI API key is missing.' });
 
-  const isRomanian = prompt && /[ăâî]|oferă|dieta|proteine|legume|slăbire|creștere|mănâncă|meniu|fără|sa contina/i.test(prompt.toLowerCase());
-  const detectedLanguage = isRomanian ? 'ro' : 'en';
+  // Detectare precisă a limbii cu franc (cu fallback explicit)
+  const clientLanguage = req.headers['x-language'] || language;
+  let detectedLanguage = clientLanguage;
+  if (prompt && prompt.length > 0) {
+    if (franc) {
+      try {
+        const langCode = franc(prompt, { minLength: 3 });
+        if (langCode !== 'und' && langs.where('3', langCode)) {
+          detectedLanguage = langs.where('3', langCode).iso639_2t === 'ron' ? 'ro' : 'en';
+        } else if (/[ăâî]|meniu|mănânc|fără|carne|zi|să|conțin|slăbire|creștere/i.test(prompt.toLowerCase())) {
+          detectedLanguage = 'ro';
+        }
+      } catch (e) {
+        console.warn('franc failed, using regex fallback:', e.message);
+        if (/[ăâî]|meniu|mănânc|fără|carne|zi|să|conțin|slăbire|creștere/i.test(prompt.toLowerCase())) {
+          detectedLanguage = 'ro';
+        }
+      }
+    } else if (/[ăâî]|meniu|mănânc|fără|carne|zi|să|conțin|slăbire|creștere/i.test(prompt.toLowerCase())) {
+      detectedLanguage = 'ro';
+    }
+  }
+  console.log('Detected language for nutrition plan:', detectedLanguage);
 
   const prompts = {
     en: `You are an elite AI nutritionist, part of MEF AI, delivering flawless, grammatically correct meal plans with professional language. Create a daily meal plan for:
