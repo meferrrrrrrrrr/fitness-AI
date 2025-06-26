@@ -118,46 +118,45 @@ app.post('/api/ai/coach', async (req, res) => {
   const openaiApiKey = process.env.OPENAI_API_KEY;
   if (!openaiApiKey) return res.status(500).json({ error: 'Open AI API key is missing.' });
 
-  // Detectăm limba din input (goal sau prompt)
-  const isRomanian = goal.toLowerCase().includes('creștere') || goal.toLowerCase().includes('slăbire') || goal.toLowerCase().includes('definire') || 
-                    (prompt && prompt.toLowerCase().includes('ajuta'));
+  // Detectăm limba din prompt (default engleză dacă e gol)
+  const isRomanian = prompt && /picioare|spate|brațe|abdomene|antrenament|creștere/i.test(prompt.toLowerCase());
   const detectedLanguage = isRomanian ? 'ro' : 'en';
 
   const prompts = {
-    en: `You are an elite AI coach, part of MEF AI, designed to revolutionize fitness with smart plans. Create a daily workout plan for a user with this profile:
+    en: `You are an elite AI coach, part of MEF AI, delivering perfect fitness plans. Create a daily workout plan for:
     - **Goal**: ${goal}
     - **Level**: ${level}
     - **Preferences**: ${prompt || 'none'}
     - **Language**: English
 
     Plan must include:
-    - Warm-up: Note to do a 5-10 minute warm-up.
-    - Main workout: List 4-5 well-known exercises tailored to the preference, with dynamic sets and reps for level and goal (2-3 sets, 10-12 reps for first two; 3-4 sets, 8-12 reps for next).
-    - Cool-down: Note to do 5 minutes of stretching.
+    - Warm-up: Note 5-10 minute warm-up.
+    - Main workout: List 5 exercises for preference, aligned with goal, using 2-3 sets, 10-12 reps for beginners.
+    - Cool-down: Note 5 minutes stretching.
 
-    Adjust difficulty smartly:
-    - **Beginner**: Start with lower reps, increase gradually.
-    - **Intermediate**: Balance intensity with volume.
-    - **Advanced**: Push limits with higher sets/reps.
+    Adjust for level/goal:
+    - **Beginner/Growth**: Focus on form, moderate reps.
+    - **Intermediate/Growth**: Add weight, same reps.
+    - **Advanced/Growth**: Higher intensity, 12-15 reps.
 
-    Keep it short, energetic, and motivating with MEF AI vibe. End with a humorous, inspiring close. Ignore nutrition and skip exercise details!`,
-    ro: `Ești un antrenor AI de elită, parte a MEF AI, conceput să revoluționeze fitness-ul cu planuri de antrenament inteligente. Creează un plan de antrenament zilnic pentru un utilizator cu acest profil:
+    Keep it concise, professional, motivating. Use a short witty close only at end. Skip nutrition/details!`,
+    ro: `Ești un antrenor AI de elită, parte a MEF AI, conceput să livreze planuri de fitness perfecte. Creează un plan de antrenament zilnic pentru:
     - **Obiectiv**: ${goal}
     - **Nivel**: ${level}
-    - **Preferințe**: ${prompt || 'niciuna'}
+    - **Preferințe**: ${prompt || 'none'}
     - **Limbă**: Română
 
     Planul trebuie să includă:
-    - Încălzire: Notă să faci o încălzire de 5-10 minute.
-    - Antrenament principal: Listează 4-5 exerciții bine cunoscute adaptate preferinței, cu serii și repetări dinamice pentru nivel și obiectiv (2-3 serii, 10-12 repetări pentru primii doi; 3-4 serii, 8-12 repetări pentru următorii).
-    - Răcire: Notă să faci 5 minute de stretching.
+    - Încălzire: Notă 5-10 minute încălzire.
+    - Antrenament principal: Listează 5 exerciții pentru preferință, aliniate cu obiectivul, folosind 2-3 serii, 10-12 repetări pentru începători.
+    - Răcire: Notă 5 minute stretching.
 
-    Ajustează dificultatea inteligent:
-    - **Începător**: Începe cu repetări mai mici, crește treptat.
-    - **Intermediar**: Echilibrează intensitatea cu volumul.
-    - **Avansat**: Împinge limitele cu seturi/repetări mai mari.
+    Ajustează pentru nivel/obiectiv:
+    - **Începător/Creștere**: Focus pe formă, repetări moderate.
+    - **Intermediar/Creștere**: Adaugă greutate, aceleași repetări.
+    - **Avansat/Creștere**: Intensitate mare, 12-15 repetări.
 
-    Fii scurt, energic și motivant, cu vibe MEF AI. Termină cu o încheiere amuzantă și inspiratoare. Ignoră nutriția și evită detaliile exercițiilor!`
+    Fii scurt, profesionist, motivant. Folosește o încheiere scurtă și ingenioasă doar la final. Ignoră nutriția/detaliile!`
   };
 
   try {
