@@ -293,6 +293,9 @@ document.getElementById('generatePlan')?.addEventListener('click', async () => {
         });
         clearTimeout(timeout);
 
+        // Delay minim pentru vizibilitatea spinner-ului
+        await new Promise(resolve => setTimeout(resolve, 1000)); // 1 secundă minimă
+
         const data = await response.json();
         if (coachResponse && response.ok) {
             coachResponse.innerHTML = data.plan.replace(/\n/g, '<br>');
@@ -365,6 +368,9 @@ document.getElementById('generateNutritionPlan')?.addEventListener('click', asyn
             signal: controller.signal
         });
         clearTimeout(timeout);
+
+        // Delay minim pentru vizibilitatea spinner-ului
+        await new Promise(resolve => setTimeout(resolve, 1000)); // 1 secundă minimă
 
         const data = await response.json();
         if (nutritionResponse && response.ok) {
