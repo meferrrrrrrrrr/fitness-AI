@@ -2,8 +2,13 @@
 async function handleSignup() {
     const email = document.getElementById('email')?.value || '';
     const password = document.getElementById('password')?.value || '';
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email || !password) {
         showMessage('Email and password are required.', 'error', 'signup');
+        return;
+    }
+    if (!emailRegex.test(email)) {
+        showMessage('Please enter a valid email address.', 'error', 'signup');
         return;
     }
     try {
@@ -42,8 +47,13 @@ async function handleSignup() {
 async function handleLogin() {
     const email = document.getElementById('loginEmail')?.value || '';
     const password = document.getElementById('loginPassword')?.value || '';
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email || !password) {
         showMessage('Email and password are required.', 'error', 'login');
+        return;
+    }
+    if (!emailRegex.test(email)) {
+        showMessage('Please enter a valid email address.', 'error', 'login');
         return;
     }
     try {
@@ -100,8 +110,13 @@ async function handleLogout() {
 
 async function handleResetPassword() {
     const email = document.getElementById('loginEmail')?.value || '';
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email) {
         showMessage('Email is required.', 'error', 'login');
+        return;
+    }
+    if (!emailRegex.test(email)) {
+        showMessage('Please enter a valid email address.', 'error', 'login');
         return;
     }
     try {
@@ -249,7 +264,11 @@ document.getElementById('generatePlan')?.addEventListener('click', async () => {
         return;
     }
 
-    if (coachResponse) coachResponse.innerHTML = '<div class="ai-coach-spinner"></div> Generating training plan...';
+    if (coachResponse) {
+        coachResponse.classList.remove('fade-in');
+        coachResponse.innerHTML = '<div class="ai-coach-spinner"></div><span>Generating training plan...</span>';
+        coachResponse.classList.add('loading');
+    }
 
     let language = 'en';
     if (coachPrompt && (coachPrompt.toLowerCase().includes('ajuta') || coachPrompt.toLowerCase().includes('economisesc'))) language = 'ro';
@@ -257,16 +276,42 @@ document.getElementById('generatePlan')?.addEventListener('click', async () => {
     console.log('Detected language for training plan:', language);
 
     try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => {
+            controller.abort();
+            if (coachResponse) {
+                coachResponse.innerHTML = '<div class="ai-coach-spinner"></div><span>Request timed out. Still processing (up to 20s), please wait...</span>';
+                coachResponse.classList.add('loading');
+            }
+        }, 20000); // 20 secunde timeout
+
         const response = await fetch('/api/ai/coach', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
-            body: JSON.stringify({ goal: trainingGoalHeader, level: trainingLevelHeader, prompt: coachPrompt, language })
+            body: JSON.stringify({ goal: trainingGoalHeader, level: trainingLevelHeader, prompt: coachPrompt, language }),
+            signal: controller.signal
         });
+        clearTimeout(timeout);
+
         const data = await response.json();
-        if (coachResponse && response.ok) coachResponse.innerHTML = data.plan.replace(/\n/g, '<br>');
-        else if (coachResponse) coachResponse.innerHTML = `Error generating training plan: ${data.error}`;
+        if (coachResponse && response.ok) {
+            coachResponse.innerHTML = data.plan.replace(/\n/g, '<br>');
+            coachResponse.classList.remove('loading');
+            coachResponse.classList.add('fade-in');
+        } else if (coachResponse) {
+            coachResponse.innerHTML = `Error generating training plan: ${data.error}`;
+            coachResponse.classList.remove('loading');
+        }
     } catch (error) {
-        if (coachResponse) coachResponse.innerHTML = `Connection error: ${error.message}`;
+        if (coachResponse) {
+            if (error.name === 'AbortError') {
+                coachResponse.innerHTML = '<div class="ai-coach-spinner"></div><span>Request timed out. Still processing (up to 20s), please wait...</span>';
+                coachResponse.classList.add('loading');
+            } else {
+                coachResponse.innerHTML = `Connection error: ${error.message}`;
+                coachResponse.classList.remove('loading');
+            }
+        }
     }
 });
 
@@ -281,9 +326,12 @@ document.getElementById('generateNutritionPlan')?.addEventListener('click', asyn
         return;
     }
 
-    if (nutritionResponse) nutritionResponse.innerHTML = '<div class="ai-coach-spinner"></div> Generating nutrition plan...';
+    if (nutritionResponse) {
+        nutritionResponse.classList.remove('fade-in');
+        nutritionResponse.innerHTML = '<div class="ai-coach-spinner"></div><span>Generating nutrition plan...</span>';
+        nutritionResponse.classList.add('loading');
+    }
 
-    // Detectare îmbunătățită a limbii, priorizând româna din <html lang="ro">
     let language = 'ro'; // Implicit română, bazat pe <html lang="ro">
     if (customText) {
         if (/[ăâî]|meniu|mănânc|fără|carne|zi|să|conțin|slăbire|creștere/i.test(customText.toLowerCase())) {
@@ -297,6 +345,15 @@ document.getElementById('generateNutritionPlan')?.addEventListener('click', asyn
     console.log('Detected language for nutrition plan:', language);
 
     try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => {
+            controller.abort();
+            if (nutritionResponse) {
+                nutritionResponse.innerHTML = '<div class="ai-coach-spinner"></div><span>Request timed out. Still processing (up to 20s), please wait...</span>';
+                nutritionResponse.classList.add('loading');
+            }
+        }, 20000); // 20 secunde timeout
+
         const response = await fetch('/api/ai/nutrition', {
             method: 'POST',
             headers: { 
@@ -304,13 +361,30 @@ document.getElementById('generateNutritionPlan')?.addEventListener('click', asyn
                 'Authorization': `Bearer ${authToken}`, 
                 'X-Language': language
             },
-            body: JSON.stringify({ goal: nutritionGoalHeader, prompt: customText || '', language })
+            body: JSON.stringify({ goal: nutritionGoalHeader, prompt: customText || '', language }),
+            signal: controller.signal
         });
+        clearTimeout(timeout);
+
         const data = await response.json();
-        if (nutritionResponse && response.ok) nutritionResponse.innerHTML = data.plan.replace(/\n/g, '<br>');
-        else if (nutritionResponse) nutritionResponse.innerHTML = `Error generating nutrition plan: ${data.error}`;
+        if (nutritionResponse && response.ok) {
+            nutritionResponse.innerHTML = data.plan.replace(/\n/g, '<br>');
+            nutritionResponse.classList.remove('loading');
+            nutritionResponse.classList.add('fade-in');
+        } else if (nutritionResponse) {
+            nutritionResponse.innerHTML = `Error generating nutrition plan: ${data.error}`;
+            nutritionResponse.classList.remove('loading');
+        }
     } catch (error) {
-        if (nutritionResponse) nutritionResponse.innerHTML = `Connection error: ${error.message}`;
+        if (nutritionResponse) {
+            if (error.name === 'AbortError') {
+                nutritionResponse.innerHTML = '<div class="ai-coach-spinner"></div><span>Request timed out. Still processing (up to 20s), please wait...</span>';
+                nutritionResponse.classList.add('loading');
+            } else {
+                nutritionResponse.innerHTML = `Connection error: ${error.message}`;
+                nutritionResponse.classList.remove('loading');
+            }
+        }
     }
 });
 
