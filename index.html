@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" type="image/x-icon" href="/public/images/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="/public/images/apple-touch-icon.png" />
+  <link rel="preload" href="/public/images/logo.png" as="image" />
 </head>
 <body>
   <div class="background-container"></div>
@@ -18,22 +19,22 @@
     </div>
     <div class="auth-container">
       <div class="form-toggle">
-        <button id="showSignup" class="toggle-button">Înregistrare</button>
-        <button id="showLogin" class="toggle-button active">Autentificare</button>
+        <button id="showSignup" class="toggle-button" aria-label="Înregistrare">Înregistrare</button>
+        <button id="showLogin" class="toggle-button active" aria-label="Autentificare">Autentificare</button>
       </div>
       <div id="authStatus" class="auth-status hidden"></div>
       <div class="auth-dropdown hidden">
         <div id="signupForm" class="form-container hidden">
-          <input type="email" id="email" placeholder="Email" />
-          <input type="password" id="password" placeholder="Parolă" />
-          <button id="signupButton">Înregistrare</button>
+          <input type="email" id="email" placeholder="Email" aria-label="Email pentru înregistrare" />
+          <input type="password" id="password" placeholder="Parolă" aria-label="Parolă pentru înregistrare" />
+          <button id="signupButton" aria-label="Înregistrare">Înregistrare</button>
           <p id="signupMessage" class="message hidden"></p>
         </div>
         <div id="loginForm" class="form-container visible">
-          <input type="email" id="loginEmail" placeholder="Email" />
-          <input type="password" id="loginPassword" placeholder="Parolă" />
-          <button id="loginButton">Autentificare</button>
-          <button id="resetPasswordButton">Resetează Parola</button>
+          <input type="email" id="loginEmail" placeholder="Email" aria-label="Email pentru autentificare" />
+          <input type="password" id="loginPassword" placeholder="Parolă" aria-label="Parolă pentru autentificare" />
+          <button id="loginButton" aria-label="Autentificare">Autentificare</button>
+          <button id="resetPasswordButton" aria-label="Resetează parola">Resetează Parola</button>
           <p id="loginMessage" class="message hidden"></p>
         </div>
       </div>
@@ -61,7 +62,7 @@
           <div class="feature-card" aria-label="Caracteristică: Urmărire a Progresului în Timp Real">
             <span class="feature-emoji">🚀</span>
             <h4>Urmărire a Progresului în Timp Real</h4>
-            <p>Monitorizează-ți câștigurile cu unelte simple și eficiente.</p>
+            <p>Monitorizează-ți progresul cu unelte simple și eficiente.</p>
           </div>
         </div>
       </div>
