@@ -174,12 +174,14 @@ function updateStatus(token) {
     const authStatus = document.getElementById('authStatus');
     const content = document.querySelector('.content');
     const logoutButton = document.getElementById('logoutButton');
+    const userEmail = document.getElementById('userEmail'); // Adăugat pentru dashboard
     if (token) {
         if (authDropdown) authDropdown.className = 'auth-dropdown hidden';
         if (showSignup) showSignup.style.display = 'none';
         if (showLogin) showLogin.style.display = 'none';
         if (authStatus) { authStatus.innerHTML = `Hello, ${localStorage.getItem('lastEmail') || 'User'}!`; authStatus.style.display = 'block'; }
         if (logoutButton) logoutButton.style.display = 'inline-block';
+        if (userEmail) userEmail.textContent = localStorage.getItem('lastEmail') || ''; // Actualizează emailul pe dashboard
         if (content) content.classList.remove('content-shifted');
     } else {
         if (authDropdown) authDropdown.className = 'auth-dropdown hidden';
@@ -187,6 +189,7 @@ function updateStatus(token) {
         if (showLogin) { showLogin.className = 'toggle-button active'; showLogin.style.display = 'inline-block'; }
         if (authStatus) { authStatus.textContent = 'You are not logged in.'; authStatus.style.display = 'block'; }
         if (logoutButton) logoutButton.style.display = 'none';
+        if (userEmail) userEmail.textContent = ''; // Resetează emailul
         if (content) content.classList.remove('content-shifted');
     }
 }
@@ -328,6 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginMessageDiv = document.getElementById('loginMessage');
     const authStatus = document.getElementById('authStatus');
     const navbar = document.querySelector('.navbar');
+    const userEmail = document.getElementById('userEmail'); // Adăugat pentru dashboard
 
     if (signupMessageDiv) signupMessageDiv.className = 'message hidden';
     if (loginMessageDiv) loginMessageDiv.className = 'message hidden';
@@ -343,6 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateStatus(authToken);
 
     if (window.location.pathname.includes('dashboard.html') && !authToken) window.location.href = '/';
+    if (userEmail) userEmail.textContent = localStorage.getItem('lastEmail') || ''; // Afișează emailul pe dashboard
 
     let lastScrollTop = 0;
     window.addEventListener('scroll', () => {
