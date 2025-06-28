@@ -4,17 +4,21 @@ const { app: firebaseApp, admin } = require('./auth');
 const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } = require('firebase/auth');
 const axios = require('axios');
 
-// Tentativă de import a franc (cu fallback explicit)
+// Tentativă de import dinamic a franc și langs (cu fallback explicit)
 let franc, langs;
-try {
-  franc = require('franc');
-  langs = require('langs');
-  console.log('franc and langs loaded successfully');
-} catch (e) {
-  franc = null;
-  langs = null;
-  console.warn('franc or langs not installed, using regex fallback:', e.message);
-}
+(async () => {
+  try {
+    const francModule = await import('franc');
+    const langsModule = await import('langs');
+    franc = francModule.default;
+    langs = langsModule.default;
+    console.log('franc and langs loaded successfully');
+  } catch (e) {
+    franc = null;
+    langs = null;
+    console.warn('franc or langs not installed, using regex fallback:', e.message);
+  }
+})();
 
 const app = express();
 
@@ -199,7 +203,7 @@ app.post('/api/ai/nutrition', async (req, res) => {
   const clientLanguage = req.headers['x-language'] || language;
   let detectedLanguage = clientLanguage;
   if (prompt && prompt.length > 0) {
-    if (franc) {
+    if (franc && langs) {
       try {
         const langCode = franc(prompt, { minLength: 3 });
         if (langCode !== 'und' && langs.where('3', langCode)) {
